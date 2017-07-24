@@ -1,11 +1,11 @@
 <template>
   <div id="app">
     {{msg}}
-    <Tourism1></Tourism1>
-    <Something1></Something1>
-    <Something2></Something2>
-    <Tourism2></Tourism2>
-    <Something3></Something3>
+    <Tourism1 class="section"></Tourism1>
+    <Something1 class="section"></Something1>
+    <Something2 class="section"></Something2>
+    <Tourism2 class="section"></Tourism2>
+    <Something3 class="section"></Something3>
   </div>
 </template>
 
@@ -33,13 +33,14 @@
     }
 </script>
 
-<style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+<style lang="scss">
+  #app{
+    border: 1px solid red;
+    display: flex;
+    .section{
+      width: 20%;
+      height:100vh; 
+    }
+  }
 </style>
+
