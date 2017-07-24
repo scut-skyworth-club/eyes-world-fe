@@ -1,11 +1,11 @@
 <template>
   <div id="app">
-    {{msg}}
-    <Tourism1></Tourism1>
+    <Carousel></Carousel>
+    <!-- <Tourism1></Tourism1>
     <Something1></Something1>
     <Something2></Something2>
     <Tourism2></Tourism2>
-    <Something3></Something3>
+    <Something3></Something3> -->
   </div>
 </template>
 
@@ -15,6 +15,7 @@
     import Something1 from './components/Something1'
     import Something2 from './components/Something2'
     import Something3 from './components/Something3'
+    import Carousel from './components/Carousel'
 
     export default {
         name: 'app',
@@ -23,7 +24,8 @@
             Tourism2,
             Something1,
             Something2,
-            Something3
+            Something3,
+            Carousel
         },
         data() {
             return {
@@ -38,8 +40,8 @@
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
+  text-align: left;
   color: #2c3e50;
-  margin-top: 60px;
+/*  margin-left: 60px;*/
 }
 </style>
