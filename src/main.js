@@ -9,7 +9,18 @@ import './assets/reset.css'
 
 Vue.config.productionTip = false
 
-/* eslint-disable no-new */
+// 全局组件
+Vue.component('search', {
+    template: '<div>搜索组件</div>'
+})
+Vue.component('picture-dialog', {
+    template: '<div>图片框组件</div>'
+})
+Vue.component('picture-detail', {
+    template: '<div>景点详细情况，大图</div>'
+})
+
+
 new Vue({
     el: '#app',
     template: '<App/>',

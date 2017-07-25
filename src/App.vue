@@ -1,46 +1,65 @@
 <template>
   <div id="app">
-    {{msg}}
-    <Tourism1 class="section"></Tourism1>
-    <Something1 class="section"></Something1>
-    <Something2 class="section"></Something2>
-    <Tourism2 class="section"></Tourism2>
-    <Something3 class="section"></Something3>
+     <!-- <div class="info">
+      {{msg}}
+      星期{{today.day}} | {{today.hour}}时{{today.minute}}分
+    </div>  -->
+
+    <Tourism class="section"></Tourism>
+    <School class="section"></School>
+    <Latest class="section"></Latest>
+    <User class="section"></User>
   </div>
 </template>
 
 <script>
-    import Tourism1 from './components/Tourism1'
-    import Tourism2 from './components/Tourism2'
-    import Something1 from './components/Something1'
-    import Something2 from './components/Something2'
-    import Something3 from './components/Something3'
+  import Tourism from './components/Tourism'
+  import User from './components/User'
+  import Latest from './components/Latest'
+  import School from './components/School'
 
-    export default {
-        name: 'app',
-        components: {
-            Tourism1,
-            Tourism2,
-            Something1,
-            Something2,
-            Something3
-        },
-        data() {
-            return {
-                msg: '这里是首页'
-            }
+  export default {
+    name: 'app',
+    components: {
+      Tourism,
+      User,
+      Latest,
+      School
+    },
+    data() {
+      return {
+        msg: '这里是首页'
+      }
+    },
+    computed: {
+      today: function () {
+        let mydate = new Date()
+        let day = mydate.getDay()
+        let hour = mydate.getHours()
+        let minute = mydate.getMinutes()
+        let temp = {
+          day, hour, minute
         }
-    }
+        return temp
+      }
+    },
+    methods: {}
+  }
 </script>
 
 <style lang="scss">
+  body {
+    width: 100vw;
+    height: 100vh;
+  }
   #app{
-    border: 1px solid red;
     display: flex;
-    .section{
-      width: 20%;
-      height:100vh; 
-    }
+
+  }
+  .section{
+    border: 1px solid red;
+    flex: 1;
+    height: 100vh;
   }
 </style>
 
