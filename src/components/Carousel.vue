@@ -1,38 +1,63 @@
 <template>
-    <div id="carousel">
-        <!-- {{msg}} -->      
-		<div class="item_carousel" id="first_item">
+    <div id="carousel">     
+		<div class="item_carousel" id="first_item" @click="toLeft()">
 			<img src="../assets/bg1.jpg" />
+			<span>{{title.t1}}</span>
 		</div>
 
-		<div class="item_carousel">
-			<img src="../assets/bg2.jpg" />
+		<div class="item_carousel" @click="select()">
+				<img  src="../assets/bg2.jpg" />
+				<span>{{title.t2}}</span>
 		</div>
 
-		<div class="item_carousel">
-			<img src="../assets/bg3.jpg" />
+		<div class="item_carousel" @click="select()">
+				<img  src="../assets/bg3.jpg" />
+				<span>{{title.t3}}</span>
 		</div>
 
-		<div class="item_carousel">
-			<img src="../assets/bg4.jpg" />
+		<div class="item_carousel" @click="select()">
+				<img  src="../assets/bg4.jpg" />
+				<span>{{title.t4}}</span>
 		</div>
 
-		<div class="item_carousel" id="last_item">
+		<div class="item_carousel" id="last_item" @click="toRight()">
 			<img src="../assets/bg5.jpg" />
+			<span>{{title.t5}}</span>
 		</div>
     </div>
 </template>
 
 <script>
+	var animate = require('animate');
     export default {
         name:'carousel',
         data(){
             return {
-                msg:'标题'
+            	msg:true,
+                title:{
+                	t1:"四字标题1",
+                	t2:"四字标题2",
+                	t3:"四字标题3",
+                	t4:"四字标题4",
+                	t5:"四字标题5",
+                }
             }
+        },
+        methods:{
+        	toLeft:function(){
+        		
+        	},
+        	select:function(){
+
+        	},
+        	toRight:function(){
+
+        	}
         }
     }
+    // var animation = animate(function frame(){
 
+    // },24);
 
 </script>
 
@@ -54,6 +79,7 @@ body,html{
 	position: relative;
 	width: 100vw;
 	height: 100vh;
+	background: #000;
 }
 
 #first_item{
@@ -61,9 +87,9 @@ body,html{
 }
 	
 
-/*#first_item img{
-	height: 100vh;
-}*/
+#first_item span{
+	left:14vw;
+}
 
 #last_item{
 	width:19vw;
@@ -93,4 +119,26 @@ body,html{
 	transform: skew(7.5deg);
 	height: 100%;
 }
+
+.item_carousel span{
+	position: relative;
+	left:4.5vw;
+	top:-15vh;
+
+	color: #fff;
+	font-size: 30px;
+}
+
+.slide-fade-enter-active {
+	transition: all 1s ease;
+}
+.slide-fade-leave-active {
+	transition: all 1s ease;
+}
+
+.slide-fade-enter, .slide-fade-leave-to{
+	transform: translateX(20vw) skew(-7.5deg);
+	opacity: 1;
+}
+
 </style>
