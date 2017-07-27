@@ -88,11 +88,7 @@
       </div>
       <span>{{title.t2}}</span>
     </div>
-
-    <!-- <div class="item_carousel carousel_selector index_3" id="carousel_selector" @click="select">
-      <div id="text_bg">
-      </div>
-    </div> -->
+    
   </div>
 </template>
 
