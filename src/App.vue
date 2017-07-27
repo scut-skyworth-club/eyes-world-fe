@@ -1,14 +1,6 @@
 <template>
   <div id="app">
-     <!-- <div class="info">
-      {{msg}}
-      星期{{today.day}} | {{today.hour}}时{{today.minute}}分
-    </div>  -->
-
-    <Tourism class="section"></Tourism>
-    <School class="section"></School>
-    <Latest class="section"></Latest>
-    <User class="section"></User>
+    <router-view></router-view>
   </div>
 </template>
 
@@ -48,18 +40,5 @@
 </script>
 
 <style lang="scss">
-  body {
-    width: 100vw;
-    height: 100vh;
-  }
-  #app{
-    display: flex;
-
-  }
-  .section{
-    border: 1px solid red;
-    flex: 1;
-    height: 100vh;
-  }
 </style>
 

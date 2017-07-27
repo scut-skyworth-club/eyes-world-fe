@@ -2,6 +2,7 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
 import App from './App'
+import router from './router/index'
 
 // 不同平台统一样式
 import 'normalize.css'
@@ -23,6 +24,7 @@ Vue.component('picture-detail', {
 
 new Vue({
     el: '#app',
+    router,
     template: '<App/>',
     components: { App }
 })
