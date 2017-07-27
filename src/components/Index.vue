@@ -3,80 +3,89 @@
     <div class="item_carousel index_-2" v-bind:class="{select:isSelect[0]}" name="item_carousel" v-bind:id="index_id.id_m2" @click="slide">
       <img :src="bgs[2]" />
       <div class="shadow">
-          <div class="text_bg"></div>
-          <div class="line"></div>
-          <div class="circle"></div>
-        </div>
+
+<!--      <div class="line"></div>
+          <div class="circle"></div> -->
+      </div>
+      <div class="text_bg"></div>
       <span>{{title.t3}}</span>
     </div>
 
     <div class="item_carousel index_-1" v-bind:class="{select:isSelect[1]}" name="item_carousel" v-bind:id="index_id.id_m1" @click="slide">
       <img :src="bgs[3]" />
       <div class="shadow">
-          <div class="text_bg"></div>
-          <div class="line"></div>
-          <div class="circle"></div>
-        </div>
+          
+<!--           <div class="line"></div>
+          <div class="circle"></div> -->
+      </div>
+      <div class="text_bg"></div>
       <span>{{title.t4}}</span>
     </div>
 
     <div class="item_carousel index_0" v-bind:class="{select:isSelect[2]}" name="item_carousel" v-bind:id="index_id.id_0" @click="slide">
       <img :src="bgs[0]" />
       <div class="shadow">
-          <div class="text_bg"></div>
-          <div class="line"></div>
-          <div class="circle"></div>
-        </div>
+          
+<!--           <div class="line"></div>
+          <div class="circle"></div> -->
+      </div>
+      <div class="text_bg"></div>
       <span>{{title.t1}}</span>
     </div>
 
     <div class="item_carousel index_1" v-bind:class="{select:isSelect[3]}" name="item_carousel" v-bind:id="index_id.id_1" @click="slide">
         <img :src="bgs[1]" />
+
         <div class="shadow">
-          <div class="text_bg"></div>
-          <div class="line"></div>
-          <div class="circle"></div>
+          
+<!--           <div class="line"></div>
+          <div class="circle"></div> -->
         </div>
+        <div class="text_bg"></div>
         <span>{{title.t2}}</span>
     </div>
 
     <div class="item_carousel index_2" v-bind:class="{select:isSelect[4]}" name="item_carousel" v-bind:id="index_id.id_2" @click="slide">
         <img :src="bgs[2]" />
         <div class="shadow">
-          <div class="text_bg"></div>
-          <div class="line"></div>
-          <div class="circle"></div>
+          
+<!--           <div class="line"></div>
+          <div class="circle"></div> -->
         </div>
+        <div class="text_bg"></div>
         <span>{{title.t3}}</span>
     </div>
 
     <div class="item_carousel index_3" v-bind:class="{select:isSelect[5]}" name="item_carousel" v-bind:id="index_id.id_3" @click="slide">
         <img :src="bgs[3]" />
         <div class="shadow">
-          <div class="text_bg"></div>
-          <div class="line"></div>
-          <div class="circle"></div>
+          
+<!--           <div class="line"></div>
+          <div class="circle"></div> -->
         </div>
+        <div class="text_bg"></div>
         <span>{{title.t4}}</span>
     </div>
 
     <div class="item_carousel index_4" v-bind:class="{select:isSelect[6]}" name="item_carousel" v-bind:id="index_id.id_4" @click="slide">
       <img :src="bgs[0]" />
       <div class="shadow">
-        <div class="text_bg"></div>
-        <div class="line"></div>
-        <div class="circle"></div>
+        
+<!--         <div class="line"></div>
+        <div class="circle"></div> -->
       </div>
+      <div class="text_bg"></div>
       <span>{{title.t1}}</span>
     </div>
 
     <div class="item_carousel index_5" v-bind:class="{select:isSelect[7]}" name="item_carousel" v-bind:id="index_id.id_5" @click="slide">
       <img :src="bgs[1]" />
       <div class="shadow">
-        <div class="text_bg"></div>
-        <div class="line"></div>
-        <div class="circle"></div>
+        
+<!--         <div class="line"></div>
+        <div class="circle"></div> -->
       </div>
+      <div class="text_bg"></div>
       <span>{{title.t2}}</span>
     </div>  
   </div>   
@@ -118,7 +127,7 @@
         ],
         //模块的名称
         title:{
-          t1:"旅游景区",
+          t1:"旅游全景",
           t2:"高校景观",
           t3:"最新推荐",
           t4:"用户管理",
@@ -331,6 +340,7 @@
     overflow: hidden;
     width: 200vw;
     position: relative;
+    background: #000;
   }
   .section{
     flex: 1;
@@ -340,11 +350,11 @@
   .item_carousel{
     display: inline-block;
     position: fixed;
-    width: 25vw;
+    width: 20vw;
     height: 100vh;
     transform: skew(-7.5deg);
     overflow: hidden;
-    transition: all 1s ease;
+    transition: all 0.5s ease;
   }
 
   .item_carousel img{
@@ -353,40 +363,31 @@
     top: 0px;
     transform: skew(7.5deg);
     height: 100vh; 
-    transition: all 1s ease;
-    opacity: 0.7;
+    transition: all 0.5s ease;
   }
 
   .item_carousel span{
-    position: relative;
-    left:8vw;
-    top:-15vh;
-    transition: all 1s ease;
-    color: #fff;
-    font-size: 2vw;
-  }
-
-  .text_bg{
     position: absolute;
-    bottom: 0vh;
-    width:100%;
-    height:20%;
-    transition: all 1s ease;
-    background: #4e7beb;
-    opacity: 0;
+    left:5vw;
+    bottom:6vh;
+    transition: all 0.5s ease;
+    color: #f1f1f1;
+    font-size: 2.5vw;
   }
 
   /*
     发光横线由两个div,line和circle实现
     两者都具有径向渐变背景，但是line细长（渐变线），circle粗矮（光晕）
     有关背景属性，没有作所有浏览器的适配，有可能出问题...
+
+    P.S.然后不用了...留着备用
  */
-  .line{
+/*  .line{
     height:7px;
     background: -webkit-radial-gradient(center,closest-side,rgba(255,255,255,1),rgba(255,255,255,0));
     position: relative;
     top: 93vh;
-    transition: all 1s ease;
+    transition: all 0.5s ease;
     opacity: 0;
   }
 
@@ -397,11 +398,14 @@
     top: 90vh;
     left :8.5vw;
     background: -webkit-radial-gradient(center,closest-side,rgba(255,255,255,1),rgba(255,255,255,0));
-    transition: all 1s ease;
+    transition: all 0.5s ease;
     opacity: 0;
-  }
+  }*/
 
   .select{
+    box-shadow: 0px 0px 5vw rgba(0,0,0,0.75);
+    width: 20vw;
+    z-index: 2;
   }
 
   .select img{
@@ -409,34 +413,46 @@
   }
 
   .select span{
-    font-size: 3vw;
-    left:6vw;
-    top:-16vh;
+    font-size: 3.5vw;
+    left:3vw;
   }
   
   .shadow{
+    height: 100%;
+    width: 100%;
+    top: 0vh;
     position: absolute;
-    transition: all 1s ease;
+    transition: all 0.5s ease;
+    background: #000;
+    opacity: 0.45;
   }
 
   .select > .shadow{
-    top: 0vh;
-    box-shadow:inset 0px 0px 5vw #4e7beb;
-    height: 100%;
-    width: 100%;
+    opacity: 0;
   }
 
-  .select > .shadow > .text_bg{
-    opacity: 0.6;
+  .text_bg{
+    position: absolute;
+    bottom: 0vh;
+    width:100%;
+    height:10%;
+    transition: all 0.5s ease;
+    background: -webkit-linear-gradient(bottom, rgba(255,255,255,0.3), rgba(255,255,255,0));
   }
 
-  .select > .shadow >.line{
+  .select > .text_bg{
+    /*opacity: 0.6;*/
+    height: 15%;
+    background: -webkit-linear-gradient(bottom, rgba(78,123,235,0.7), rgba(78,123,235,0));
+  }
+
+/*  .select > .shadow >.line{
     opacity: 1;
   }
 
   .select > .shadow >.circle{
     opacity: 1;
-  }
+  }*/
 
   /* 
     以下属性用于各模块的定位
@@ -451,17 +467,23 @@
 
   .index_-1{
     opacity: 1;
-    left:-30vw;
+    left:-20vw;
   }
 
   .index_0{
     opacity: 1;
     left:-5vw;
+    width: 30vw;
+    z-index: 1;
+  }
+
+  .index_0 span{
+    left:13vw;
   }
 
   .index_1{
     opacity: 1;
-    left:20vw;
+    left:25vw;
   } 
   
   .index_2{
@@ -471,17 +493,17 @@
   
   .index_3{
     opacity: 1;
-    left:70vw;
+    left:65vw;
   } 
   
   .index_4{
     opacity: 1;
-    left:95vw;
+    left:85vw;
   } 
 
   .index_5{
     opacity: 0;
-    left:120vw;
+    left:105vw;
   }
 </style>
 
