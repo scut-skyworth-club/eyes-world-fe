@@ -376,6 +376,11 @@
     opacity: 0;
   }
 
+  /*
+    发光横线由两个div,line和circle实现
+    两者都具有径向渐变背景，但是line细长（渐变线），circle粗矮（光晕）
+    有关背景属性，没有作所有浏览器的适配，有可能出问题...
+ */
   .line{
     height:7px;
     background: -webkit-radial-gradient(center,closest-side,rgba(255,255,255,1),rgba(255,255,255,0));
@@ -433,6 +438,12 @@
     opacity: 1;
   }
 
+  /* 
+    以下属性用于各模块的定位
+    -2，-1在屏幕左边不可见，5在右边也不可见
+    每次向左/右移动时最左/右的模块都会移动到最右/左边
+    由于-2和5的透明度为0，所以穿过屏幕时并不会被目击到
+  */
   .index_-2{
     opacity: 0;
     left:-55vw;
