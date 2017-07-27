@@ -88,15 +88,12 @@
       </div>
       <span>{{title.t2}}</span>
     </div>
-
-    <!-- <div class="item_carousel carousel_selector index_3" id="carousel_selector" @click="select">
-      <div id="text_bg">
-      </div>
-    </div> -->
+    
   </div>
 </template>
 
 <script>
+  //这些是四个子菜单的背景图
   import bg1 from './assets/bg1.jpg'
   import bg2 from './assets/bg2.jpg'
   import bg3 from './assets/bg3.jpg'
@@ -126,12 +123,14 @@
           bg3,
           bg4,
         ],
+        //这是四个子菜单的标题
         title:{
           t1:"旅游景区",
           t2:"高校景观",
           t3:"最新推荐",
           t4:"用户管理",
         },
+        //每个不同位置的div用id进行寻找
         index_id:{
           id_m2:"index_-2",
           id_m1:"index_-1",
@@ -142,11 +141,13 @@
           id_4:"index_4",
           id_5:"index_5",
         },
+        //不翻滚页面更改select对象时用到
         select_class:[
           "item_carousel index_1",
           "item_carousel index_2",
           "item_carousel index_3",
         ],
+        //实际上用了8个div，一开始第6个被选中
         isSelect:[
           false,
           false,
@@ -172,6 +173,9 @@
       },
     },
     methods: {
+      //当更改选中对象时调用
+      //目前用的是点击事件，暂时不清楚电视上怎么触发
+      //当点击被选中的div时进入对应模块
       slide:function(){
         var id = window.event.target.parentNode.getAttribute("id");
         switch(id){
@@ -206,10 +210,8 @@
             break;
         }
       },
+      //选中最左边的一个，整体右移
       index_0:function(){
-        // document.getElementById("carousel_selector")
-        // .setAttribute("class","item_carousel carousel_selector index_1");
-
         let item_m2 = document.getElementById(this.index_id.id_m2);
         item_m2.setAttribute("class","item_carousel index_-1");
 
@@ -281,6 +283,7 @@
         this.selection = 2;
         items[2].setAttribute("class","item_carousel index_3 select");
       },
+      //选中最右边的一个，整体左移
       index_4:function(){
         let item_m2 = document.getElementById(this.index_id.id_m2);
         item_m2.setAttribute("class","item_carousel index_5");
@@ -382,26 +385,6 @@
     opacity: 0;
   }
 
-  .line{
-    height:7px;
-    background: -webkit-radial-gradient(center,closest-side,rgba(255,255,255,1),rgba(255,255,255,0));
-    position: relative;
-    top: 93vh;
-    transition: all 1s ease;
-    opacity: 0;
-  }
-
-  .circle{
-    height: 4.5vh;
-    width: 30%;
-    position: relative;
-    top: 90vh;
-    left :8.5vw;
-    background: -webkit-radial-gradient(center,closest-side,rgba(255,255,255,1),rgba(255,255,255,0));
-    transition: all 1s ease;
-    opacity: 0;
-  }
-
   .select{
   }
 
@@ -431,6 +414,30 @@
     opacity: 0.6;
   }
 
+  /*  发光横线由两部分组成，直线line和椭圆circle
+      两者都是背景径向渐变的div，不同的只是line细长，circle比较粗矮
+      由于出bug，并没有做各浏览器的适配，之后在电视上可能出问题...
+  */
+  .line{
+    height:7px;
+    background: -webkit-radial-gradient(center,closest-side,rgba(255,255,255,1),rgba(255,255,255,0));
+    position: relative;
+    top: 93vh;
+    transition: all 1s ease;
+    opacity: 0;
+  }
+
+  .circle{
+    height: 4.5vh;
+    width: 30%;
+    position: relative;
+    top: 90vh;
+    left :8.5vw;
+    background: -webkit-radial-gradient(center,closest-side,rgba(255,255,255,1),rgba(255,255,255,0));
+    transition: all 1s ease;
+    opacity: 0;
+  }
+
   .select > .shadow >.line{
     opacity: 1;
   }
@@ -439,6 +446,13 @@
     opacity: 1;
   }
 
+  /* 下面用于处理所有的div位置
+      其中可以被看到的部分是index_0到index_4
+
+      当index_5继续右移时将左移到index_-2的位置
+      由于透明度为0所以用户并不会见到它从右边飞到左边...  
+
+      同理index_-2左移变成idnex_5的时候也是这样 */
   .index_-2{
     opacity: 0;
     left:-55vw;

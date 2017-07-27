@@ -9,7 +9,6 @@ import './assets/reset.css'
 
 import pic_like from './assets/like.png'
 import pic_visited from './assets/visited.png'
-import bg1 from './assets/bg1.jpg'
 
 Vue.config.productionTip = false
 
@@ -18,6 +17,11 @@ Vue.component('search', {
     template: '<div>搜索组件</div>'
 })
 Vue.component('picture-dialog', {
+	//title为显示的标题
+	//like是点赞的数量
+	//visited是访问量
+	//pic_url是图片的url
+	//url是用作路由的url
 	props:[
 		'title',
 		'like',
@@ -39,7 +43,7 @@ Vue.component('picture-dialog', {
         	css_box:{
 		        height:"100%",
 		        width:"100%",
-		        backgroundImage:"url("+bg1+")",
+		        backgroundImage:"url("+this.pic_url+")",
 		        backgroundPosition:"center",
 		        backgroundRepeat: "no-repeat",
 		        position:"relative",
@@ -72,7 +76,6 @@ Vue.component('picture-dialog', {
 		    },
 		    pic_like:pic_like,
 		    pic_visited:pic_visited,
-		    bg1:bg1,
         }
     }		
 })
