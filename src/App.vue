@@ -5,10 +5,10 @@
       星期{{today.day}} | {{today.hour}}时{{today.minute}}分
     </div>  -->
 
-    <!-- <Tourism class="section"></Tourism>
-    <School class="section"></School>
-    <Latest class="section"></Latest>
-    <User class="section"></User> --> 
+    <!-- <Tourism class="section"></Tourism> -->
+    <!-- <School class="section"></School> -->
+    <!-- <Latest class="section"></Latest> -->
+    <!-- <User class="section"></User>  -->
     <div class="item_carousel index_-2" v-bind:class="{select:isSelect[0]}" name="item_carousel" v-bind:id="index_id.id_m2" @click="slide">
       <img :src="bgs[2]" />
       <div class="shadow">
@@ -337,7 +337,6 @@
     overflow: hidden;
     width: 200vw;
     position: relative;
-    background: #000
   }
   .section{
     flex: 1;
