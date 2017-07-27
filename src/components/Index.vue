@@ -105,14 +105,18 @@
     data() {
       return {
         msg: '这里是首页',
+        //selection表示当前选中的模块在屏幕的第几（最左边的为0）
         selection:2,
+        //index表示当前屏幕最左边的模块是第几个（用做路由）
         index:1,
+        //下面是各模块的背景图片
         bgs:[
           bg1,
           bg2,
           bg3,
           bg4,
         ],
+        //模块的名称
         title:{
           t1:"旅游景区",
           t2:"高校景观",
@@ -134,6 +138,7 @@
           "item_carousel index_2",
           "item_carousel index_3",
         ],
+        //表示模块是否被选中
         isSelect:[
           false,
           false,
@@ -144,19 +149,25 @@
           false,
           false,
         ],
+        //各模块的路由地址
         path:[
           "tourism",
-          "user",
+          "school",
           "latest",
-          "school"
+          "user",
         ],
       }
     },
     computed: {
     },
     methods: {
+      //所有项目点击事件都是slide()
       slide:function(){
         var id = window.event.target.parentNode.getAttribute("id");
+        //通过id判定为第几个
+        //若项目被选中，则进行路由
+        //否则，改变选中项目
+        //若点击项目为第0或第4个，则所有模块需要进行整体平移
         switch(id){
           case this.index_id.id_0:
             this.index_0();
