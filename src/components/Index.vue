@@ -3,7 +3,6 @@
     <div class="item_carousel index_-2" v-bind:class="{select:isSelect[0]}" name="item_carousel" v-bind:id="index_id.id_m2" @click="slide">
       <img :src="bgs[2]" />
       <div class="shadow">
-
 <!--      <div class="line"></div>
           <div class="circle"></div> -->
       </div>
@@ -14,7 +13,6 @@
     <div class="item_carousel index_-1" v-bind:class="{select:isSelect[1]}" name="item_carousel" v-bind:id="index_id.id_m1" @click="slide">
       <img :src="bgs[3]" />
       <div class="shadow">
-          
 <!--           <div class="line"></div>
           <div class="circle"></div> -->
       </div>
@@ -25,7 +23,6 @@
     <div class="item_carousel index_0" v-bind:class="{select:isSelect[2]}" name="item_carousel" v-bind:id="index_id.id_0" @click="slide">
       <img :src="bgs[0]" />
       <div class="shadow">
-          
 <!--           <div class="line"></div>
           <div class="circle"></div> -->
       </div>
@@ -35,9 +32,7 @@
 
     <div class="item_carousel index_1" v-bind:class="{select:isSelect[3]}" name="item_carousel" v-bind:id="index_id.id_1" @click="slide">
         <img :src="bgs[1]" />
-
         <div class="shadow">
-          
 <!--           <div class="line"></div>
           <div class="circle"></div> -->
         </div>
@@ -48,7 +43,6 @@
     <div class="item_carousel index_2" v-bind:class="{select:isSelect[4]}" name="item_carousel" v-bind:id="index_id.id_2" @click="slide">
         <img :src="bgs[2]" />
         <div class="shadow">
-          
 <!--           <div class="line"></div>
           <div class="circle"></div> -->
         </div>
@@ -59,7 +53,6 @@
     <div class="item_carousel index_3" v-bind:class="{select:isSelect[5]}" name="item_carousel" v-bind:id="index_id.id_3" @click="slide">
         <img :src="bgs[3]" />
         <div class="shadow">
-          
 <!--           <div class="line"></div>
           <div class="circle"></div> -->
         </div>
@@ -70,7 +63,6 @@
     <div class="item_carousel index_4" v-bind:class="{select:isSelect[6]}" name="item_carousel" v-bind:id="index_id.id_4" @click="slide">
       <img :src="bgs[0]" />
       <div class="shadow">
-        
 <!--         <div class="line"></div>
         <div class="circle"></div> -->
       </div>
@@ -81,7 +73,6 @@
     <div class="item_carousel index_5" v-bind:class="{select:isSelect[7]}" name="item_carousel" v-bind:id="index_id.id_5" @click="slide">
       <img :src="bgs[1]" />
       <div class="shadow">
-        
 <!--         <div class="line"></div>
         <div class="circle"></div> -->
       </div>
