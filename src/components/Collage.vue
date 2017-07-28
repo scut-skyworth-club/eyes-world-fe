@@ -1,5 +1,5 @@
 <template>
-  <div id="School">
+  <div id="Collage">
     {{msg}}
     <!-- <search></search> -->
     <picture-dialog  :pic_url="bg1" :like="like" :title="title" :visited="visited" class="pic"></picture-dialog>
@@ -10,7 +10,7 @@
     import bg1 from '../assets/bg1.jpg'
 
     export default {
-        name:'School',
+        name:'Collage',
         data(){
             return {
                 msg:'高校景观组件',
