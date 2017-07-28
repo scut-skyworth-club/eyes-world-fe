@@ -14,72 +14,24 @@ import pic_visited from './assets/visited.png'
 Vue.config.productionTip = false
 
 // 全局组件
+import PictureDialog from './components/PictureDialog'
+
 Vue.component('search', {
     template: '<div>搜索组件</div>'
 })
-Vue.component('picture-dialog', {
-	//title为显示的标题
-	//like是点赞的数量
-	//visited是访问量
-	//pic_url是图片的url
-	//url是用作路由的url
-	props:[
-		'title',
-		'like',
-		'visited',
-		'pic_url',
-		'url'
-	],
-    template: '<div>'+
-        '<div :style="css_box"> '+
-            '<div :style="css_text_bg">'+
-                '<span :style="css_title">{{title}}</span>'+
-                '<span :style="css_like"><img :style="css_img" :src="pic_like"/>{{like}}</span>'+
-                '<span :style="css_visited"><img :style="css_img" :src="pic_visited"/>{{visited}}</span>'+
-            '</div>'+
-        '</div>'+
-    '</div>',
-    data(){
-        return {
-        	css_box:{
-		        height:"100%",
-		        width:"100%",
-		        backgroundImage:"url("+this.pic_url+")",
-		        backgroundPosition:"center",
-		        backgroundRepeat: "no-repeat",
-		        position:"relative",
-    		},
-		    css_text_bg:{
-		        width:"100%",
-		        position:"absolute",
-		        bottom:"0",
-		        background:"rgba(255,255,255,0.5)",
-		        paddingTop:"3vh",
-		        paddingBottom:"3vh",
-		        paddingLeft:"1vw",
-		        paddingRight:"1vw",
-		    },
-		    css_title:{
-		        fontSize:"1.5vw",
-		        marginRight:"8%",
-		    },
-		    css_img:{
-		        height:"30%",
-		        width:"5%",
-		        marginRight:"1%",
-		    },
-		    css_like:{
-		        marginRight:"8%",
-		        fontSize:"1.5vw",
-		    },
-		    css_visited:{
-		        fontSize:"1.5vw",
-		    },
-		    pic_like:pic_like,
-		    pic_visited:pic_visited,
-        }
-    }		
-})
+
+//参数表如下：
+//props:[
+// 'title',		显示的标题
+// 'like',		点赞数
+// 'visited',	访问量
+// 'pic_url',	背景图的url
+// 'url'		用作路由的url
+// ],
+// 
+// 另外其宽高没有定义，正常使用需要给该组件定义宽和高
+Vue.component('picture-dialog',PictureDialog);
+
 Vue.component('picture-detail', {
     template: '<div>景点详细情况，大图</div>'
 })
@@ -89,5 +41,7 @@ new Vue({
     el: '#app',
     router,
     template: '<App/>',
-    components: { App }
+    components: { 
+    	App,
+ 	}
 })

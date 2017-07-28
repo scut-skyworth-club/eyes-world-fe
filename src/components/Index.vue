@@ -3,7 +3,6 @@
     <div class="item_carousel index_-2" v-bind:class="{select:isSelect[0]}" name="item_carousel" v-bind:id="index_id.id_m2" @click="slide">
       <img :src="bgs[2]" />
       <div class="shadow">
-
 <!--      <div class="line"></div>
           <div class="circle"></div> -->
       </div>
@@ -14,7 +13,6 @@
     <div class="item_carousel index_-1" v-bind:class="{select:isSelect[1]}" name="item_carousel" v-bind:id="index_id.id_m1" @click="slide">
       <img :src="bgs[3]" />
       <div class="shadow">
-          
 <!--           <div class="line"></div>
           <div class="circle"></div> -->
       </div>
@@ -25,7 +23,6 @@
     <div class="item_carousel index_0" v-bind:class="{select:isSelect[2]}" name="item_carousel" v-bind:id="index_id.id_0" @click="slide">
       <img :src="bgs[0]" />
       <div class="shadow">
-          
 <!--           <div class="line"></div>
           <div class="circle"></div> -->
       </div>
@@ -35,9 +32,7 @@
 
     <div class="item_carousel index_1" v-bind:class="{select:isSelect[3]}" name="item_carousel" v-bind:id="index_id.id_1" @click="slide">
         <img :src="bgs[1]" />
-
         <div class="shadow">
-          
 <!--           <div class="line"></div>
           <div class="circle"></div> -->
         </div>
@@ -48,7 +43,6 @@
     <div class="item_carousel index_2" v-bind:class="{select:isSelect[4]}" name="item_carousel" v-bind:id="index_id.id_2" @click="slide">
         <img :src="bgs[2]" />
         <div class="shadow">
-          
 <!--           <div class="line"></div>
           <div class="circle"></div> -->
         </div>
@@ -59,7 +53,6 @@
     <div class="item_carousel index_3" v-bind:class="{select:isSelect[5]}" name="item_carousel" v-bind:id="index_id.id_3" @click="slide">
         <img :src="bgs[3]" />
         <div class="shadow">
-          
 <!--           <div class="line"></div>
           <div class="circle"></div> -->
         </div>
@@ -70,7 +63,6 @@
     <div class="item_carousel index_4" v-bind:class="{select:isSelect[6]}" name="item_carousel" v-bind:id="index_id.id_4" @click="slide">
       <img :src="bgs[0]" />
       <div class="shadow">
-        
 <!--         <div class="line"></div>
         <div class="circle"></div> -->
       </div>
@@ -81,7 +73,6 @@
     <div class="item_carousel index_5" v-bind:class="{select:isSelect[7]}" name="item_carousel" v-bind:id="index_id.id_5" @click="slide">
       <img :src="bgs[1]" />
       <div class="shadow">
-        
 <!--         <div class="line"></div>
         <div class="circle"></div> -->
       </div>
@@ -210,6 +201,8 @@
         }
       },
       index_0:function(){
+        // document.getElementById("carousel_selector")
+        // .setAttribute("class","item_carousel carousel_selector index_1");
 
         let item_m2 = document.getElementById(this.index_id.id_m2);
         item_m2.setAttribute("class","item_carousel index_-1");
@@ -365,17 +358,12 @@
   }
 
   .item_carousel span{
-    font-family: "小米兰亭";
     position: absolute;
-    bottom:5.55vh;
-    text-align: center;
-    width: 100%;
-    left:0;
-    letter-spacing: 0.5vw;
-    transform: skew(7.5deg);
+    left:5vw;
+    bottom:6vh;
     transition: all 0.5s ease;
     color: #f1f1f1;
-    font-size: 2.3vw;
+    font-size: 2.5vw;
   }
 
   /*
@@ -405,9 +393,6 @@
     opacity: 0;
   }*/
 
-  /*
-    被选中z-index变为2，否则外发光效果可能会被遮挡
-   */
   .select{
     box-shadow: 0px 0px 5vw rgba(0,0,0,0.75);
     width: 20vw;
@@ -419,8 +404,8 @@
   }
 
   .select span{
-    font-size: 3vw;
-    text-shadow: 0px 0px 1.5vw rgba(255,255,255,1);
+    font-size: 3.5vw;
+    left:3vw;
   }
   
   .shadow{
@@ -447,6 +432,7 @@
   }
 
   .select > .text_bg{
+    /*opacity: 0.6;*/
     height: 15%;
     background: -webkit-linear-gradient(bottom, rgba(78,123,235,0.7), rgba(78,123,235,0));
   }
@@ -474,10 +460,7 @@
     opacity: 1;
     left:-20vw;
   }
-  
-  /*
-    由于index_0比较宽需要遮住index_-1,z-index设为1  
-   */
+
   .index_0{
     opacity: 1;
     left:-5vw;
@@ -486,7 +469,7 @@
   }
 
   .index_0 span{
-    left:3.8vw;
+    left:13vw;
   }
 
   .index_1{
@@ -508,10 +491,6 @@
     opacity: 1;
     left:85vw;
   } 
-
-  .index_4 span{
-    left:2vw;
-  }
 
   .index_5{
     opacity: 0;
