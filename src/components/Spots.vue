@@ -1,12 +1,13 @@
 <template>
-  <div id="app">
-    <router-view></router-view>
+  <div id="spots">
+    {{ $route.params.provinceName }}
+    {{ $route.params.cityName }}的景点
   </div>
 </template>
 
 <script>
   export default {
-    name: 'app',
+    name: 'spots',
     data() {
       return {
       }
@@ -14,6 +15,7 @@
   }
 </script>
 
-<style>
-</style>
 
+<style>
+
+</style>

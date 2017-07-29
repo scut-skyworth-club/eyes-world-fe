@@ -1,15 +1,15 @@
 <template>
-  <div id="something3">
+  <div id="User">
     {{msg}}
   </div>
 </template>
 
 <script>
     export default {
-        name:'something3',
+        name:'User',
         data(){
             return {
-                msg:'something第三部分'
+                msg:'用户管理组件'
             }
         }
     }
