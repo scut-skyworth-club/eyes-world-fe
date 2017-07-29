@@ -1,5 +1,5 @@
 <template>
-  <div id="tourism2">
+  <div id="User">
     {{msg}}
     <button v-on:click="reverseMessage">进入</button>
     <input v-model="msg">
@@ -8,7 +8,7 @@
 
 <script>
     export default {
-        name:'tourism2',
+        name:'User',
         data(){
             return {
                 msg:'用户管理组件'

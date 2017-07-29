@@ -1,12 +1,13 @@
 <template>
-  <div id="app">
-    <router-view></router-view>
+  <div id="works">
+   评论界面
+   {{$route.params.userName}}的作品
   </div>
 </template>
 
 <script>
   export default {
-    name: 'app',
+    name: 'works',
     data() {
       return {
       }
@@ -14,7 +15,7 @@
   }
 </script>
 
+
 <style>
 
 </style>
-
