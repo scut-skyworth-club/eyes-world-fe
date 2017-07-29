@@ -2,22 +2,27 @@
   <div id="School">
     {{msg}}
     <!-- <search></search> -->
-    <picture-dialog  :pic_url="bg1" :like="like" :title="title" :visited="visited" class="pic"></picture-dialog>
+    <picture-dialog  :isFoucs="isFoucs" :date="date" :author="author" :pic_url="bg2" :like="like" :title="title" :visited="visited" :width="width" :height="height" class="pic"></picture-dialog>
   </div>
 </template>
 
 <script>
-    import bg1 from '../assets/bg1.jpg'
+    import bg2 from '../assets/bg2.jpg'
 
     export default {
         name:'School',
         data(){
             return {
+                date:'2017/7/21',
+                author:'作者',
                 msg:'高校景观组件',
                 title:"华南理工大学",
                 like:100,
                 visited:100,
-                bg1:bg1,
+                isFoucs:true,
+                bg2:bg2,
+                width:300,
+                height:300,
             }
         }
     }
@@ -25,8 +30,4 @@
 
 
 <style>
-.pic{
-    height:70vh;
-    width: 30vw;
-}
 </style>

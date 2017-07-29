@@ -27,9 +27,16 @@ Vue.component('search', {
 // 'visited',	访问量
 // 'pic_url',	背景图的url
 // 'url'		用作路由的url
+// 'date',		图片上传时间
+// 'author',	作者
+// 'isFoucs',	是否被选中，不选中下面的标题、作者等不会显示
+// 'width',		宽度
+// 'height'		高度
 // ],
 // 
-// 另外其宽高没有定义，正常使用需要给该组件定义宽和高
+// 参数表中宽高用于字体的自适应
+// 使用时宽度勿小于250px，否则信息可能显示不下（你哪知道作者名字多长）
+// 
 Vue.component('picture-dialog',PictureDialog);
 
 Vue.component('picture-detail', {
