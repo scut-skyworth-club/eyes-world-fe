@@ -151,8 +151,8 @@
         ],
         //各模块的路由地址
         path:[
-          "tourism",
-          "collage",
+          "provinces/cities",
+          "provinces/collage",
           "latest",
           "user",
         ],
