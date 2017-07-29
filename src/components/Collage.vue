@@ -13,16 +13,22 @@
         name:'Collage',
         data(){
             return {
-                date:'2017/7/21',
-                author:'作者',
+                date:'2017/07/21',
+                author:'XXX',
                 msg:'高校景观组件',
-                title:"华南理工大学",
+                title:"海心沙",
                 like:100,
                 visited:100,
                 isFoucs:true,
                 bg2:bg2,
-                width:300,
-                height:300,
+                width:30,
+                height:60,
+                // width:75,
+                // height:46.3,
+                // width:35.42,
+                // height:62.96,
+                // width:17.71,
+                // height:31.48,
             }
         }
     }
