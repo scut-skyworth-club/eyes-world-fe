@@ -34,9 +34,8 @@ Vue.component('search', {
 // 'height'		高度
 // ],
 // 
-// 参数表中宽高用于字体的自适应
-// 使用时宽度勿小于250px，否则信息可能显示不下（你哪知道作者名字多长）
-// 
+// 参数表中宽高用于字体以及图标的自适应
+// 阴影效果需要额外添加
 Vue.component('picture-dialog',PictureDialog);
 
 Vue.component('picture-detail', {
