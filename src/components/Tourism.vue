@@ -1,6 +1,8 @@
 <template>
   <div id="tourism">
     {{msg}}
+    <hr>
+    所有的省份,全国
     <search></search>
     <picture-dialog></picture-dialog>
   </div>

@@ -1,5 +1,5 @@
 <template>
-  <div id="School">
+  <div id="Collage">
     {{msg}}
     <!-- <search></search> -->
     <picture-dialog  :isFoucs="isFoucs" :date="date" :author="author" :pic_url="bg2" :like="like" :title="title" :visited="visited" :width="width" :height="height" class="pic"></picture-dialog>
@@ -10,7 +10,7 @@
     import bg2 from '../assets/bg2.jpg'
 
     export default {
-        name:'School',
+        name:'Collage',
         data(){
             return {
                 date:'2017/7/21',
