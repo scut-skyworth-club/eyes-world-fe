@@ -92,7 +92,7 @@
   import Tourism from './Tourism'
   import User from './User'
   import Latest from './Latest'
-  import School from './School'
+  import Collage from './Collage'
 
   export default {
     name: 'index',
@@ -100,7 +100,7 @@
       Tourism,
       User,
       Latest,
-      School
+      Collage
     },
     data() {
       return {
@@ -152,7 +152,7 @@
         //各模块的路由地址
         path:[
           "tourism",
-          "school",
+          "collage",
           "latest",
           "user",
         ],
