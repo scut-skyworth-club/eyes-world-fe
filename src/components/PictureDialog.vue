@@ -2,10 +2,10 @@
 	<div id="picture-dialog" :style="Adjust" @click="link"> 
         <div class="text_bg" v-if="isFoucs" >
             <div :style="fontAdjustBig" class="title">{{title}}</div>
-            <span class="info_box">
+            <span v-if="!onlyTitle" class="info_box">
 				<span :style="fontAdjust">{{date}} &nbsp&nbsp</span><span :style="fontAdjust">@{{author}}</span>
             </span>
-            <span class="ico_box">
+            <span v-if="!onlyTitle" class="ico_box">
             	<span :style="fontAdjustMiddleWithMargin" class="visited"><img :src="pic_visited"/>{{visited}}</span>
             	<span :style="fontAdjustMiddle" class="like"><img :src="pic_like"/>{{like}}</span>
             </span>
@@ -31,7 +31,8 @@
 			'author',
 			'isFoucs',
 			'width',
-			'height'
+			'height',
+			'onlyTitle'
 		],
 		data(){
 			return{
@@ -127,9 +128,20 @@
 					marginRight:(font_m+0.38)+"vw"
 				}
 
-				this.fontAdjustBig = {
-					fontSize:font_b +"vw"
+				if(this.onlyTitle){
+					this.fontAdjustBig ={
+						fontSize:font_b +"vw",
+						position: "static",
+						verticalAlign: "middle",
+						display:"table-cell",
+						textAlign: "center"
+					}
+				}else{
+					this.fontAdjustBig = {
+						fontSize:font_b +"vw"
+					}
 				}
+				
 
 				return this.bg;
 			}
@@ -160,6 +172,15 @@
 	background-size: cover;
 	position: relative;
 }
+
+/*#picture-dialog > .text_bg :before{
+	content: ".";
+	height: 100%;
+	display: inline-block;
+	vertical-align: middle;
+	visibility: hidden;
+}*/
+
 #picture-dialog > .text_bg{
 	width:100%;
 	min-height: 7.4vh;
@@ -168,6 +189,7 @@
 	bottom: 0;
 	position: absolute;
 	background: rgba(49,71,127,0.5);
+	display: table;
 }
 
 #picture-dialog > .text_bg > .title{

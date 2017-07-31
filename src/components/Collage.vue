@@ -2,7 +2,7 @@
   <div id="Collage">
     {{msg}}
     <!-- <search></search> -->
-    <picture-dialog  :isFoucs="isFoucs" :date="date" :author="author" :pic_url="bg2" :like="like" :title="title" :visited="visited" :width="width" :height="height" class="pic"></picture-dialog>
+    <picture-dialog  :isFoucs="isFoucs" :date="date" :author="author" :pic_url="bg2" :like="like" :title="title" :visited="visited" :onlyTitle="onlyTitle" :width="width" :height="height" class="pic"></picture-dialog>
   </div>
 </template>
 
@@ -21,6 +21,7 @@
                 visited:100,
                 isFoucs:true,
                 bg2:bg2,
+                onlyTitle:false,
                 width:30,
                 height:60,
                 // width:75,
