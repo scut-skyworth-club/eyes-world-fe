@@ -1,35 +1,30 @@
 <template>
   <div id="favorite">
-    <h2 class="title">
-      我的收藏
-    </h2>
-    <date class="time">
-    </date>
-      <!-- <ul id="for-list" class="test">
-        <li v-for="(item,key) in items"
-          v-bind:key="item.id"
-        >
-          {{key}}:{{item}}
-        </li>
-      </ul> -->
+    <h2 class="title">{{title}}</h2>
+    <date class="time"></date>
     <collections id="first-img"></collections>
-    <div></div> 
+    <div id="slide-img"></div> 
   </div>
 </template>
 
 <script>
 import Date from './Date'
 import Collections from './Collections'
+
+var firstPic = {
+  date:'2017/07/09',
+  url:'../assets/favorite/bg0.jpg',
+  photoId:0,
+  photoName:'允儿',
+  albumId:14,
+  albumName:'明星'
+}
+
   export default {
     name: 'favorite',
     data() {
       return {
-          items:{
-            name:'zet',
-            age:24,
-            address:'zhuangetwww@163.com'
-        }
-        
+        title:"我的收藏",
       }
     },
     methods:{
@@ -74,7 +69,9 @@ import Collections from './Collections'
     position: absolute;
     top: 20.37vh;
     left: 6.25vw;
-    background: url('../assets/favorite/bg0.jpg') no-repeat center center; 
+    /* background: url('../assets/favorite/bg0.jpg') no-repeat center center;  */
+    /* background: greenyellow; */
+    transition: all 0.5s ease;
   }
   #first-img:hover {
     width: 35.42vw;
@@ -91,4 +88,7 @@ import Collections from './Collections'
     top: 20.37vh;
     left: 41.67vw;
   }
+  /* #slide-img:hover {
+    width:
+  } */
 </style>

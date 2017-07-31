@@ -7,8 +7,8 @@
     </date>
     <div>
         <div id="user-manage">
-            <img src="../assets/user/profile_photo.jpg" alt="1">
-                <div>
+            <span class="profile-photo"></span>
+            <div>
                 <p class="username">hello_world</p>
                 <p id="logout" v-on:click="logout">退出登录</p>
             </div> 
@@ -111,11 +111,13 @@
         top: 22.22vh;
         left:6.25vw;
     }
-    #user-manage img{
+    #user-manage .profile-photo{
         margin: 0;
         width: 12.5vw;
         height: 55.56vh;
-        z-index: 1;
+        float: left;
+        /* background: url('../assets/user/profile_photo.jpg') no-repeat center center; */
+        background: greenyellow
     }
     #user-manage div {
         margin: 0;
