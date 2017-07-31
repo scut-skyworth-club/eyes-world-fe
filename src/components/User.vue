@@ -1,47 +1,51 @@
 <template>
   <div id="User">
-     <h2 class="user-title">
-         用户管理
-     </h2>
-     <div class="time">
-         星期四|10:00
-     </div>
-        <div>
-            <div id="user-manage">
-                <img src="../assets/user/profile_photo.jpg" alt="1">
-                 <div>
-                    <p class="username">hello_world</p>
-                    <p id="logout" v-on:click="logout">退出登录</p>
-                </div> 
-            </div>
-            <div id="works" v-on:click="toMyWorks">
+    <h2 class="user-title">
+        用户管理
+    </h2>
+    <date class="time">
+    </date>
+    <div>
+        <div id="user-manage">
+            <img src="../assets/user/profile_photo.jpg" alt="1">
                 <div>
-                    <img src="../assets/user/my_works.png" alt="2">
-                </div>
-                <p id="my-works">我的作品</p>
-            </div>
-            <div id="collections" v-on:click="toMyCcollections">
-                <div>
-                    <img src="../assets/user/my_collections.png" alt="3">
-                </div>
-                <p id="my-collections">我的收藏</p>
-            </div>
-            <div id="about-us" v-on:click="about">
-                <div>
-                    <img src="../assets/user/about.png" alt="4">
-                </div>
-                <p id="about">关于我们</p>
-            </div>
+                <p class="username">hello_world</p>
+                <p id="logout" v-on:click="logout">退出登录</p>
+            </div> 
         </div>
+        <div id="works" v-on:click="toMyWorks">
+            <div>
+                <img src="../assets/user/my_works.png" alt="2">
+            </div>
+            <p id="my-works">我的作品</p>
+        </div>
+        <div id="collections" v-on:click="toMyCcollections">
+            <div>
+                <img src="../assets/user/my_collections.png" alt="3">
+            </div>
+            <p id="my-collections">我的收藏</p>
+        </div>
+        <div id="about-us" v-on:click="about">
+            <div>
+                <img src="../assets/user/about.png" alt="4">
+            </div>
+            <p id="about">关于我们</p>
+        </div>
+    </div>
   </div>
 </template>
 
 <script>
+    import Date from './Date'
+    import router from '../router/index'
     export default {
         name:'User',
         data(){
             return {
-               
+               path:[
+                   "favorite",
+                   "works"
+               ]
             }
         },
         methods:{
@@ -64,10 +68,18 @@
             },
             toMyWorks:function () {
                 // location.href = '/#/success/works';
+                router.push(this.path[1]);
             },
             toMyCollections:function () {
                 // location.href = '/#/success/collections';
+                router.push(this.path[0]);
+            },
+            select:function () {
+
             }
+        },
+        components:{
+            Date
         }
     }
 </script>
@@ -90,15 +102,6 @@
         position: absolute;
         top: 6.481vh;
         left: 6.25vw;
-    }
-    .time {
-        font-family: font757;
-        font-size: 20px;
-        color: #f1f1f1;
-        letter-spacing: 1px;
-        position: absolute;
-        top: 6.481vh;
-        right: 6.25vw;
     }
     #user-manage {
         width: 31.25vw;
