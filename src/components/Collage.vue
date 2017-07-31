@@ -2,7 +2,7 @@
   <div id="Collage">
     {{msg}}
     <!-- <search></search> -->
-    <picture-dialog  :isFoucs="isFoucs" :date="date" :author="author" :pic_url="bg2" :like="like" :title="title" :visited="visited" :onlyTitle="onlyTitle" :width="width" :height="height" class="pic"></picture-dialog>
+    <picture-dialog  :type="type" :date="date" :author="author" :pic_url="bg2" :like="like" :title="title" :visited="visited" :width="width" :height="height" class="pic"></picture-dialog>
   </div>
 </template>
 
@@ -19,10 +19,9 @@
                 title:"海心沙",
                 like:100,
                 visited:100,
-                isFoucs:true,
                 bg2:bg2,
-                onlyTitle:false,
-                width:30,
+                type:2,
+                width:20,
                 height:60,
                 // width:75,
                 // height:46.3,

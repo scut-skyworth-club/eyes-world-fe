@@ -1,11 +1,11 @@
 <template> 
 	<div id="picture-dialog" :style="Adjust" @click="link"> 
-        <div class="text_bg" v-if="isFoucs" >
+        <div class="text_bg" :style="text_bg" v-if="hasLabel" >
             <div :style="fontAdjustBig" class="title">{{title}}</div>
-            <span v-if="!onlyTitle" class="info_box">
+            <span v-if="hasInfo" class="info_box">
 				<span :style="fontAdjust">{{date}} &nbsp&nbsp</span><span :style="fontAdjust">@{{author}}</span>
             </span>
-            <span v-if="!onlyTitle" class="ico_box">
+            <span v-if="hasIcon" class="ico_box">
             	<span :style="fontAdjustMiddleWithMargin" class="visited"><img :src="pic_visited"/>{{visited}}</span>
             	<span :style="fontAdjustMiddle" class="like"><img :src="pic_like"/>{{like}}</span>
             </span>
@@ -29,10 +29,9 @@
 			'url',
 			'date',
 			'author',
-			'isFoucs',
 			'width',
 			'height',
-			'onlyTitle'
+			'type'
 		],
 		data(){
 			return{
@@ -40,6 +39,9 @@
 					backgroundImage:"url("+this.pic_url+")",
 					width:"75vh",
 					height:"75vh"
+				},
+				text_bg:{
+					height: "15%",
 				},
 				pic_like:pic_like,
 				pic_visited:pic_visited,
@@ -59,6 +61,9 @@
 				fontAdjustBig:{
 					fontSize:"3vw",
 				},
+				hasLabel:true,
+				hasInfo:true,
+				hasIcon:true
 			}
 		},
 		computed:{
@@ -74,30 +79,24 @@
 					// x = this.width;
 				// }
 
-
 				let font_s = x * 0.022;
 				let font_m = x * 0.029;
 				let font_b = x * 0.07;
 
-				//当图片框太小的时候，文字背景将固定高度
-				//此时文字大小将不用再变小
-				//
-				//用1920*1080算出来的数据
+				// //15px
+				// if(font_s > 0.78){
+				// 	font_s = 0.78;
+				// }
 
-				//15px
-				if(font_s > 0.78){
-					font_s = 0.78;
-				}
+				// //20px
+				// if(font_m > 1.04){
+				// 	font_m = 1.04;
+				// }
 
-				//20px
-				if(font_m > 1.04){
-					font_m = 1.04;
-				}
-
-				//48px
-				if(font_b > 2.5){
-					font_b = 2.5;
-				}
+				// //48px
+				// if(font_b > 2.5){
+				// 	font_b = 2.5;
+				// }
 
 				//11px
 				if(font_s < 0.57){
@@ -114,6 +113,7 @@
 					font_b = 1.56;
 				}
 
+				let font_b_s = font_b * 0.8;
 
 				this.fontAdjust = {
 					fontSize:font_s +"vw"
@@ -128,21 +128,52 @@
 					marginRight:(font_m+0.38)+"vw"
 				}
 
-				if(this.onlyTitle){
-					this.fontAdjustBig ={
-						fontSize:font_b +"vw",
-						position: "static",
-						verticalAlign: "middle",
-						display:"table-cell",
-						textAlign: "center"
-					}
-				}else{
-					this.fontAdjustBig = {
-						fontSize:font_b +"vw"
-					}
+				switch(this.type){
+					case 0:
+						this.hasLabel = false;
+						break;
+					case 1:
+						this.hasIcon = false;
+						this.hasInfo = false;
+						this.fontAdjustBig = {
+							fontSize:font_b +"vw",
+							position: "static",
+							verticalAlign: "middle",
+							display:"table-cell",
+							textAlign: "center"
+						}
+						break;
+					case 2:
+						this.hasIcon = false;
+						this.hasInfo = false;
+						this.fontAdjustBig = {
+							fontSize:font_b_s +"vw",
+							position: "static",
+							verticalAlign: "middle",
+							display:"table-cell",
+							textAlign: "center"
+						}
+						break;
+					case 3:
+						this.hasInfo = false;
+						this.fontAdjustBig = {
+							fontSize:font_b +"vw",
+							position: "static",
+							verticalAlign: "middle",
+							display:"table-cell",
+							textAlign: "center"
+						}
+						this.text_bg = {
+							height:"20%"
+						}
+						break;
+					case 4:
+						this.fontAdjustBig = {
+							fontSize:font_b +"vw"
+						}
+						break;
 				}
 				
-
 				return this.bg;
 			}
 		},
@@ -171,6 +202,7 @@
 	background-repeat: no-repeat;
 	background-size: cover;
 	position: relative;
+	/*transition: all 0.6s ease;*/
 }
 
 /*#picture-dialog > .text_bg :before{
@@ -184,8 +216,7 @@
 #picture-dialog > .text_bg{
 	width:100%;
 	min-height: 7.4vh;
-	max-height: 9.26vh;
-	height: 15%;
+	/*max-height: 9.26vh;*/
 	bottom: 0;
 	position: absolute;
 	background: rgba(49,71,127,0.5);
