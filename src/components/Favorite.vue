@@ -2,14 +2,22 @@
   <div id="favorite">
     <h2 class="title">{{title}}</h2>
     <date class="time"></date>
-    <collections id="first-img"></collections>
-    <div id="slide-img"></div> 
+    <first-image id="first-img"></first-image>
+    <div id="slide-img">
+      <ul>
+        <li v-for="(item,index) in images" :key="item.id">
+          <small-images class="small-img" :infoheight="infoheight" :bigsize="bigsize2" :smallsize="smallsize2"
+          :top="item.top" :left="item.left"></small-images>
+        </li>  
+      </ul>  
+    </div>  
   </div>
 </template>
 
 <script>
 import Date from './Date'
-import Collections from './Collections'
+import FirstImage from './FirstImage'
+import SmallImages from './SmallImages'
 
 var firstPic = {
   date:'2017/07/09',
@@ -25,6 +33,54 @@ var firstPic = {
     data() {
       return {
         title:"我的收藏",
+        firstinfo:firstPic,
+        bigSize:40,
+        smallSize:25,
+
+        bigsize2:34,
+        smallsize2:20,
+        images:[
+          {
+            id:1,
+            top:0,
+            left:0
+          },
+          {
+            id:2,
+            top:31.48,
+            left:0
+          },
+          {
+            id:3,
+            top:0,
+            left:17.708
+          },
+          {
+            id:4,
+            top:31.48,
+            left:17.708
+          },
+          {
+            id:5,
+            top:0,
+            left:17.708*2
+          },
+          {
+            id:6,
+            top:31.48,
+            left:17.708*2
+          },
+          {
+            id:7,
+            top:0,
+            left:17.708*3
+          },
+          {
+            id:8,
+            top:31.48,
+            left:17.708*3
+          },
+        ]
       }
     },
     methods:{
@@ -34,7 +90,8 @@ var firstPic = {
     },
     components: {
       Date,
-      Collections
+      FirstImage,
+      SmallImages
     }
   }
 </script>
@@ -56,37 +113,21 @@ var firstPic = {
       top: 6.481vh;
       left: 6.25vw;
   }
-  #pics {
-    width: 6vw;
-    height: 11vh;
-    position: absolute;
-    top:18vh;
-    left: 10vw;
-  }
-  #first-img {
-    width: 33.33vw;
-    height: 59.26vh;
-    position: absolute;
-    top: 20.37vh;
-    left: 6.25vw;
-    /* background: url('../assets/favorite/bg0.jpg') no-repeat center center;  */
-    /* background: greenyellow; */
-    transition: all 0.5s ease;
-  }
-  #first-img:hover {
-    width: 35.42vw;
-    height: 62.96vh;
-    position: absolute;
-    top: 18.52vh;
-    left: 5.21vw;
-  }
+  
   #slide-img {
     width: 68.75vw;
     height: 59.26vh;
-    border: 1px solid red;
+    /* border: 1px solid red; */
     position: absolute;
     top: 20.37vh;
     left: 41.67vw;
+  }
+  .small-img {
+    width:15.625vw;
+    height:27.78vh;
+    /* margin-right: 2.083vw;
+    margin-bottom: 3.704vh; */
+    transition: all 0.5s ease;
   }
   /* #slide-img:hover {
     width:

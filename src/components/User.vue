@@ -13,24 +13,15 @@
                 <p id="logout" v-on:click="logout">退出登录</p>
             </div> 
         </div>
-        <div id="works" v-on:click="toMyWorks">
-            <div>
-                <img src="../assets/user/my_works.png" alt="2">
-            </div>
-            <p id="my-works">我的作品</p>
-        </div>
-        <div id="collections" v-on:click="toMyCcollections">
-            <div>
-                <img src="../assets/user/my_collections.png" alt="3">
-            </div>
-            <p id="my-collections">我的收藏</p>
-        </div>
-        <div id="about-us" v-on:click="about">
-            <div>
-                <img src="../assets/user/about.png" alt="4">
-            </div>
-            <p id="about">关于我们</p>
-        </div>
+         <ul>
+            <li v-for="(item,index) in menu" :key="item.id">
+                <sub-user :title="item.title" :url="item.url"
+                 :left="item.left" :left2="item.left2"></sub-user>
+            </li>
+        </ul> 
+        <!-- <div v-for="(item,index) in menu" :key="item.id">
+            <sub-user :title="item.title"></sub-user>
+        </div> -->
     </div>
   </div>
 </template>
@@ -38,6 +29,8 @@
 <script>
     import Date from './Date'
     import router from '../router/index'
+
+    import SubUser from './SubUser'
     export default {
         name:'User',
         data(){
@@ -45,6 +38,29 @@
                path:[
                    "favorite",
                    "works"
+               ],
+               menu:[
+                   {
+                       id:1,
+                       title:"我的作品",
+                       url:"../assets/user/my_works.png",
+                       left:40.625,
+                       left2:39.06
+                   },
+                   {
+                       id:2,
+                       title:"我的收藏",
+                       url:"../assets/user/my_collections.png",
+                       left:59.375,
+                       left2:57.813
+                   },
+                   {
+                       id:3,
+                       title:"关于我们",
+                       url:"../assets/user/about.png",
+                       left:78.125,
+                       left2:76.563
+                   },
                ]
             }
         },
@@ -66,20 +82,21 @@
                     return;
                 }
             },
-            toMyWorks:function () {
-                // location.href = '/#/success/works';
-                router.push(this.path[1]);
-            },
-            toMyCollections:function () {
-                // location.href = '/#/success/collections';
-                router.push(this.path[0]);
-            },
-            select:function () {
+            // toMyWorks:function () {
+            //     // location.href = '/#/success/works';
+            //     router.push(this.path[1]);
+            // },
+            // toMyCollections:function () {
+            //     // location.href = '/#/success/collections';
+            //     router.push(this.path[0]);
+            // },
+            // select:function () {
 
-            }
+            // }
         },
         components:{
-            Date
+            Date,
+            SubUser
         }
     }
 </script>
@@ -144,141 +161,5 @@
         text-align: center;
         margin: 20px auto;
     }
-    #works {
-        width: 15.625vw;
-        height: 55.56vh;
-        margin: 0;
-        position: absolute;
-        top: 22.22vh;
-        left: 40.625vw;
-        background: url('../assets/user/bt_bg2.png');
-        transition: all 0.7s;
-    }
-    #works:hover {
-        width: 18.75vw;
-        height: 66.67vh;
-        position: absolute;
-        top:16.67vh;
-        left: 39.06vw;
-    }
-    #works div{
-        width:9.48vw;
-        height: 18.89vh;
-        text-align: center;
-        margin: 93px auto;
-        transition: 0.7s;
-    }
-    #works:hover div{
-        width:11.376vw;
-        height: 22.668vh;
-
-    }
-    #works div img {
-        width: 100%;
-    }
-    #my-works {
-        border:none;
-        background: none;
-        font-family: font757;
-        font-size: 30px;
-        color: #f1f1f1;
-        text-align: center;
-        margin: 20px auto;
-        transition: 0.7s;
-    }
-    #works:hover p {
-        font-size: 36px;
-    }
-    #collections {
-        width: 15.625vw;
-        height: 55.56vh;
-        margin: 0;
-        position: absolute;
-        top: 22.22vh;
-        left: 59.375vw;
-        background: url('../assets/user/bt_bg2.png');
-        transition: all 0.7s;
-    }
-    #collections:hover {
-       width: 18.75vw;
-        height: 66.67vh;
-        position: absolute;
-        top: 16.67vh;
-        left: 57.813vw;
-    }
-    #collections div{
-        width:9.271vw;
-        height: 16.30vh;
-        text-align: center;
-        margin: 107px auto;
-        transition: 0.7s;
-    }    
-    #collections:hover div{
-        width: 11.125vw;
-        height: 19.56vh;
-    }  
-    #collections div img {
-        width: 100%;
-        cursor: pointer;
-        transition: all 1s;
-    }
-    #my-collections {
-        border:none;
-        background: none;
-        font-family: font757;
-        font-size: 30px;
-        color: #f1f1f1;
-        text-align: center;
-        margin: 20px auto;
-        transition: 0.7s;
-    }
-    #collections:hover p {
-        font-size: 36px;
-    }
-
-
-    #about-us {
-        width: 15.625vw;
-        height: 55.56vh;
-        margin: 0;
-        position: absolute;
-        top: 22.22vh;
-        left: 78.125vw;
-        background: url('../assets/user/bt_bg2.png');
-        transition: all 0.7s;
-    }
-    #about-us:hover {
-        width: 18.75vw;
-        height: 66.67vh;
-        position: absolute;
-        top: 16.67vh;
-        left: 76.563vw;
-    }
-    #about-us div{
-        width: 8.23vw;
-        height: 15.185vh;
-        text-align: center;
-        margin: 100px auto;
-        transition: 0.7s;
-    }
-    #about-us div{
-        width: 9.876vw;
-        height: 18.222vh;
-    }
-    #about-us div img {
-        width: 100%;
-    }
-    #about { 
-       text-align: center;
-        margin: 100px auto;
-        font-family: font757;
-        font-size: 30px;
-        color: #f1f1f1;
-        text-align: center;
-        margin: 20px auto;
-        transition: 0.7s;
-    }
-    #about-us:hover p {
-        font-size:36px;
-    }
+    
 </style>

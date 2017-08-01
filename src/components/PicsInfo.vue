@@ -1,19 +1,37 @@
 <template>
-  <div class="info-container">
-      <h2>{{picName}}</h2>
-      <p>{{date}}</p>
+  <div class="info-container" v-on:click="showSize">
+      <h2 :style="{fontSize:bigSize+'px'}">{{picName}}</h2>
+      <p :style="{fontSize:smallSize+'px'}">{{date}}</p>
   </div>
 </template>
 
 <script>
+var info = {};
 export default {
+    
+    props:["bigSize","smallSize"],
+    // props:{
+    //     date:"",
+    //     url:"",
+    //     photoId:0,
+    //     photoName:"",
+    //     albumId:0,
+    //     albumName:""
+    // },
+    methods:{
+        showSize:function () {
+            console.log(this.firstPicInfo);
+        },
+    },
     data() {
         return {
-            picName:"允儿",
-            date:"2017/07/25 @Archie"
+            picName:"photoName",
+            date:"2017/05/03 @Archie",
+        
         }
-    }
+    },
 }
+// info = firstPicInfo;
 </script>
 
 <style>
@@ -23,9 +41,9 @@ export default {
         font-family: font757;
     }
     h2{
-        font-size: 40px;  
+        /* font-size: 40px;   */
     }
     p{
-        font-size: 23px;
+        /* font-size: 23px; */
     }
 </style>
