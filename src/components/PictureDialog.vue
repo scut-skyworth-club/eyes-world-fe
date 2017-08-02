@@ -204,7 +204,7 @@
 	background-size: cover;
 	position: relative;
 	display: inline-block;
-	transition: all 0.6s ease;
+	transition: all 0.4s ease;
 }
 
 /*#picture-dialog > .text_bg :before{
@@ -237,7 +237,7 @@
 	/*padding-left: 1vw;*/
 	font-size: 3vw;
 	color: white;
-	transition: all 0.6s ease;
+	transition: all 0.4s ease;
 }
 
 #picture-dialog > .text_bg > .info_box{
@@ -267,14 +267,14 @@
 #picture-dialog > .text_bg > .ico_box > .like{
 	position:relative;
 	font-size: 1.3vw;
-	transition: all 0.6s ease;
+	transition: all 0.4s ease;
 }
 
 #picture-dialog > .text_bg > .ico_box > .visited{
 	position:relative;
 	font-size: 1.3vw;
 	margin-right: 2.6vw;
-	transition: all 0.6s ease;
+	transition: all 0.4s ease;
 }
 
 #picture-dialog > .text_bg > .ico_box >.like > img{
