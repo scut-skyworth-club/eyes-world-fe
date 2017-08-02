@@ -25,7 +25,7 @@ export default {
     },
     data() {
         return {
-            picName:"photoName",
+            picName:"允儿",
             date:"2017/05/03 @Archie",
         
         }

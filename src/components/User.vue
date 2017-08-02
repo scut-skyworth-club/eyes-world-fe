@@ -15,8 +15,10 @@
         </div>
          <ul>
             <li v-for="(item,index) in menu" :key="item.id">
-                <sub-user :title="item.title" :url="item.url"
-                 :left="item.left" :left2="item.left2"></sub-user>
+                <sub-user :v-on:click="choose"
+                :title="item.title" :url="item.url"
+                :left="item.left" :leftchange="item.leftchange"
+                :itemid="item.id"></sub-user>
             </li>
         </ul> 
         <!-- <div v-for="(item,index) in menu" :key="item.id">
@@ -29,6 +31,10 @@
 <script>
     import Date from './Date'
     import router from '../router/index'
+
+    import icon1 from '../assets/user/my_works.png'
+    import icon2 from '../assets/user/my_collections.png'
+    import icon3 from '../assets/user/about.png'
 
     import SubUser from './SubUser'
     export default {
@@ -43,31 +49,31 @@
                    {
                        id:1,
                        title:"我的作品",
-                       url:"../assets/user/my_works.png",
+                    //    url: "/static/img/my_works.171a0ab.png",
+                       url: icon1,
                        left:40.625,
-                       left2:39.06
+                       leftchange:39.06
                    },
                    {
                        id:2,
                        title:"我的收藏",
-                       url:"../assets/user/my_collections.png",
+                    //    url: "/static/img/my_collections.f8d6c1f.png",
+                       url: icon2,
                        left:59.375,
-                       left2:57.813
+                       leftchange:57.813
                    },
                    {
                        id:3,
                        title:"关于我们",
-                       url:"../assets/user/about.png",
+                    //    url: "/static/img/about.89fbc56.png",
+                       url: icon3,
                        left:78.125,
-                       left2:76.563
+                       leftchange:76.563
                    },
                ]
             }
         },
         methods:{
-           about:function () {
-                alert("hello....");
-            },
             logout: function () {
                 if (confirm('确认退出登录？')) {
                 // $.ajax({
@@ -77,11 +83,19 @@
                 //         location.replace('/login');
                 //     }
                 // });
-                    location.replace('/login');
+                location.replace('/login');
                 } else {
                     return;
                 }
             },
+            choose:function () {
+                switch (item.id){
+                    case 1: location.href = Favorite;break;
+                    case 2: location.href = Works;break;
+                    case 3: about();break;
+                    default: return;
+                }
+            }
             // toMyWorks:function () {
             //     // location.href = '/#/success/works';
             //     router.push(this.path[1]);

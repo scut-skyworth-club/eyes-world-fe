@@ -1,7 +1,12 @@
 <template>
-  <div class="small-pics" v-bind:style="{top:top+'vh',left:left+'vw'}">
-    <img src="../assets/favorite/bg1.jpg" alt="1"  class="image" v-on:click="clickme"> 
-    <pics-info class="pics-information" :big-size="bigSize" :small-size="smallSize" :first-pic-info="firstPicInfo"></pics-info>
+  <div class="small-pics" 
+    :style="{top:(((index-1)%2)*31.48-yoffset)+'vh',
+    left:((Math.floor((index-1)/2))*17.708-xoffset)+'vw'}" 
+    v-on:mouseover="enlarge" v-on:mouseleave="shrink">
+    <img :src="url" alt="1"  class="image" v-on:click="clickme"> 
+    <pics-info class="pics-information" 
+    :bigsize="bigsize" :smallsize="smallsize" 
+    :first-pic-info="firstPicInfo"></pics-info>
   </div>
 </template>
 
@@ -13,16 +18,26 @@ export default {
     data() {
         return {
             msg:'hello',
-            bgs:[bg1]
+            bgs:[bg1],
+            xoffset:0,
+            yoffset:0
         }
     },
-    props:['firstPicInfo','infoHeight','bigSize','smallSize','top','left','id'],
+    props:['firstPicInfo','infoHeight','bigsize','smallsize','index','url'],
     components:{
         PicsInfo
     },
     methods:{
         clickme:function () {
-            console.log(this.top);
+            console.log(bigsize+'vw');
+        },
+        enlarge:function () {
+            this.xoffset = 1.042,
+            this.yoffset = 1.852
+        },
+        shrink:function () {
+            this.xoffset = 0,
+            this.yoffset = 0
         }
     }
     
@@ -39,6 +54,7 @@ export default {
         width: 17.708vw;
         height: 31.48vh;
         position: absolute;
+        box-shadow: 0 6px 20px #222222
     }
     .image {
         width: 100%;

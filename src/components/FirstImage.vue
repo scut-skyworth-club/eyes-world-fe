@@ -44,6 +44,7 @@ export default {
         position: absolute;
         top: 18.52vh;
         left: 5.21vw;
+        box-shadow: 0 30px 80px #303030;
     }
     .image {
         width: 100%;

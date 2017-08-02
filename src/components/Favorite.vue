@@ -2,12 +2,13 @@
   <div id="favorite">
     <h2 class="title">{{title}}</h2>
     <date class="time"></date>
-    <first-image id="first-img"></first-image>
+    <first-image id="first-img" :bigsize="bigSize" :smallsize="smallSize"></first-image>
     <div id="slide-img">
       <ul>
         <li v-for="(item,index) in images" :key="item.id">
           <small-images class="small-img" :infoheight="infoheight" :bigsize="bigsize2" :smallsize="smallsize2"
-          :top="item.top" :left="item.left"></small-images>
+        
+          :index="item.id" :url="item.url"></small-images>
         </li>  
       </ul>  
     </div>  
@@ -18,6 +19,14 @@
 import Date from './Date'
 import FirstImage from './FirstImage'
 import SmallImages from './SmallImages'
+import bg1 from '../assets/favorite/bg1.jpg'
+import bg2 from '../assets/favorite/bg2.jpg'
+import bg3 from '../assets/favorite/bg3.jpg'
+import bg4 from '../assets/favorite/bg4.jpg'
+import bg5 from '../assets/favorite/bg5.jpg'
+import bg6 from '../assets/favorite/bg6.jpg'
+import bg7 from '../assets/favorite/bg7.jpg'
+import bg8 from '../assets/favorite/bg8.jpg'
 
 var firstPic = {
   date:'2017/07/09',
@@ -42,43 +51,35 @@ var firstPic = {
         images:[
           {
             id:1,
-            top:0,
-            left:0
+            url:bg1
           },
           {
             id:2,
-            top:31.48,
-            left:0
+            url:bg2
           },
           {
             id:3,
-            top:0,
-            left:17.708
+            url:bg3
           },
           {
             id:4,
-            top:31.48,
-            left:17.708
+            url:bg4
           },
           {
             id:5,
-            top:0,
-            left:17.708*2
+            url:bg5
           },
           {
             id:6,
-            top:31.48,
-            left:17.708*2
+            url:bg6
           },
           {
             id:7,
-            top:0,
-            left:17.708*3
+            url:bg7
           },
           {
             id:8,
-            top:31.48,
-            left:17.708*3
+            url:bg8
           },
         ]
       }
@@ -129,7 +130,5 @@ var firstPic = {
     margin-bottom: 3.704vh; */
     transition: all 0.5s ease;
   }
-  /* #slide-img:hover {
-    width:
-  } */
+  
 </style>
