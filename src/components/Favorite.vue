@@ -7,8 +7,7 @@
       <ul>
         <li v-for="(item,index) in images" :key="item.id">
           <small-images class="small-img" :infoheight="infoheight" :bigsize="bigsize2" :smallsize="smallsize2"
-        
-          :index="item.id" :url="item.url"></small-images>
+           :index="item.id" :url="item.url"></small-images>
         </li>  
       </ul>  
     </div>  

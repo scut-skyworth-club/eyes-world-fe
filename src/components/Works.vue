@@ -6,7 +6,12 @@
      <span>上传</span>
     </div> 
    <date class="time"></date>
-   <sub-work class="work"></sub-work>
+      <ul>
+       <li v-for="(item,index) in works" :key="item.id">
+         <sub-work class="my-works" :index="item.id" :url="item.url"
+          :date="item.date"></sub-work>
+        </li>
+     </ul> 
   </div>
 </template>
 
@@ -17,6 +22,29 @@ import SubWork from './SubWork'
     name: 'works',
     data() {
       return {
+        works:[
+          {
+            id:1,
+            url:"",
+            date:"2015-03-30 13:24:01"  
+          },
+          {
+            id:2,
+            url:"",
+            date:"2015-03-30 13:24:01"  
+          },
+          {
+            id:3,
+            url:"",
+            date:"2015-03-30 13:24:01"  
+          },
+          {
+            id:4,
+            url:"",
+            date:"2015-03-30 13:24:01"  
+          },
+
+        ]
       }
     },
     components:{
@@ -74,8 +102,12 @@ import SubWork from './SubWork'
     top: 0;
     left: 2.76vw;
   }
-  .work {
+  #works-container {
+    width: 93.75vw;
+    height: 54.833vh;
+    border: 1px solid red;
     position: absolute;
+    top: 26.648vh;
     left: 6.25vw;
   }
 </style>
