@@ -1,14 +1,16 @@
 <template> 
 	<div id="picture-dialog" :style="Adjust" @click="link"> 
+		<div v-if="type==5" class="middleTitle">{{title}}</div>
         <div class="text_bg" :style="text_bg" v-if="type==0?false:true" >
-            <div :style="fontAdjustBig" class="title">{{title}}</div>
+            <div v-if="type!=5" :style="fontAdjustBig" class="title">{{title}}</div>
             <transition name="fade" mode="out-in">
-	            <span v-if="type==1||type==2||type==3?false:true" class="info_box">
-					<span :style="fontAdjust">{{date}} &nbsp&nbsp</span><span :style="fontAdjust">@{{author}}</span>
+	            <span v-if="type==1||type==2||type==3?false:true" :style="fontAdjust" class="info_box">
+					<!-- <span :style="fontAdjust">{{date}} &nbsp&nbsp</span><span :style="fontAdjust">@{{author}}</span> -->
+					{{date}} &nbsp&nbsp@{{author}}
 	            </span>
             </transition>
             <transition name="fade" mode="out-in">
-	            <span v-if="type==1||type==2?false:true" class="ico_box">
+	            <span v-if="type==1||type==2?false:true" :style="icoAdjust" class="ico_box">
 	            	<span :style="fontAdjustMiddleWithMargin" class="visited"><img :src="pic_visited"/>{{visited}}</span>
 	            	<span :style="fontAdjustMiddle" class="like"><img :src="pic_like"/>{{like}}</span>
 	            </span>
@@ -65,6 +67,7 @@
 				fontAdjustBig:{
 					fontSize:"3vw",
 				},
+				icoAdjust:{},
 				// hasLabel:true,
 				// hasInfo:true,
 				// hasIcon:true
@@ -157,6 +160,14 @@
 						this.text_bg = {
 							height:"20%"
 						}
+						break;
+					case 4:
+						this.fontAdjustBig = {
+							fontSize:font_b +"vw",
+							textAlign:"left",
+							top:"1vh",
+							left:"1vw",
+						}
 						this.fontAdjustMiddle = {
 							fontSize:font_m*0.8 +"vw"
 						}
@@ -165,12 +176,16 @@
 							marginRight:(font_m*0.8+0.38)+"vw"
 						}
 						break;
-					case 4:
-						this.fontAdjustBig = {
-							fontSize:font_b +"vw",
-							textAlign:"left",
-							top:"1vh",
-							left:"1vw",
+					case 5:
+						this.text_bg = {
+							minHeight:"4.5vh",
+						}
+						this.fontAdjust = {
+							fontSize:font_s +"vw",
+							bottom:"1.5vh",
+						}
+						this.icoAdjust = {
+							bottom:"1.2vh",
 						}
 						break;
 				}
@@ -205,9 +220,10 @@
 	position: relative;
 	display: inline-block;
 	transition: all 0.4s ease;
+	text-align:center;
 }
 
-/*#picture-dialog > .text_bg :before{
+/*#picture-dialog :before{
 	content: ".";
 	height: 100%;
 	display: inline-block;
@@ -215,9 +231,17 @@
 	visibility: hidden;
 }*/
 
+.middleTitle{
+	position: relative;
+	font-size: 2vw;
+	top:40%;
+	width: 100%;
+	background: -webkit-linear-gradient(0,rgba(49,71,127,0) 20%,rgba(49,71,127,0.5),rgba(49,71,127,0) 80%);
+}
+
 #picture-dialog > .text_bg{
 	width:100%;
-	min-height: 7.4vh;
+	min-height: 6.8vh;
 	/*max-height: 9.26vh;*/
 	bottom: 0;
 	position: absolute;
