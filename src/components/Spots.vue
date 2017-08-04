@@ -11,7 +11,7 @@
     </div>
 
     <ul id="spotsList">
-      <!-- <li v-for="item in getSpots" :class="item.type==3?'select':'noSelect'"> -->
+       <li v-for="item in getSpots" :class="item.type==3?'select':'noSelect'"> 
         <transition name="fade" mode="out-in">
           <picture-dialog
             v-if="toggle"
