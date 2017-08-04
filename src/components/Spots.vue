@@ -11,7 +11,7 @@
     </div>
 
     <ul id="spotsList">
-      <li v-for="item in getSpots" :class="item.type==3?'select':'noSelect'">
+      <!-- <li v-for="item in getSpots" :class="item.type==3?'select':'noSelect'"> -->
         <transition name="fade" mode="out-in">
           <picture-dialog
             v-if="toggle"
@@ -26,7 +26,7 @@
           </picture-dialog>
 
           <picture-dialog
-            v-else="toggle"
+            v-else-if="toggle"  
             :title="item.name"
             :like="item.likeNum"
             :visited="item.visited"
@@ -34,17 +34,18 @@
             :type="item.type"
             :height="item.type==3?59.9:53.89"
             :width="item.type==3?20.83:18.75"
-            key="second">
+            key="second"
+             > 
           </picture-dialog>
         </transition>
       </li>
     </ul>
 
     <ul id="pageIndex">
-      <li v-for="index in getPageIndex">
+       <li v-for="index in getPageIndex"> 
         <transition name="indexFade" mode="out-in">
           <img v-if="index" key="foucs" :src="ico_index_foucs" />
-          <img v-else="index" key="unfoucs" :src="ico_index" />
+          <img v-else-if="index" key="unfoucs" :src="ico_index" />
         </transition>
       </li>
     </ul>
