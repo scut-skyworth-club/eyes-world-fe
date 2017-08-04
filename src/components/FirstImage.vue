@@ -1,8 +1,9 @@
 <template>
   <div class="first-pic">
-    <img src="../assets/favorite/bg0.jpg" alt="1"  class="image" v-on:click="clickme"> 
+    <img :src="url" alt="1"  class="image" v-on:click="clickme"> 
     <pics-info class="pics-information"
-    :big-size="bigSize" :small-size="smallSize" :first-pic-info="firstPicInfo"></pics-info>
+    :bigsize="bigsize" :smallsize="smallsize" :date="date"
+    :photo-name="photoName" :author="author" ></pics-info>
   </div>
 </template>
 
@@ -17,7 +18,7 @@ export default {
             bgs:[bg1]
         }
     },
-    props:['firstPicInfo','infoHeight','bigSize','smallSize'],
+    props:['bigsize','smallsize','url','date','photoName','author'],
     components:{
         PicsInfo
     },
