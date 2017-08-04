@@ -3,11 +3,11 @@
     <!-- {{ $route.params.provinceName }}
     {{ $route.params.cityName }}的景点 -->
     <div id="city">
-      {{$route.params.cityName}}&nbsp&nbsp&nbsp&nbsp|&nbsp&nbsp&nbsp&nbsp晴
+      {{$route.params.cityName}}&nbsp&nbsp&nbsp&nbsp|&nbsp&nbsp&nbsp&nbsp{{weather}}{{getWeather}}
     </div>
 
     <div id="date">
-      星期四&nbsp&nbsp&nbsp&nbsp|&nbsp&nbsp&nbsp&nbsp10:00
+      {{getDay}}&nbsp&nbsp&nbsp&nbsp|&nbsp&nbsp&nbsp&nbsp{{time}}
     </div>
 
     <ul id="spotsList">
@@ -99,6 +99,29 @@
       },
     },
     computed:{
+      getDay:function(){
+        var day = ["日","一","二","三","四","五","六"];
+        return "星期"+day[new Date().getDay()];
+      },
+      getWeather:function(){
+        var name = encodeURIComponent(this.$route.params.cityName);
+        var appCode = "83f43e4013354de2ab53c487cd86797e";
+        fetch('http://jisutqybmf.market.alicloudapi.com/weather/query?city='+name,{
+          headers:{
+            "Authorization":"APPCODE "+appCode,
+          }
+        }).then(function(res){
+          if(res.status == "200"){
+            res.json().then(function(json){
+              document.getElementById("spots").__vue__.weather = json.result.weather;
+            })
+          }else{
+            document.getElementById("spots").__vue__.weather = "获取失败";
+          }
+        }, function(res){
+            document.getElementById("spots").__vue__.weather = "获取失败";
+        });
+      },
       getSpots:function(){
         let len = this.spots.length - this.offset*4;
         if(len >=4){
@@ -128,6 +151,8 @@
     },
     data() {
       return {
+        time:"10:00",
+        weather:"获取中...",
         toggle:true,
         select:0,
         offset:0,
@@ -144,8 +169,6 @@
             likeNum:200,
             url:bg1,
             type:3,
-            height:59.9,
-            width:20.83,
           },
           {
             albumId:1,
@@ -154,8 +177,6 @@
             likeNum:200,
             url:bg2,
             type:2,
-            height:59.9,
-            width:20.83,
           },
           {
             albumId:2,
@@ -164,8 +185,6 @@
             likeNum:200,
             url:bg3,
             type:2,
-            height:59.9,
-            width:20.83,
           },
           {
             albumId:3,
@@ -174,8 +193,6 @@
             likeNum:200,
             url:bg4,
             type:2,
-            height:59.9,
-            width:20.83,
           },
           {
             albumId:0,
@@ -184,8 +201,6 @@
             likeNum:200,
             url:bg4,
             type:3,
-            height:59.9,
-            width:20.83,
           },
           {
             albumId:1,
@@ -194,8 +209,6 @@
             likeNum:200,
             url:bg3,
             type:2,
-            height:59.9,
-            width:20.83,
           },
           {
             albumId:2,
@@ -204,8 +217,6 @@
             likeNum:200,
             url:bg2,
             type:2,
-            height:59.9,
-            width:20.83,
           },
           {
             albumId:3,
@@ -214,8 +225,6 @@
             likeNum:200,
             url:bg1,
             type:2,
-            height:59.9,
-            width:20.83,
           },
           {
             albumId:0,
@@ -224,8 +233,6 @@
             likeNum:200,
             url:bg1,
             type:3,
-            height:59.9,
-            width:20.83,
           },
           {
             albumId:1,
@@ -234,8 +241,6 @@
             likeNum:200,
             url:bg2,
             type:2,
-            height:59.9,
-            width:20.83,
           },
           {
             albumId:2,
@@ -244,8 +249,6 @@
             likeNum:200,
             url:bg3,
             type:2,
-            height:59.9,
-            width:20.83,
           },
           {
             albumId:3,
@@ -254,13 +257,29 @@
             likeNum:200,
             url:bg4,
             type:2,
-            height:59.9,
-            width:20.83,
           },
         ],
       }
     },
   }
+
+  function refreshTime(){
+    if(document.getElementById("spots") != undefined){
+      var sp = spots.__vue__;
+      var hour = new Date().getHours();
+      var minute = new Date().getMinutes();
+      if(hour<10){
+        hour = "0"+hour;
+      }
+
+      if(minute<10){
+        minute = "0"+minute;
+      }
+      sp.time = hour+":"+minute;
+    }
+  }
+
+  setInterval(refreshTime,1000);
 </script>
 
 
@@ -328,7 +347,7 @@
   margin-right:4vw;
   vertical-align: top;
   top:3vh;
-  transition: all 0.6s
+  transition: all 0.4s
 }
 
 #spotsList > .select{
@@ -338,7 +357,7 @@
   margin-right: 3.125vw;
   top:0;
   vertical-align: top;
-  transition: all 0.6s
+  transition: all 0.4s
 }
 
 #pageIndex{
@@ -363,7 +382,7 @@
 }
 
 .fade-enter-active, .fade-leave-active {
-  transition: all 0.6s
+  transition: all 0.4s
 }
 .fade-enter, .fade-leave-to {
   opacity: 0
