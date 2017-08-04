@@ -15,10 +15,9 @@ Vue.config.productionTip = false
 
 // 全局组件
 import PictureDialog from './components/PictureDialog'
+import Search from './components/Search'
 
-Vue.component('search', {
-    template: '<div>搜索组件</div>'
-})
+Vue.component('search', Search)
 
 //参数表如下：
 //props:[
@@ -43,7 +42,7 @@ Vue.component('search', {
 // 
 // 参数表中宽高用于字体以及图标的自适应
 // 阴影效果需要额外添加
-Vue.component('picture-dialog',PictureDialog);
+Vue.component('picture-dialog', PictureDialog);
 
 Vue.component('picture-detail', {
     template: '<div>景点详细情况，大图</div>'
@@ -54,7 +53,7 @@ new Vue({
     el: '#app',
     router,
     template: '<App/>',
-    components: { 
-    	App,
- 	}
+    components: {
+        App,
+    }
 })
