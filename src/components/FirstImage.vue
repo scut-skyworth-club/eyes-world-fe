@@ -1,6 +1,6 @@
 <template>
   <div class="first-pic">
-    <img :src="url" alt="1"  class="image" v-on:click="clickme"> 
+    <img :src="url" alt="1"  class="image"> 
     <pics-info class="pics-information"
     :bigsize="bigsize" :smallsize="smallsize" :date="date"
     :photo-name="photoName" :author="author" ></pics-info>
@@ -23,9 +23,7 @@ export default {
         PicsInfo
     },
     methods:{
-        clickme:function () {
-            console.log(this.bigSize);
-        }
+        
     }
     
 }
@@ -40,11 +38,8 @@ export default {
         transition: all 0.5s ease;
     }
     .first-pic:hover {
-        width: 35.42vw;
-        height: 62.96vh;
+        transform: scale(1.0625);
         position: absolute;
-        top: 18.52vh;
-        left: 5.21vw;
         box-shadow: 0 30px 80px #303030;
     }
     .image {

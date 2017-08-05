@@ -9,8 +9,8 @@
         </div> 
       </div>
       <hr class="line" v-if="!(index==amount)"/>
-      <div class="work-img" :style="{left:-offset+'vw'}"
-        v-on:mouseover="enlarge" v-on:mouseleave="shrink"
+      <div class="work-img"
+
         v-on:click="getMoreInfo">
            <img :src="url" alt="2"> 
            <div class="shelter">
@@ -24,17 +24,10 @@
 export default {
     data () {
         return {
-            time:"2017-07-26 15:15:15",
-            offset:0,
+            
         }
     },
     methods:{
-        enlarge:function () {
-            this.offset=1.042;
-        },
-        shrink:function () {
-            this.offset=0;
-        },
         getMoreInfo:function () {
             alert("查看图片详细信息");
         },
@@ -101,9 +94,7 @@ export default {
         /* background: url(../assets/favorite/bg1.jpg) no-repeat center center; */
     }
     .sub-work .work-img:hover {
-        width: 22.917vw;
-        height: 48.178vh; 
-        margin-top: 8.537vh;
+        transform: scale(1.1,1.083);
         box-shadow: 0 5px 25px #222222;
     }
     .work-img img {

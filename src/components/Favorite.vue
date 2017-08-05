@@ -181,7 +181,7 @@
         datesize: 1.0185,
         images: afterData,   //后台数据接口
 
-        oLeft: 1.042,
+        oLeft: 2.084,
         counter: 0,
         amount: afterData.length
       }
@@ -237,17 +237,17 @@
   #slide-img-container {
     width: 68.75vw;
     height: 62.964vh;
-    /* border: 1px solid red;   */
+     /* border: 1px solid red;    */
     position: absolute;
     top: 18.518vh;
-    left: 40.628vw;
+    left: 39.586vw;
     overflow: hidden;
   }
   #slide-img {
     width: 68.75vw;
     height: 59.26vh;
     position: absolute;
-    /* border: 1px solid yellow; */
+     /* border: 1px solid yellow;  */
     top: 1.852vh;
     transition: all 1s ease;
   }

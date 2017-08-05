@@ -1,6 +1,6 @@
 <template>
-    <div class="box" :style="{left:((index-1)*18.75-xoffset)+'vw',top:yoffset+'vh'}" 
-    v-on:mouseover="enlarge" v-on:mouseleave="shrink" v-on:click="choose">  
+    <div class="box" :style="{left:(index-1)*18.75+'vw'}" 
+     v-on:click="choose">  
         <div class="icon-container">
             <div class="img-container">
                 <img :src="url" alt="2">
@@ -20,8 +20,7 @@
     export default {
         data() {
             return {
-                xoffset: 0,
-                yoffset: 0
+                
             }
         },
         props: ['title', 'url', 'index','aboutus'],
@@ -30,14 +29,6 @@
             //   Works
         },
         methods: {
-            enlarge: function() {
-                this.xoffset = 1.5625;
-                this.yoffset = -5.556;
-            },
-            shrink: function() {
-                this.xoffset = 0;
-                this.yoffset = 0;
-            },
             choose: function() {
                 switch (this.index) {
                     case 1:
@@ -69,8 +60,7 @@
     }
     .box:hover {
         cursor: pointer;
-        width: 18.75vw;
-        height: 66.67vh;
+        transform: scale(1.2);
         position: absolute;
         box-shadow: 0px 10px 50px #444444;
     }
