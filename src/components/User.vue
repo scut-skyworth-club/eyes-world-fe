@@ -1,282 +1,242 @@
 <template>
-  <div id="User">
-    <h2 class="user-title">
-        用户管理
-    </h2>
-    <date class="time">
-    </date>
-    <div>
-        <div id="user-manage">
-            <img src="../assets/user/profile_photo.jpg" alt="1">
-                <div>
-                <p class="username">hello_world</p>
-                <p id="logout" v-on:click="logout">退出登录</p>
-            </div> 
-        </div>
-        <div id="works" v-on:click="toMyWorks">
-            <div>
-                <img src="../assets/user/my_works.png" alt="2">
+    <div id="User">
+        <h2 class="user-title">
+            用户管理
+        </h2>
+        <date class="time"></date>
+        <div id="user-manage-container">
+            <div id="user-manage">
+                <div id="profile-photo"></div>
+                <div id="username-logout">
+                    <div id="username-container">
+                        <p class="username">{{username}}</p>
+                    </div>
+                    <div id="logout-container">
+                        <p id="logout" v-on:click="logout">退出登录</p>
+                    </div>
+                </div>
             </div>
-            <p id="my-works">我的作品</p>
-        </div>
-        <div id="collections" v-on:click="toMyCcollections">
-            <div>
-                <img src="../assets/user/my_collections.png" alt="3">
+            <div id="menu-container">
+                <ul>
+                    <li v-for="(item,index) in menu" :key="item.id">
+                        <sub-user :title="item.title" :url="item.url" :index="item.id" 
+                        v-on:aboutus="aboutus"></sub-user>
+                    </li>
+                </ul>
             </div>
-            <p id="my-collections">我的收藏</p>
         </div>
-        <div id="about-us" v-on:click="about">
-            <div>
-                <img src="../assets/user/about.png" alt="4">
-            </div>
-            <p id="about">关于我们</p>
-        </div>
+    
+     <transition name="fade">
+        <logout-confirm v-if="sure" v-on:oevent="oevent"></logout-confirm>
+    </transition> 
+    <transition name="fade-about">
+          <about v-if="isClicked"  v-on:aboutus="aboutus"></about>  
+    </transition>
+    <h3 id="login-website">PC端登录网站：www.baidu.com</h3>
     </div>
-  </div>
 </template>
 
 <script>
     import Date from './Date'
     import router from '../router/index'
-    export default {
-        name:'User',
-        data(){
-            return {
-               path:[
-                   "favorite",
-                   "works"
-               ]
-            }
-        },
-        methods:{
-           about:function () {
-                alert("hello....");
-            },
-            logout: function () {
-                if (confirm('确认退出登录？')) {
-                // $.ajax({
-                //     url:"",
-                //     dataType:'html',
-                //     success:function(data) {
-                //         location.replace('/login');
-                //     }
-                // });
-                    location.replace('/login');
-                } else {
-                    return;
-                }
-            },
-            toMyWorks:function () {
-                // location.href = '/#/success/works';
-                router.push(this.path[1]);
-            },
-            toMyCollections:function () {
-                // location.href = '/#/success/collections';
-                router.push(this.path[0]);
-            },
-            select:function () {
 
+    import icon1 from '../assets/user/my_works.png'
+    import icon2 from '../assets/user/my_collections.png'
+    import icon3 from '../assets/user/about.png'
+    
+    import SubUser from './SubUser'
+    import LogoutConfirm from './LogoutConfirm'
+    import About from './About'
+
+    var user = {
+        state: true,
+        username: "Hello_world"
+    }
+
+    export default {
+        name: 'User',
+        data() {
+            return {
+                path: [
+                    "favorite",
+                    "works"
+                ],
+                menu: [{
+                        id: 1,
+                        title: "我的作品",
+                        url: icon1,
+                    },
+                    {
+                        id: 2,
+                        title: "我的收藏",
+                        url: icon2,
+                    },
+                    {
+                        id: 3,
+                        title: "关于我们",
+                        url: icon3,
+                    },
+                ],
+                username: user.username,
+                sure: false,
+                isClicked: false
             }
         },
-        components:{
-            Date
+        methods: {
+            logout: function() {
+                // if (confirm('确认退出登录？')) {
+                // // $.ajax({
+                // //     url:"",
+                // //     dataType:'html',
+                // //     success:function(data) {
+                // //         location.replace('/login');
+                // //     }
+                // // });
+                // router.replace('/login');
+                // } else {
+                //     return;
+                // }
+                this.sure = true;
+            },
+            oevent: function (data) {
+                this.sure = data;
+            },
+            aboutus: function (data) {
+                this.isClicked = data;
+            }
+            // choose:function () {
+            //     switch (item.id){
+            //         case 1: location.href = Favorite;break;
+            //         case 2: location.href = Works;break;
+            //         case 3: about();break;
+            //         default: return;
+            //     }
+            // },
+        },
+        components: {
+            Date,
+            SubUser,
+            LogoutConfirm,
+            About
         }
     }
 </script>
 
 <style>
-     @font-face {
+    @font-face {
         font-family: font757;
         src: url("../assets/font/小米兰亭.ttf");
     }
+    
     body {
         width: 100vw;
         height: 100vh;
         background: url('../assets/user/bg.png') no-repeat center center;
     }
     .user-title {
-        font-family: font757;  
-        font-size: 40px;
+        font-family: font757;
+        font-size: 5.556vh;
         color: #f1f1f1;
         letter-spacing: 2px;
         position: absolute;
         top: 6.481vh;
         left: 6.25vw;
     }
+    #user-manage-container {
+        width: 100vw;
+        height: 55.556vh;
+        position: absolute;
+        top: 22.222vh;
+        left: 0;
+    }
     #user-manage {
         width: 31.25vw;
-        height: 55.56vh;
+        height: 55.556vh;
         margin: 0;
         position: absolute;
-        top: 22.22vh;
-        left:6.25vw;
+        top: 0;
+        left: 6.25vw;
     }
-    #user-manage img{
+    #profile-photo {
         margin: 0;
         width: 12.5vw;
-        height: 55.56vh;
-        z-index: 1;
+        height: 55.556vh;
+        position: absolute;
+        top: 0;
+        left: 0;
+        background: url('../assets/user/profile_photo.jpg') no-repeat center center;
     }
-    #user-manage div {
-        margin: 0;
-        float: right;
+    #username-logout {
         width: 18.75vw;
-        height: 55.56vh;
-        background: url('../assets/user/bt_bg2.png');
-        z-index: 2;
+        height: 55.556vh;
+        position: absolute;
+        margin: 0;
+        top: 0;
+        left: 12.5vw;
+        background: url('../assets/user/bt_bg3.png') no-repeat center center;
     }
-
+    #username-container {
+        width: 18.75vw;
+        height: 38.889vh;
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+    #logout-container {
+        width: 18.75vw;
+        height: 16.667vh;
+        position: absolute;
+        top: 38.889vh;
+        left: 0;
+    }
+    #menu-container {
+        margin: 0;
+        width: 59.375vw;
+        height: 55.556vh;
+        position: absolute;
+        top: 0;
+        left: 40.625vw;
+    }
     .username {
         text-align: center;
-        margin: 180px auto;
+        margin: 15vh auto 18vh;
         font-family: font757;
-        font-size: 30px;
+        font-size: 3.704vh;
         color: #f1f1f1;
     }
     #logout {
-        border:none;
+        border: none;
         background: none;
         font-family: font757;
-        font-size: 30px;
+        font-size: 4.444vh;
         color: #f1f1f1;
         text-align: center;
-        margin: 20px auto;
+        margin: 0 auto;
     }
-    #works {
-        width: 15.625vw;
-        height: 55.56vh;
-        margin: 0;
-        position: absolute;
-        top: 22.22vh;
-        left: 40.625vw;
-        background: url('../assets/user/bt_bg2.png');
-        transition: all 0.7s;
-    }
-    #works:hover {
-        width: 18.75vw;
-        height: 66.67vh;
-        position: absolute;
-        top:16.67vh;
-        left: 39.06vw;
-    }
-    #works div{
-        width:9.48vw;
-        height: 18.89vh;
-        text-align: center;
-        margin: 93px auto;
-        transition: 0.7s;
-    }
-    #works:hover div{
-        width:11.376vw;
-        height: 22.668vh;
-
-    }
-    #works div img {
-        width: 100%;
-    }
-    #my-works {
-        border:none;
-        background: none;
-        font-family: font757;
-        font-size: 30px;
-        color: #f1f1f1;
-        text-align: center;
-        margin: 20px auto;
-        transition: 0.7s;
-    }
-    #works:hover p {
-        font-size: 36px;
-    }
-    #collections {
-        width: 15.625vw;
-        height: 55.56vh;
-        margin: 0;
-        position: absolute;
-        top: 22.22vh;
-        left: 59.375vw;
-        background: url('../assets/user/bt_bg2.png');
-        transition: all 0.7s;
-    }
-    #collections:hover {
-       width: 18.75vw;
-        height: 66.67vh;
-        position: absolute;
-        top: 16.67vh;
-        left: 57.813vw;
-    }
-    #collections div{
-        width:9.271vw;
-        height: 16.30vh;
-        text-align: center;
-        margin: 107px auto;
-        transition: 0.7s;
-    }    
-    #collections:hover div{
-        width: 11.125vw;
-        height: 19.56vh;
-    }  
-    #collections div img {
-        width: 100%;
+    #logout:hover {
         cursor: pointer;
-        transition: all 1s;
     }
-    #my-collections {
-        border:none;
-        background: none;
+    .fade-enter-active, .fade-leave-active {
+        transition: opacity 1s;
+    }
+    .fade-enter, .fade-leave-to /* .fade-leave-active in below version 2.1.8 */ {
+        opacity: 0
+    }
+    .fade-about-enter-active, .fade-about-leave-active {
+        transition: opacity 1s;
+    }
+    .fade-about-enter, .fade-about-leave-to /* .fade-leave-active in below version 2.1.8 */ {
+        opacity: 0
+    }
+    #login-website {
         font-family: font757;
-        font-size: 30px;
         color: #f1f1f1;
-        text-align: center;
-        margin: 20px auto;
-        transition: 0.7s;
-    }
-    #collections:hover p {
-        font-size: 36px;
-    }
-
-
-    #about-us {
-        width: 15.625vw;
-        height: 55.56vh;
-        margin: 0;
+        font-size: 2.963vh;
         position: absolute;
-        top: 22.22vh;
-        left: 78.125vw;
-        background: url('../assets/user/bt_bg2.png');
-        transition: all 0.7s;
+        right: 6.25vw;
+        bottom: 6.481vh;
     }
-    #about-us:hover {
-        width: 18.75vw;
-        height: 66.67vh;
-        position: absolute;
-        top: 16.67vh;
-        left: 76.563vw;
-    }
-    #about-us div{
-        width: 8.23vw;
-        height: 15.185vh;
-        text-align: center;
-        margin: 100px auto;
-        transition: 0.7s;
-    }
-    #about-us div{
-        width: 9.876vw;
-        height: 18.222vh;
-    }
-    #about-us div img {
-        width: 100%;
-    }
-    #about { 
-       text-align: center;
-        margin: 100px auto;
-        font-family: font757;
-        font-size: 30px;
-        color: #f1f1f1;
-        text-align: center;
-        margin: 20px auto;
-        transition: 0.7s;
-    }
-    #about-us:hover p {
-        font-size:36px;
-    }
+    /* #User about {
+        transition: all 0.8s ease;
+    } */
 </style>
