@@ -65,7 +65,7 @@ export default {
     .upload-time {
         font-family: font757;
         color: #f1f1f1;
-        font-size: 18px;
+        font-size: 2.222vh;
         text-align: center;
         padding: 0 auto;
         z-index: 5;
@@ -119,9 +119,10 @@ export default {
         z-index: 2;
         bottom: 0;
         font-family: font757;
-        font-size: 24px;
+        font-size: 2.963vh;
         color: #f1f1f1;
         background-color: rgba(49,71,127,1);
+        transition: all 0.7s ease
     }
     .shelter p {
         position: absolute;
@@ -131,7 +132,7 @@ export default {
         margin: 20px auto;
     }
     .work-img:hover .shelter {
-        font-size: 28px;
+        font-size: 3.333vh;
     }
     .line {
         width: 27.083vw;

@@ -12,7 +12,7 @@ function getDate() {
   var seperator2 = ":";
   var space = "  "
   var dayNames = new Array("星期日","星期一","星期二","星期三","星期四","星期五","星期六");
-  date = dayNames[now.getDay()]+space+seperator1+now.getHours()+seperator2+now.getMinutes();
+  date = dayNames[now.getDay()]+space+seperator1+space+now.getHours()+seperator2+now.getMinutes();
   return date;
 }
 
@@ -33,7 +33,7 @@ export default {
 <style>
   .date {
     font-family: font757;
-    font-size: 20px;
+    font-size: 2.963vh;
     color: #f1f1f1;
     letter-spacing: 1px;
     position: absolute;

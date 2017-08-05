@@ -1,10 +1,11 @@
 <template>
   <div id="works">
     <h2 class="title">我的作品</h2>
+    <h5 class="photo-amount">{{amount}} Photos</h5>
     <div id="upload">
       <img src="../assets/works/uploadIcon.png" alt="1">
       <span>上传</span>
-    </div>
+    </div> 
     <date class="time"></date>
     
     <div id="works-container" :style="{left:left+'vw', width:oWidth+'vw'}" v-on:click="move">
@@ -14,8 +15,7 @@
           :amount="amount"></sub-work>
         </li>
       </ul>
-    </div>
-   
+    </div> 
   </div>
 </template>
 <script>
@@ -106,7 +106,7 @@
 
     methods: {
       move: function () {
-        if (Math.floor(this.counter++/afterData2.length)%2===0) {
+        if (Math.floor(this.counter++/(afterData2.length-2))%2===0) {
             this.oWidth = this.oWidth + 20.833; this.left = this.left - 20.833;
           }
           else {
@@ -114,12 +114,6 @@
             this.left = this.left + 20.833;
           }
         },
-
-        shuffle: function () {
-
-          this.works = _.shuffle(this.works)
-
-        }
       }
     }
 
@@ -136,11 +130,20 @@
 
   .title {
     font-family: font757;
-    font-size: 40px;
+    font-size: 5.556vh;
     color: #f1f1f1;
     letter-spacing: 2px;
     position: absolute;
     top: 6.481vh;
+    left: 6.25vw;
+  }
+  .photo-amount {
+    font-family: font757;
+    font-size: 2.222vh;
+    color: #f1f1f1;
+    letter-spacing: 1px;
+    position: absolute;
+    top: 14vh;
     left: 6.25vw;
   }
 
@@ -150,13 +153,15 @@
     margin: 0;
     padding: 0;
     position: absolute;
-    top: 6.759vh;
+    z-index: 15;
+    top: 7.5vh;
     left: 20.677vw;
-    background: url("../assets/works/bt_bg2.png") no-repeat center center;
+    background: url("../assets/works/bt_bg2.png") no-repeat center center; 
   }
 
   #upload:hover {
-    background: url("../assets/works/bt_bg3.png") no-repeat center center;
+    background: url("../assets/works/bt_bg3.png") no-repeat center center; 
+    cursor: pointer;
   }
 
   #upload img {
@@ -184,13 +189,11 @@
   #works-container {
     width: 100vw;
     height: 100vh;
-    /* border: 1px solid red; */
+    /* border: 1px solid red;  */
     position: absolute;
     top: 0;
     left: 0;
-  }
-  .line {
-    
+    transition: all 1s ease;
   }
 
 </style>

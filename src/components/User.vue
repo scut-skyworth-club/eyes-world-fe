@@ -3,43 +3,56 @@
         <h2 class="user-title">
             用户管理
         </h2>
-        <date class="time">
-        </date>
+        <date class="time"></date>
         <div id="user-manage-container">
             <div id="user-manage">
                 <div id="profile-photo"></div>
                 <div id="username-logout">
-                    <p class="username">hello_world</p>
-                    <p id="logout" v-on:click="logout">退出登录</p>
+                    <div id="username-container">
+                        <p class="username">{{username}}</p>
+                    </div>
+                    <div id="logout-container">
+                        <p id="logout" v-on:click="logout">退出登录</p>
+                    </div>
                 </div>
             </div>
             <div id="menu-container">
                 <ul>
                     <li v-for="(item,index) in menu" :key="item.id">
-                        <sub-user :v-on:click="choose" :title="item.title" :url="item.url" :index="item.id"></sub-user>
+                        <sub-user :title="item.title" :url="item.url" :index="item.id" 
+                        v-on:aboutus="aboutus"></sub-user>
                     </li>
                 </ul>
             </div>
         </div>
     
-    <transition name="fade">
+     <transition name="fade">
         <logout-confirm v-if="sure" v-on:oevent="oevent"></logout-confirm>
+    </transition> 
+    <transition name="fade-about">
+          <about v-if="isClicked"  v-on:aboutus="aboutus"></about>  
     </transition>
-    
-        <!-- <about></about> -->
-    
+    <h3 id="login-website">PC端登录网站：www.baidu.com</h3>
     </div>
 </template>
 
 <script>
     import Date from './Date'
     import router from '../router/index'
+
     import icon1 from '../assets/user/my_works.png'
     import icon2 from '../assets/user/my_collections.png'
     import icon3 from '../assets/user/about.png'
+    
     import SubUser from './SubUser'
     import LogoutConfirm from './LogoutConfirm'
     import About from './About'
+
+    var user = {
+        state: true,
+        username: "Hello_world"
+    }
+
     export default {
         name: 'User',
         data() {
@@ -64,7 +77,9 @@
                         url: icon3,
                     },
                 ],
+                username: user.username,
                 sure: false,
+                isClicked: false
             }
         },
         methods: {
@@ -85,6 +100,9 @@
             },
             oevent: function (data) {
                 this.sure = data;
+            },
+            aboutus: function (data) {
+                this.isClicked = data;
             }
             // choose:function () {
             //     switch (item.id){
@@ -117,7 +135,7 @@
     }
     .user-title {
         font-family: font757;
-        font-size: 40px;
+        font-size: 5.556vh;
         color: #f1f1f1;
         letter-spacing: 2px;
         position: absolute;
@@ -157,6 +175,20 @@
         left: 12.5vw;
         background: url('../assets/user/bt_bg3.png') no-repeat center center;
     }
+    #username-container {
+        width: 18.75vw;
+        height: 38.889vh;
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+    #logout-container {
+        width: 18.75vw;
+        height: 16.667vh;
+        position: absolute;
+        top: 38.889vh;
+        left: 0;
+    }
     #menu-container {
         margin: 0;
         width: 59.375vw;
@@ -169,17 +201,17 @@
         text-align: center;
         margin: 15vh auto 18vh;
         font-family: font757;
-        font-size: 30px;
+        font-size: 3.704vh;
         color: #f1f1f1;
     }
     #logout {
         border: none;
         background: none;
         font-family: font757;
-        font-size: 30px;
+        font-size: 4.444vh;
         color: #f1f1f1;
         text-align: center;
-        margin: 20px auto;
+        margin: 0 auto;
     }
     #logout:hover {
         cursor: pointer;
@@ -190,4 +222,21 @@
     .fade-enter, .fade-leave-to /* .fade-leave-active in below version 2.1.8 */ {
         opacity: 0
     }
+    .fade-about-enter-active, .fade-about-leave-active {
+        transition: opacity 1s;
+    }
+    .fade-about-enter, .fade-about-leave-to /* .fade-leave-active in below version 2.1.8 */ {
+        opacity: 0
+    }
+    #login-website {
+        font-family: font757;
+        color: #f1f1f1;
+        font-size: 2.963vh;
+        position: absolute;
+        right: 6.25vw;
+        bottom: 6.481vh;
+    }
+    /* #User about {
+        transition: all 0.8s ease;
+    } */
 </style>
