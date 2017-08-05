@@ -40,18 +40,18 @@
         </transition>
       </li>
     </ul>
-
+ 
     <ul id="pageIndex">
        <li v-for="index in getPageIndex"> 
         <transition name="indexFade" mode="out-in">
-          <img v-if="index" key="foucs" :src="ico_index_foucs" />
-          <img v-else-if="index" key="unfoucs" :src="ico_index" />
+           <img v-if="index" key="foucs" :src="ico_index_foucs" /> 
+           <img v-else-if="index" key="unfoucs" :src="ico_index" /> 
         </transition>
       </li>
-    </ul>
+    </ul> 
 
     <div id="button_re" @click="select_re"></div>
-    <div id="button_ad" @click="select_ad"></div>
+    <div id="button_ad" @click="select_ad"></div>  
 
   </div>
 </template>

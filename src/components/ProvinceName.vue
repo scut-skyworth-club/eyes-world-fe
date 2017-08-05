@@ -1,10 +1,10 @@
 <template>
-    <div>
-      <div class="input">
-        <input v-model="sText" id="searchText" type="text" placeholder="搜索内容">
-        <input id="search" type="submit" value="搜索" @click="change">
-        <input id="goUp" type="button" value="往上" @click="select(0)">
-        <input id="goDown" type="button" value="往下" @click="select(1)">
+  <div class="box">
+      <div class="input" @keydown.down.prevent="select(1)" @keydown.up.prevent="select(0)">
+        <input v-model="sText" id="searchText" type="text" placeholder="搜索内容" >
+        <input id="search" type="submit" value="搜索" @click="change" >
+         <!-- <input id="goUp" type="button" value="往上" @click="select(0)">
+        <input id="goDown" type="button" value="往下" @click="select(1)">  -->
       </div>
         <ul id="contentList">
           <li v-for="(item,index) in provinceList" :id="'id'+index" @click="nextPage(index)">
@@ -12,7 +12,7 @@
              <span style="display:none">{{item.initial}}</span> 
           </li>
         </ul>
-    </div>
+  </div>
 </template>
 
 <script>
@@ -47,7 +47,6 @@ export default {
       }else if(num==0){
         this.currentLine--;
       }
-
       var temp = document.getElementById("contentList").getElementsByTagName("li");
       for (var i = 0; i < temp.length; i++) {
           $("#contentList li").eq(i).removeClass("hightLight");
@@ -60,6 +59,7 @@ export default {
     },
 
     nextPage:function (index) {
+      this.currentLine = -1;
       $("#contentList").slideUp(300,function(){
 
           $("ul").find("li").remove();
@@ -87,9 +87,16 @@ export default {
     src: url("../assets/font/小米兰亭.ttf");
     font-family: "小米兰亭";
   } 
-  .input{
+
+  .box{
+    width: 150px;
     margin-left: 100px;
+    background:url('../assets/search/pic1.png'); 
   }
+
+  /* .input{
+    margin-left: 100px;
+  } */
   
   #searchText{
     width: 100px;
@@ -97,11 +104,11 @@ export default {
   }
 
   #search{
-    width: 40px;
+    width: 45px;
     height: 30px;
   }
 
-  #goUp{
+  /* #goUp{
     width: 40px;
     height: 30px;
   }
@@ -109,16 +116,14 @@ export default {
   #goDown{
     width: 40px;
     height: 30px;
-  }
+  } */
 
 
   #contentList{
-    width: 150px;
-    margin-left: 100px;
     font-size: 20pt;
     text-align: center;
     cursor: pointer;
-    background:url('../assets/search/pic1.png'); 
+    
   }
    li{
      list-style-type: none;
