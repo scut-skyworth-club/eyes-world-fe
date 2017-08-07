@@ -3,7 +3,8 @@
     {{msg}}
     <hr>
     所有的省份,全国
-    <search></search>
+    <!-- <search></search> -->
+    <maps></maps>
     
     <router-link :to="getPath">
       <div>
@@ -16,7 +17,7 @@
 
 <script>
 
-  import Maps from './Maps'
+  import Maps from './map/areaMap'
   import router from '../router/index'
   export default {
     name: 'tourism',
