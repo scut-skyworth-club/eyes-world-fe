@@ -4,11 +4,11 @@
     <hr>
     所有的省份,全国
     <!-- <search></search> -->
-    <maps></maps>
+    <areaMap id="areaMap"></areaMap>
     
     <router-link :to="getPath">
       <div>
-        景点组件
+        <!-- 景点组件 -->
       </div>
     </router-link>
 
@@ -17,11 +17,11 @@
 
 <script>
 
-  import Maps from './map/areaMap'
+  import areaMap from './map/areaMap'
   import router from '../router/index'
   export default {
     name: 'tourism',
-    components:{Maps},
+    components:{areaMap},
     data() {
       return {
         msg: '旅游景区组件',

@@ -31,7 +31,6 @@ export default {
   },
   methods: {
     initMap (areaCode, formatter, labelLevel) {
-      console.log(typeof labelLevel)
       if (typeof labelLevel === 'undefined') {
         labelLevel = 1
       }
@@ -83,7 +82,7 @@ export default {
 </script>
 <style scoped>
      .main {
-        width: 1000px;
-        height: 800px;
+        width: 500px;
+        height: 500px;
     }
 </style>
