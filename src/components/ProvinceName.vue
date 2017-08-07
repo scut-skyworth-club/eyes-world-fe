@@ -90,7 +90,7 @@ export default {
 
   .box{
     width: 150px;
-    margin-left: 100px;
+     margin-left: 100px; 
     background:url('../assets/search/pic1.png'); 
   }
 

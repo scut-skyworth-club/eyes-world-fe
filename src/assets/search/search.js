@@ -837,7 +837,7 @@ var hainCity_list = [{
     city: "陵水自治县",
     initial: "ls"
 }, {
-    city: "▪保亭自治县",
+    city: "保亭自治县",
     initial: "bt"
 }, {
     city: "琼中自治县",
@@ -1260,11 +1260,29 @@ var xjCity_list = [{
     city: "克拉玛依",
     initial: "klmy"
 }, {
-    city: "吐鲁番",
-    initial: "tlf"
+    city: "图木舒克",
+    initial: "tmsk"
+}, {
+    city: "可克达拉",
+    initial: "kkdl"
 }, {
     city: "哈密",
     initial: "hm"
+}, {
+    city: "昆玉",
+    initial: "ky"
+}, {
+    city: "双河",
+    initial: "sh"
+}, {
+    city: "北屯",
+    initial: "bt"
+}, {
+    city: "吐鲁番",
+    initial: "tlf"
+}, {
+    city: "铁门关",
+    initial: "tmg"
 }, {
     city: "石河子",
     initial: "shz"
@@ -1272,29 +1290,14 @@ var xjCity_list = [{
     city: "阿拉尔",
     initial: "ale"
 }, {
-    city: "图木舒克",
-    initial: "tmsk"
-}, {
     city: "五家渠",
     initial: "wjq"
 }, {
-    city: "北屯",
-    initial: "bt"
-}, {
-    city: "铁门关",
-    initial: "tmg"
-}, {
-    city: "双河",
-    initial: "sh"
-}, {
-    city: "可克达拉",
-    initial: "kkdl"
-}, {
-    city: "昆玉",
-    initial: "ky"
-}, {
     city: "昌吉州",
     initial: "cj"
+}, {
+    city: "伊犁州",
+    initial: "yl"
 }, {
     city: "博尔塔拉州",
     initial: "betl"
@@ -1305,12 +1308,6 @@ var xjCity_list = [{
     city: "克孜勒苏州",
     initial: "kzls"
 }, {
-    city: "伊犁州",
-    initial: "yl"
-}, {
-    city: "阿克苏地区",
-    initial: "aks"
-}, {
     city: "喀什地区",
     initial: "ks"
 }, {
@@ -1319,6 +1316,9 @@ var xjCity_list = [{
 }, {
     city: "塔城地区",
     initial: "tc"
+}, {
+    city: "阿克苏地区",
+    initial: "aks"
 }, {
     city: "阿勒泰地区",
     initial: "alt"
