@@ -3,7 +3,7 @@
         left:(Math.floor((index-1)/2))*17.708+'vw'}">   
         <img :src="url" alt="1" class="image">
         <pics-info class="pics-information" :bigsize="titlesize" :smallsize="datesize"
-         :date="date" :photo-name="photoName" :author="author"></pics-info>
+         :create-time="createTime" :photo-name="photoName" :user-name="userName"></pics-info>
     </div>
 </template>
 
@@ -17,7 +17,7 @@
                 
             }
         },
-        props: ['titlesize', 'datesize', 'index', 'url', 'date', 'photoName', 'author'],
+        props: ['titlesize', 'datesize', 'index', 'url', 'createTime', 'photoName', 'userName'],
         components: {
             PicsInfo
         },

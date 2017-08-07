@@ -1,13 +1,13 @@
 <template>
     <div class="info-container" v-on:click="showSize">
         <h2 :style="{fontSize:bigsize+'vh'}">{{photoName}}</h2>
-        <p :style="{fontSize:smallsize+'vh'}">{{date}} {{author}} </p>
+        <p :style="{fontSize:smallsize+'vh'}">{{createTime}}&nbsp&nbsp&nbsp@{{userName}} </p>
     </div>
 </template>
 
 <script>
     export default {
-        props: ["bigsize", "smallsize", "photoName", "date", "author"],
+        props: ["bigsize", "smallsize", "photoName", "createTime", "userName"],
         // props:{
         //     date:"",
         //     url:"",

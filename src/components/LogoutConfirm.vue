@@ -30,10 +30,9 @@ export default {
         z-index: 100;
         background: url("../assets/user/bt_bg3.png") no-repeat center center;
         font-family: font757;
-        font-size: 30px;
+        font-size: 2.778vh;
         color: #f1f1f1;
-        border: 1px solid #444444;
-        font-size: 30px;
+        border: 0.104vw solid #eeeeee;
         color: #f1f1f1;
     }
     .sure {
@@ -60,7 +59,7 @@ export default {
         left: 7vw;
         background: none;
         border: none;
-        font-size: 30px;
+        font-size: 2.778vh;
         color: #f1f1f1;
     }
     .no-bt {
@@ -68,7 +67,8 @@ export default {
         right: 7vw;
         background: none;
         border: none;
-        font-size: 30px;
+        font-size: 2.778vh;
         color: #f1f1f1;
     }
+    
 </style>

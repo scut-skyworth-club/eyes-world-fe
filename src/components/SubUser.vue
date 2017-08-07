@@ -15,12 +15,14 @@
     // import Favorite from './Favorite'
     
     // import Works from './Works'
-    
+    import router from '../router/index'
     import User from './User'
     export default {
         data() {
             return {
-                
+                path:[
+                    ""
+                ]
             }
         },
         props: ['title', 'url', 'index','aboutus'],
@@ -32,10 +34,11 @@
             choose: function() {
                 switch (this.index) {
                     case 1:
-                        location.href = 'http://localhost:8080/#/user/works/hello';
+                        // location.href = 'http://localhost:8080/#/user/works/hello';
+                        router.push({name:'Works',params:{userName:'hello'}});
                         break;
                     case 2:
-                        location.href = 'http://localhost:8080/#/user/favorite/456';
+                        router.push({name:'Favorite',params:{userId:'145'}});
                         break;
                     case 3:
                         let data = true;
@@ -56,7 +59,7 @@
         margin: 0;
         position: absolute;
         background: url('../assets/user/bt_bg3.png') no-repeat center center;
-        transition: all 0.7s;
+        transition: all 0.7s ease;
     }
     .box:hover {
         cursor: pointer;
@@ -73,13 +76,13 @@
     }
     
     .box .icon-container .img-container {
-        width: 45%;
+        width: 40%;
         text-align: center;
-        margin: 10vh auto;
+        margin: 12vh auto;
         transition: all 0.7s ease;
     }
     .box:hover .icon-container .img-container {
-        width: 54%;
+        width: 48%;
     }
     .box div img {
         width: 100%;

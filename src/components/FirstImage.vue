@@ -2,8 +2,8 @@
   <div class="first-pic">
     <img :src="url" alt="1"  class="image"> 
     <pics-info class="pics-information"
-    :bigsize="bigsize" :smallsize="smallsize" :date="date"
-    :photo-name="photoName" :author="author" ></pics-info>
+    :bigsize="bigsize" :smallsize="smallsize" :create-time="createTime"
+    :photo-name="photoName" :user-name="userName" ></pics-info>
   </div>
 </template>
 
@@ -18,7 +18,7 @@ export default {
             bgs:[bg1]
         }
     },
-    props:['bigsize','smallsize','url','date','photoName','author'],
+    props:['bigsize','smallsize','url','createTime','photoName','userName'],
     components:{
         PicsInfo
     },

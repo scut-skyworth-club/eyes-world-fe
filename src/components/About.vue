@@ -22,6 +22,7 @@ export default {
         position: absolute;
         top: 30vh;
         left: 30vw;
+        border: 0.104vw solid #eeeeee;
         z-index: 100;
         background: url("../assets/user/bt_bg3.png") no-repeat center center;
     }
@@ -51,6 +52,6 @@ export default {
         color: #f1f1f1;
         font-size: 30px;
         position: absolute;
-        left: 20vw;
+        left: 25vw;
     }
 </style>

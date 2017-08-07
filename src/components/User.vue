@@ -26,13 +26,13 @@
             </div>
         </div>
     
-     <transition name="fade">
-        <logout-confirm v-if="sure" v-on:oevent="oevent"></logout-confirm>
-    </transition> 
-    <transition name="fade-about">
-          <about v-if="isClicked"  v-on:aboutus="aboutus"></about>  
-    </transition>
-    <h3 id="login-website">PC端登录网站：www.baidu.com</h3>
+        <transition name="fade">
+            <logout-confirm v-if="sure" v-on:oevent="oevent"></logout-confirm>
+        </transition> 
+        <transition name="fade-about">
+            <about v-if="isClicked"  v-on:aboutus="aboutus"></about>  
+        </transition>
+        <h3 id="login-website">PC端登录网站：www.baidu.com</h3>
     </div>
 </template>
 
@@ -103,7 +103,7 @@
             },
             aboutus: function (data) {
                 this.isClicked = data;
-            }
+            },
             // choose:function () {
             //     switch (item.id){
             //         case 1: location.href = Favorite;break;
@@ -112,6 +112,22 @@
             //         default: return;
             //     }
             // },
+            choose: function () {
+                switch(this.item.id) {
+                     case 1:
+                        location.href = 'http://localhost:8080/#/user/works/hello';
+                        break;
+                    case 2:
+                        location.href = 'http://localhost:8080/#/user/favorite/456';
+                        break;
+                    case 3:
+                        let data = true;
+                        this.$emit('aboutus',data);
+                        break;
+                    default:
+                        return;
+                }
+            }
         },
         components: {
             Date,
@@ -128,7 +144,7 @@
         src: url("../assets/font/小米兰亭.ttf");
     }
     
-    body {
+    #User {
         width: 100vw;
         height: 100vh;
         background: url('../assets/user/bg.png') no-repeat center center;
@@ -177,16 +193,16 @@
     }
     #username-container {
         width: 18.75vw;
-        height: 38.889vh;
+        height: 36.889vh;
         position: absolute;
         top: 0;
         left: 0;
     }
     #logout-container {
         width: 18.75vw;
-        height: 16.667vh;
+        height: 18.667vh;
         position: absolute;
-        top: 38.889vh;
+        top: 36.481vh;
         left: 0;
     }
     #menu-container {
@@ -205,6 +221,8 @@
         color: #f1f1f1;
     }
     #logout {
+        width: 13.542vw;
+        height: 9.259vh;
         border: none;
         background: none;
         font-family: font757;
@@ -212,22 +230,24 @@
         color: #f1f1f1;
         text-align: center;
         margin: 0 auto;
+        padding-top: 2vh;
     }
     #logout:hover {
         cursor: pointer;
+        background: url('../assets/user/bt_bg2.png') no-repeat center center;
     }
-    .fade-enter-active, .fade-leave-active {
+    /* .fade-enter-active, .fade-leave-active {
         transition: opacity 1s;
     }
-    .fade-enter, .fade-leave-to /* .fade-leave-active in below version 2.1.8 */ {
+    .fade-enter, .fade-leave-to {
         opacity: 0
     }
     .fade-about-enter-active, .fade-about-leave-active {
         transition: opacity 1s;
     }
-    .fade-about-enter, .fade-about-leave-to /* .fade-leave-active in below version 2.1.8 */ {
+    .fade-about-enter, .fade-about-leave-to {
         opacity: 0
-    }
+    } */
     #login-website {
         font-family: font757;
         color: #f1f1f1;
