@@ -69,33 +69,44 @@
   export default {
     name: 'spots',
     methods:{
+      toggleSlide:function(){
+        this.canSlide = !this.canSlide;
+      },
       select_ad:function(){
-        (this.getSpots[this.select]).type = 2;
-        this.select++;
-        if(this.select>3||this.offset*4+this.select>this.spots.length){
-          if(this.offset+1>=this.getPageIndex.length){
-            this.select--;
-          }else{
-            this.offset++;
-            this.select = 0;
-            this.toggle = !this.toggle;
+        if(this.canSlide){
+          (this.getSpots[this.select]).type = 2;
+          this.select++;
+          if(this.select>3||this.offset*4+this.select>this.spots.length){
+            if(this.offset+1>=this.getPageIndex.length){
+              this.select--;
+            }else{
+              this.offset++;
+              this.select = 0;
+              this.toggle = !this.toggle;
+              this.toggleSlide();
+              setTimeout(this.toggleSlide,400);
+            }
           }
+          (this.getSpots[this.select]).type = 3;
         }
-        (this.getSpots[this.select]).type = 3;
       },
       select_re:function(){
-        (this.getSpots[this.select]).type = 2;
-        this.select--;
-        if(this.select<0){
-          if(this.offset-1<0){
-            this.select++;
-          }else{
-            this.offset--;
-            this.select = 3;
-            this.toggle = !this.toggle;
+        if(this.canSlide){
+          (this.getSpots[this.select]).type = 2;
+          this.select--;
+          if(this.select<0){
+            if(this.offset-1<0){
+              this.select++;
+            }else{
+              this.offset--;
+              this.select = 3;
+              this.toggle = !this.toggle;
+              this.toggleSlide();
+              setTimeout(this.toggleSlide,400);
+            }
           }
+          (this.getSpots[this.select]).type = 3;
         }
-        (this.getSpots[this.select]).type = 3;
       },
     },
     computed:{
@@ -158,6 +169,7 @@
         offset:0,
         ico_index:ico_index,
         ico_index_foucs:ico_index_foucs,
+        canSlide:true,
         bg:{
           backgroundImage:"url("+bg+")",
         },
