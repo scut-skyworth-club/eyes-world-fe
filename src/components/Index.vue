@@ -156,11 +156,15 @@
           "latest",
           "user",
         ],
+        canSlide:true,
       }
     },
     computed: {
     },
     methods: {
+      toggleSlide:function(){
+        this.canSlide = !this.canSlide;
+      },
       //所有项目点击事件都是slide()
       slide:function(){
         var id = window.event.target.parentNode.getAttribute("id");
@@ -168,36 +172,43 @@
         //若项目被选中，则进行路由
         //否则，改变选中项目
         //若点击项目为第0或第4个，则所有模块需要进行整体平移
-        switch(id){
-          case this.index_id.id_0:
-            this.index_0();
-            break;
-          case this.index_id.id_1:
-            if(this.selection == 0){
-              this.select();
-            }else{
-              this.index_1();
-            }
-            break;
-          case this.index_id.id_2:
-            if(this.selection == 1){
-              this.select();
-            }else{
-              this.index_2();
-            }
-            break;
-          case this.index_id.id_3:
-            if(this.selection == 2){
-              this.select();
-            }else{
-              this.index_3();
-            }
-            break;
-          case this.index_id.id_4:
-            this.index_4();
-            break;
-          default:
-            break;
+        //
+        if(this.canSlide){
+          switch(id){
+            case this.index_id.id_0:
+              this.index_0();
+              this.toggleSlide();
+              setTimeout(this.toggleSlide,600);
+              break;
+            case this.index_id.id_1:
+              if(this.selection == 0){
+                this.select();
+              }else{
+                this.index_1();
+              }
+              break;
+            case this.index_id.id_2:
+              if(this.selection == 1){
+                this.select();
+              }else{
+                this.index_2();
+              }
+              break;
+            case this.index_id.id_3:
+              if(this.selection == 2){
+                this.select();
+              }else{
+                this.index_3();
+              }
+              break;
+            case this.index_id.id_4:
+              this.index_4();
+              this.toggleSlide();
+              setTimeout(this.toggleSlide,100);
+              break;
+            default:
+              break;
+          }
         }
       },
       index_0:function(){
@@ -345,7 +356,7 @@
     height: 100vh;
     transform: skew(-7.5deg);
     overflow: hidden;
-    transition: all 0.5s ease;
+    transition: all 0.6s ease;
   }
 
   .item_carousel img{
@@ -354,7 +365,7 @@
     top: 0px;
     transform: skew(7.5deg);
     height: 100vh; 
-    transition: all 0.5s ease;
+    transition: all 0.6s ease;
   }
 
   .item_carousel span{
@@ -366,7 +377,7 @@
     left:0;
     letter-spacing: 0.5vw;
     transform: skew(7.5deg);
-    transition: all 0.5s ease;
+    transition: all 0.6s ease;
     color: #f1f1f1;
     font-size: 2.3vw;
   }
@@ -383,7 +394,7 @@
     background: -webkit-radial-gradient(center,closest-side,rgba(255,255,255,1),rgba(255,255,255,0));
     position: relative;
     top: 93vh;
-    transition: all 0.5s ease;
+    transition: all 0.6s ease;
     opacity: 0;
   }
 
@@ -394,7 +405,7 @@
     top: 90vh;
     left :8.5vw;
     background: -webkit-radial-gradient(center,closest-side,rgba(255,255,255,1),rgba(255,255,255,0));
-    transition: all 0.5s ease;
+    transition: all 0.6s ease;
     opacity: 0;
   }*/
 
@@ -421,7 +432,7 @@
     width: 100%;
     top: 0vh;
     position: absolute;
-    transition: all 0.5s ease;
+    transition: all 0.6s ease;
     background: #000;
     opacity: 0.45;
   }
@@ -435,7 +446,7 @@
     bottom: 0vh;
     width:100%;
     height:10%;
-    transition: all 0.5s ease;
+    transition: all 0.6s ease;
     background: -webkit-linear-gradient(bottom, rgba(255,255,255,0.3), rgba(255,255,255,0));
   }
 
