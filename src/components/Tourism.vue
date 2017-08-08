@@ -1,14 +1,11 @@
 <template>
   <div id="tourism">
-    {{msg}}
-    <hr>
-    所有的省份,全国
     <!-- <search></search> -->
-    <maps></maps>
-    
+    <areaMap id="areaMap"></areaMap>
+
     <router-link :to="getPath">
       <div>
-        景点组件
+        <!-- 景点组件 -->
       </div>
     </router-link>
 
@@ -17,22 +14,23 @@
 
 <script>
 
-  import Maps from './map/areaMap'
+  import areaMap from './map'
   import router from '../router/index'
+
   export default {
     name: 'tourism',
-    components:{Maps},
+    components: {areaMap},
     data() {
       return {
         msg: '旅游景区组件',
-        provinceName:"广东",
-        cityName:"广州",
+        provinceName: "广东",
+        cityName: "广州",
       }
-    
+
     },
-    computed:{
-      getPath:function(){
-        return "/provinces/cities/"+this.provinceName+"/"+this.cityName+"/spots";
+    computed: {
+      getPath: function () {
+        return "/provinces/cities/" + this.provinceName + "/" + this.cityName + "/spots";
       }
     }
   }
