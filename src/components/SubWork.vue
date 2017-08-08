@@ -10,7 +10,6 @@
       </div>
       <hr class="line" v-if="!(index==amount)"/>
       <div class="work-img"
-
         v-on:click="getMoreInfo">
            <img :src="url" alt="2"> 
            <div class="shelter">

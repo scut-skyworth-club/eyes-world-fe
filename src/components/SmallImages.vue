@@ -1,6 +1,8 @@
 <template>
-    <div class="small-pics" :style="{top:((index-1)%2)*31.48+'vh',
-        left:(Math.floor((index-1)/2))*17.708+'vw'}">   
+    <div 
+        class="small-pics" 
+        :style="{top:((index-1)%2)*31.48+'vh',left:(Math.floor((index-1)/2))*17.708+'vw'}"
+        @click="detail">   
         <img :src="url" alt="1" class="image">
         <pics-info class="pics-information" :bigsize="titlesize" :smallsize="datesize"
          :create-time="createTime" :photo-name="photoName" :user-name="userName"></pics-info>
@@ -10,6 +12,7 @@
 <script>
     import bg1 from '../assets/favorite/visitedIcon.png'
     import PicsInfo from './PicsInfo'
+    import router from '../router/index'
     export default {
         name: 'Collections',
         data() {
@@ -22,6 +25,10 @@
             PicsInfo
         },
         methods: {
+            detail: function () {
+                location.href = '/#/user/panorama';
+                // console.log('hello');
+            }
             
         }
     }

@@ -13,6 +13,7 @@ import Album from '@/components/Album'
 import Comment from '@/components/Comment'
 import Works from '@/components/Works'
 import Favorite from '@/components/Favorite'
+import Panorama from '@/components/Panorama'
 
 Vue.use(Router)
 
@@ -87,6 +88,11 @@ export default new Router({
             path: '/user/favorite/:userId',
             name: 'Favorite',
             component: Favorite
+        },
+        {
+            path: '/user/panorama',
+            name: 'Panorama',
+            component: Panorama
         }
     ]
 })

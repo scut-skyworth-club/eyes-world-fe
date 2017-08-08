@@ -105,20 +105,20 @@
 
     methods: {
       move: function () {
-        if (Math.floor(this.counter++/(afterData2.length-2))%2===0) {
-            this.oWidth = this.oWidth + 20.833; this.left = this.left - 20.833;
-          }
-          else {
-            this.oWidth = this.oWidth - 20.833;
-            this.left = this.left + 20.833;
-          }
-        },
-        uploadPhoto: function () {
-          alert("上传图片");
-          // console.log("shang");
-        },
-      }
+      if (Math.floor(this.counter++/(afterData2.length-2))%2===0) {
+          this.oWidth = this.oWidth + 20.833; this.left = this.left - 20.833;
+        }
+        else {
+          this.oWidth = this.oWidth - 20.833;
+          this.left = this.left + 20.833;
+        }
+      },
+      uploadPhoto: function () {
+        alert("上传图片");
+        // console.log("shang");
+      },
     }
+  }
 
 </script>
 
