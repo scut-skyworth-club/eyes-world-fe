@@ -1,6 +1,7 @@
 <template>
   <div id="favorite">
     <div id="favorite-container" v-on:click="slideImg">
+      <img :src="bgs[0]" class="favorite-bg">
       <h2 class="title">{{title}}</h2>
       <h5 class="photo-amount">{{amount}} Photos</h5>
       <date class="time"></date>
@@ -22,6 +23,8 @@
   import Date from './Date'
   import FirstImage from './FirstImage'
   import SmallImages from './SmallImages'
+
+  import bg from '../assets/favorite/bg.png'
 
   import bg0 from '../assets/favorite/bg0.jpg'
   import bg1 from '../assets/favorite/bg1.jpg'
@@ -219,102 +222,6 @@
       createTime: "2012/07/25",
       last: null
     },
-    // {
-    //   id: 3,
-    //   url: bg3,
-    //   date: "2012/10/01",
-    //   photoName: "宋茜",
-    //   author: "@Archie"
-    // },
-  
-    // {
-    //   id: 4,
-    //   url: bg4,
-    //   date: "2012/09/10",
-    //   photoName: "杨幂",
-    //   author: "@Archie"
-    // },
-  
-    // {
-    //   id: 5,
-    //   url: bg5,
-    //   date: "2013/05/03",
-    //   photoName: "宋茜",
-    //   author: "@Archie"
-    // },
-  
-    // {
-    //   id: 6,
-    //   url: bg6,
-    //   date: "2014/07/13",
-    //   photoName: "七朵",
-    //   author: "@Archie"
-    // },
-  
-    // {
-    //   id: 7,
-    //   url: bg7,
-    //   date: "2015/08/30",
-    //   photoName: "允儿",
-    //   author: "@Archie"
-    // },
-  
-    // {
-    //   id: 8,
-    //   url: bg8,
-    //   date: "2016/12/28",
-    //   photoName: "迪丽热巴",
-    //   author: "@Archie"
-    // },
-    // {
-    //   id: 9,
-    //   url: bg9,
-    //   date: "2016/12/28",
-    //   photoName: "动漫1",
-    //   author: "@Archie"
-    // },
-    // {
-    //   id: 10,
-    //   url: bg10,
-    //   date: "2016/12/28",
-    //   photoName: "动漫2",
-    //   author: "@Archie"
-    // },
-    // {
-    //   id: 11,
-    //   url: bg11,
-    //   date: "2016/12/28",
-    //   photoName: "动漫3",
-    //   author: "@Archie"
-    // },
-    // {
-    //   id: 12,
-    //   url: bg12,
-    //   date: "2016/12/28",
-    //   photoName: "动漫4",
-    //   author: "@Archie"
-    // },
-    // {
-    //   id: 13,
-    //   url: bg13,
-    //   date: "2016/12/28",
-    //   photoName: "动漫5",
-    //   author: "@Archie"
-    // },
-    // {
-    //   id: 14,
-    //   url: bg14,
-    //   date: "2016/12/28",
-    //   photoName: "动漫6",
-    //   author: "@Archie"
-    // },
-    // {
-    //   id: 15,
-    //   url: bg15,
-    //   date: "2016/12/28",
-    //   photoName: "动漫7",
-    //   author: "@Archie"
-    // },
     
   ];
   
@@ -336,7 +243,10 @@
 
         oLeft: 2.084,
         counter: 0,
-        amount: afterData.length
+        amount: afterData.length,
+        bgs:[
+          bg
+        ]
       }
     },
   
@@ -364,10 +274,15 @@
   #favorite {
     width: 100vw;
     height: 100vh;
-    background: url('../assets/favorite/bg.png') no-repeat center center;
     overflow: hidden;
   }
-  
+  .favorite-bg {
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
   .title {
     font-family: font757;
     font-size: 5.556vh;

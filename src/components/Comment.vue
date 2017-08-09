@@ -16,5 +16,16 @@
 
 
 <style>
-
+  #comment {
+    width: 20vw;
+    height: 100vh;
+    position: absolute;
+    top: 0;
+    right: 0;  
+    color: #f1f1f1;
+    background: blue;
+    z-index: 10;
+    /* opacity: 0.6;  */
+    /* display: block; */
+  }
 </style>

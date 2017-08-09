@@ -1,5 +1,6 @@
 <template>
     <div id="User">
+        <img :src="bgs[0]">
         <h2 class="user-title">
             用户管理
         </h2>
@@ -8,11 +9,13 @@
             <div id="user-manage">
                 <div id="profile-photo"></div>
                 <div id="username-logout">
+                    <img :src="bgs[1]">
                     <div id="username-container">
                         <p class="username">{{username}}</p>
                     </div>
                     <div id="logout-container">
-                        <p id="logout" v-on:click="logout">退出登录</p>
+                        <p id="logout" v-on:click="logout">
+                            退出登录</p>
                     </div>
                 </div>
             </div>
@@ -43,6 +46,9 @@
     import icon1 from '../assets/user/my_works.png'
     import icon2 from '../assets/user/my_collections.png'
     import icon3 from '../assets/user/about.png'
+
+    import bg from '../assets/user/bg.png'
+    import bt_bg3 from '../assets/user/bt_bg3.png'
     
     import SubUser from './SubUser'
     import LogoutConfirm from './LogoutConfirm'
@@ -76,6 +82,10 @@
                         title: "关于我们",
                         url: icon3,
                     },
+                ],
+                bgs:[
+                    bg,
+                    bt_bg3
                 ],
                 username: user.username,
                 sure: false,
@@ -112,22 +122,6 @@
             //         default: return;
             //     }
             // },
-            choose: function () {
-                switch(this.item.id) {
-                     case 1:
-                        location.href = 'http://localhost:8080/#/user/works/hello';
-                        break;
-                    case 2:
-                        location.href = 'http://localhost:8080/#/user/favorite/456';
-                        break;
-                    case 3:
-                        let data = true;
-                        this.$emit('aboutus',data);
-                        break;
-                    default:
-                        return;
-                }
-            }
         },
         components: {
             Date,
@@ -147,7 +141,7 @@
     #User {
         width: 100vw;
         height: 100vh;
-        background: url('../assets/user/bg.png') no-repeat center center;
+        overflow: hidden;
     }
     .user-title {
         font-family: font757;
@@ -189,7 +183,13 @@
         margin: 0;
         top: 0;
         left: 12.5vw;
-        background: url('../assets/user/bt_bg3.png') no-repeat center center;
+    }
+    #username-logout img {
+        width: 18.75vw;
+        height: 55.556vh;
+        position: absolute;
+        top: 0;
+        left: 0;
     }
     #username-container {
         width: 18.75vw;

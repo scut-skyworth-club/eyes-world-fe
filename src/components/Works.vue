@@ -1,9 +1,10 @@
 <template>
   <div id="works">
+    <img :src="bgs[0]" class="works-bg">
     <h2 class="title">我的作品</h2>
     <h5 class="photo-amount">{{amount}} Photos</h5>
     <div id="upload" v-on:click="uploadPhoto">
-      <img src="../assets/works/uploadIcon.png" alt="1">
+      <img :src="bgs[1]" alt="1">
       <span>上传</span>
     </div>
     <date class="time"></date>
@@ -18,6 +19,11 @@
   </div>
 </template>
 <script>
+  import bg from '../assets/works/bg.png'
+  import uploadIcon from '../assets/works/uploadIcon.png'
+  import uploadBg from '../assets/works/bt_bg2.png'
+  import uploadBgHover from '../assets/works/bt_bg3.png'
+
   import bg1 from '../assets/favorite/bg1.jpg'
   import bg2 from '../assets/favorite/bg2.jpg'
   import bg3 from '../assets/favorite/bg3.jpg'
@@ -95,7 +101,13 @@
         oWidth: 100,
         works: afterData2,
         counter: 0,
-        amount: afterData2.length
+        amount: afterData2.length,
+        bgs:[
+          bg,
+          uploadIcon,
+          uploadBg,
+          uploadBgHover
+        ]
       }
     },
     components: {
@@ -129,10 +141,17 @@
     height: 100vh;
     margin: 0;
     padding: 0;
-    background: url('../assets/works/bg.png');
     overflow: hidden;
   }
-
+  .works-bg {
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin: 0;
+    padding: 0;
+  }
   #works .title {
     font-family: font757;
     font-size: 5.556vh;

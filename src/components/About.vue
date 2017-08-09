@@ -1,11 +1,20 @@
 <template>
   <div id="About">
-      <div class="info"><p>我们是SkyWorth团队</p></div>
-      <div class="return-bt"><button v-on:click="closeIt">返回</button></div> 
+    <img :src="bgs[0]" class="about-bg">
+    <div class="info"><p>我们是SkyWorth团队</p></div>
+    <div class="return-bt"><button v-on:click="closeIt">返回</button></div> 
   </div>
 </template>
 <script>
+import bg from '../assets/user/bt_bg3.png'
 export default {
+    data () {
+        return{
+            bgs:[
+                bg
+            ]
+        }
+    },
   props:['aboutus'],
   methods: {
       closeIt:function () {
@@ -23,8 +32,15 @@ export default {
         top: 30vh;
         left: 30vw;
         border: 0.104vw solid #eeeeee;
+        overflow: hidden;
         z-index: 100;
-        background: url("../assets/user/bt_bg3.png") no-repeat center center;
+    }
+    .about-bg {
+        width: 30vw;
+        height: 25vh;
+        position: absolute;
+        top: 0;
+        left: 0;
     }
     #About .info {
         width: 30vw;

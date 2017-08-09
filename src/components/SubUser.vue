@@ -1,9 +1,10 @@
 <template>
     <div class="box" :style="{left:(index-1)*18.75+'vw'}" 
      v-on:click="choose">  
+        <img :src="bgs[0]" class="box-img"> 
         <div class="icon-container">
             <div class="img-container">
-                <img :src="url" alt="2">
+                <img :src="url" alt="2"/>
             </div>
         </div>
         <div class="item-title-container">
@@ -17,11 +18,16 @@
     // import Works from './Works'
     import router from '../router/index'
     import User from './User'
+
+    import bt_bg3 from '../assets/user/bt_bg3.png'
     export default {
         data() {
             return {
                 path:[
                     ""
+                ],
+                bgs:[
+                    bt_bg3
                 ]
             }
         },
@@ -58,9 +64,16 @@
         height: 55.556vh;
         margin: 0;
         position: absolute;
-        background: url('../assets/user/bt_bg3.png') no-repeat center center;
         transition: all 0.7s ease;
     }
+     .box-img{
+        width: 15.625vw;
+        height: 55.556vh;
+        margin: 0;
+        position: absolute;
+        top: 0;
+        left: 0;
+    } 
     .box:hover {
         cursor: pointer;
         transform: scale(1.2);
