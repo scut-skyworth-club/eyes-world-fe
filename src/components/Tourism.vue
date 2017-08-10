@@ -5,10 +5,12 @@
 
     <router-link :to="getPath">
       <div>
-        <!-- 景点组件 -->
+        <button>
+        景点组件
+        </button>
       </div>
     </router-link>
-
+  {{setKey}}
   </div>
 </template>
 
@@ -29,6 +31,11 @@
 
     },
     computed: {
+      setKey:function(){
+        document.onkeydown = function(event){
+          
+        }
+      },
       getPath: function () {
         return "/provinces/cities/" + this.provinceName + "/" + this.cityName + "/spots";
       }
