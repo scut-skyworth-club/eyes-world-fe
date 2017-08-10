@@ -52,7 +52,7 @@
 
     <div id="button_re" @click="select_re"></div>
     <div id="button_ad" @click="select_ad"></div>  
-
+    {{setKey}}
   </div>
 </template>
 
@@ -83,10 +83,10 @@
               this.offset++;
               this.select = 0;
               this.toggle = !this.toggle;
-              this.toggleSlide();
-              setTimeout(this.toggleSlide,400);
             }
           }
+          this.toggleSlide();
+          setTimeout(this.toggleSlide,600);
           (this.getSpots[this.select]).type = 3;
         }
       },
@@ -101,15 +101,43 @@
               this.offset--;
               this.select = 3;
               this.toggle = !this.toggle;
-              this.toggleSlide();
-              setTimeout(this.toggleSlide,400);
             }
           }
+          this.toggleSlide();
+          setTimeout(this.toggleSlide,600);
           (this.getSpots[this.select]).type = 3;
         }
       },
     },
     computed:{
+      setKey:function(){
+        let self = this;
+        document.onkeydown = function(event){
+          switch(event.which){
+            case 37:
+            //left
+              self.select_re();
+              break;
+            case 38:
+            //up
+              break;
+            case 39:
+            //right
+              self.select_ad();
+              break;
+            case 40:
+            //down
+              break;
+            case 13:
+            //center
+              break;
+            case 82:
+              break;
+            case 4:
+              break;
+          }
+        }
+      },
       getDay:function(){
         var day = ["日","一","二","三","四","五","六"];
         return "星期"+day[new Date().getDay()];

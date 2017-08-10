@@ -148,14 +148,16 @@
 						this.fontAdjustBig = {
 							fontSize:font_b*0.8 +"vw",
 							verticalAlign: "middle",
-							textAlign: "center"
+							textAlign: "center",
+							left:0
 						}
 						break;
 					case 3:
 						this.fontAdjustBig = {
 							fontSize:font_b*1.1 +"vw",
 							top:"15%",
-							textAlign: "center"
+							textAlign: "center",
+							left:0
 						}
 						this.text_bg = {
 							height:"20%"
