@@ -28,10 +28,10 @@
             </div>
         </div>
     
-        <transition name="fade">
+        <transition name="confirm">
             <logout-confirm v-if="sure" v-on:oevent="oevent"></logout-confirm>
         </transition> 
-        <transition name="fade-about">
+        <transition name="about">
             <about v-if="isClicked"  v-on:aboutus="aboutus"></about>  
         </transition>
         <h3 id="login-website">PC端登录网站：www.baidu.com</h3>
@@ -250,18 +250,20 @@
     #logout:hover {
         cursor: pointer;
     }
-    /* .fade-enter-active, .fade-leave-active {
-        transition: opacity 1s;
+     .confirm-enter-active, .confirm-leave-active {
+        transition: all 0.7s cubic-bezier(0.075, 0.82, 0.165, 1);
     }
-    .fade-enter, .fade-leave-to {
+    .confirm-enter, .confirm-leave-to {
+        transform: translateY(-55vh);
+        opacity: 0;
+    }
+    .about-enter-active, .about-leave-active {
+        transition: all 0.7s cubic-bezier(0.075, 0.82, 0.165, 1);
+    }
+    .about-enter, .about-leave-to {
+        transform: translateX(-60vw);
         opacity: 0
-    }
-    .fade-about-enter-active, .fade-about-leave-active {
-        transition: opacity 1s;
-    }
-    .fade-about-enter, .fade-about-leave-to {
-        opacity: 0
-    } */
+    }   
     #login-website {
         font-family: font757;
         color: #f1f1f1;

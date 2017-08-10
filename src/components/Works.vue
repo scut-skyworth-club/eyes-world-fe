@@ -34,6 +34,7 @@
   import bg8 from '../assets/favorite/bg8.jpg'
   import Date from './Date'
   import SubWork from './SubWork'
+  import router from '../router/index'
   var oldX = 0;
   var afterData2 = [{
       id: 1,
@@ -124,7 +125,8 @@
         }
       },
       uploadPhoto: function () {
-        alert("上传图片");
+        // alert("上传图片");
+        router.push({name:'Upload'});
       },
       changeBg: function (){
         var upload = document.getElementById(this.uploadId);
