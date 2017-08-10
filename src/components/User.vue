@@ -7,15 +7,14 @@
         <date class="time"></date>
         <div id="user-manage-container">
             <div id="user-manage">
-                <div id="profile-photo"></div>
+                <img :src="bgs[2]" id="profile-photo">
                 <div id="username-logout">
                     <img :src="bgs[1]">
                     <div id="username-container">
                         <p class="username">{{username}}</p>
                     </div>
                     <div id="logout-container">
-                        <p id="logout" v-on:click="logout">
-                            退出登录</p>
+                        <p :id="logoutId" @click="logout" @mouseover="showBg" @mouseout="hideBg">退出登录</p>
                     </div>
                 </div>
             </div>
@@ -49,6 +48,8 @@
 
     import bg from '../assets/user/bg.png'
     import bt_bg3 from '../assets/user/bt_bg3.png'
+    import profilePhoto from '../assets/user/profile_photo.jpg'
+    import logoutBg from '../assets/user/bt_bg2.png'
     
     import SubUser from './SubUser'
     import LogoutConfirm from './LogoutConfirm'
@@ -85,11 +86,14 @@
                 ],
                 bgs:[
                     bg,
-                    bt_bg3
+                    bt_bg3,
+                    profilePhoto,
+                    logoutBg,
                 ],
                 username: user.username,
                 sure: false,
-                isClicked: false
+                isClicked: false,
+                logoutId: 'logout',
             }
         },
         methods: {
@@ -122,6 +126,17 @@
             //         default: return;
             //     }
             // },
+            showBg: function (){
+                var logout = document.getElementById(this.logoutId);
+                logout.style.backgroundImage = "url("+this.bgs[3]+")";
+                logout.style.backgroundRepeat = "no-repeat";
+                logout.style.backgroundPositionX = "center";
+                logout.style.backgroundPositionY = "center";
+            },
+            hideBg: function (){
+                var logout = document.getElementById(this.logoutId);
+                logout.style.background = "none";
+            }
         },
         components: {
             Date,
@@ -174,7 +189,7 @@
         position: absolute;
         top: 0;
         left: 0;
-        background: url('../assets/user/profile_photo.jpg') no-repeat center center;
+        /* background: url('../assets/user/profile_photo.jpg') no-repeat center center; */
     }
     #username-logout {
         width: 18.75vw;
@@ -234,7 +249,6 @@
     }
     #logout:hover {
         cursor: pointer;
-        background: url('../assets/user/bt_bg2.png') no-repeat center center;
     }
     /* .fade-enter-active, .fade-leave-active {
         transition: opacity 1s;

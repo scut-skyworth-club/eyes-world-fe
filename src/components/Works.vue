@@ -3,7 +3,7 @@
     <img :src="bgs[0]" class="works-bg">
     <h2 class="title">我的作品</h2>
     <h5 class="photo-amount">{{amount}} Photos</h5>
-    <div id="upload" v-on:click="uploadPhoto">
+    <div :id="uploadId" @click="uploadPhoto" :style="initBg" @mouseover="changeBg" @mouseout="changeBackBg">
       <img :src="bgs[1]" alt="1">
       <span>上传</span>
     </div>
@@ -90,9 +90,6 @@
       title: "迪丽热巴"
     },
   ];
-
-
-
   export default {
     name: 'works',
     data() {
@@ -102,6 +99,7 @@
         works: afterData2,
         counter: 0,
         amount: afterData2.length,
+        uploadId: 'upload',
         bgs:[
           bg,
           uploadIcon,
@@ -127,7 +125,25 @@
       },
       uploadPhoto: function () {
         alert("上传图片");
-        // console.log("shang");
+      },
+      changeBg: function (){
+        var upload = document.getElementById(this.uploadId);
+        upload.style.backgroundImage = "url("+this.bgs[3]+")";
+        upload.style.backgroundRepeat = "no-repeat";
+        upload.style.backgroundPositionX = "center";
+        upload.style.backgroundPositionY = "center";
+      },
+      changeBackBg: function (){
+        var upload = document.getElementById(this.uploadId);
+        upload.style.backgroundImage = "url("+this.bgs[2]+")";
+        upload.style.backgroundRepeat = "no-repeat";
+        upload.style.backgroundPositionX = "center";
+        upload.style.backgroundPositionY = "center";
+      },
+    },
+    computed: {
+      initBg: function (){
+        return "background:url("+this.bgs[2]+") no-repeat center center";
       },
     }
   }
@@ -181,11 +197,9 @@
     z-index: 15;
     top: 7.5vh;
     left: 20.677vw;
-    background: url("../assets/works/bt_bg2.png") no-repeat center center;
   }
 
   #upload:hover {
-    background: url("../assets/works/bt_bg3.png") no-repeat center center;
     cursor: pointer;
   }
 

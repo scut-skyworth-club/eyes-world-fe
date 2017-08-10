@@ -23,9 +23,9 @@
     top: 0;
     right: 0;  
     color: #f1f1f1;
-    background: blue;
+    background: #453627;
     z-index: 10;
-    /* opacity: 0.6;  */
+     opacity: 0.6;  
     /* display: block; */
   }
 </style>
