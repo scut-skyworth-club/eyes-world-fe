@@ -3,6 +3,8 @@
     {{msg}}
     <!-- <search></search> -->
     <picture-dialog  :type="type" :date="date" :author="author" :pic_url="bg2" :like="like" :title="title" :visited="visited" :width="width" :height="height" class="pic"></picture-dialog>
+    <picture-dialog  :type="type" :date="date" :author="author" :pic_url="bg2" :like="like" :title="title" :visited="visited" :width="width" :height="height" class="pic"></picture-dialog>
+    <picture-dialog  :type="type" :date="date" :author="author" :pic_url="bg2" :like="like" :title="title" :visited="visited" :width="width" :height="height" class="pic"></picture-dialog>
   </div>
 </template>
 
