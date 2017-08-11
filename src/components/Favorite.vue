@@ -1,15 +1,16 @@
 <template>
   <div id="favorite">
     <div id="favorite-container" v-on:click="slideImg">
+      <img :src="bgs[0]" class="favorite-bg">
       <h2 class="title">{{title}}</h2>
       <h5 class="photo-amount">{{amount}} Photos</h5>
       <date class="time"></date>
-      <first-image id="first-img" :bigsize="bigsize" :smallsize="smallsize" :url="url" :date="date" :photo-name="photoName" :author="author"></first-image>
+      <first-image id="first-img" :bigsize="bigsize" :smallsize="smallsize" :url="url" :create-time="createTime" :photo-name="photoName" :user-name="userName" ></first-image>
       <div id="slide-img-container">
         <div id="slide-img" :style="{left:oLeft+'vw'}">
           <ul>
-            <li v-for="(item,index) in images" :key="item.id">
-              <small-images class="small-img" :titlesize="titlesize" :datesize="datesize" :index="item.id" :url="item.url" :date="item.date" :photo-name="item.photoName" :author="item.author"></small-images>
+            <li v-for="(item,index) in images" :key="item.photoId">
+              <small-images class="small-img" :titlesize="titlesize" :datesize="datesize" :index="item.photoId" :url="item.url" :create-time="item.createTime" :photo-name="item.photoName" :user-name="item.userName" ></small-images>
             </li>
           </ul>
         </div>
@@ -22,6 +23,8 @@
   import Date from './Date'
   import FirstImage from './FirstImage'
   import SmallImages from './SmallImages'
+
+  import bg from '../assets/favorite/bg.png'
 
   import bg0 from '../assets/favorite/bg0.jpg'
   import bg1 from '../assets/favorite/bg1.jpg'
@@ -41,126 +44,183 @@
   import bg15 from '../assets/favorite/dongman7.jpg'
 
   
-  var firstPic = {
-    date:'2017/07/09',
-    url:bg0,
+  var firstPic = {   
     photoId:0,
-    photoName:'允儿',
-    albumId:14,
-    albumName:'明星'
+    userName: "Mike",
+    photoName:"图片一",
+    photoDescription: "hello",
+    url:bg0,
+    like: true,
+    likeAmount: 90,
+    createTime:'2017/07/09',
+    last:null
   }
   
   var afterData = [{
-      id: 1,
+      photoId: 1,
+      userName: "Mike",
+      photoName: "允儿",
+      photoDescription: "666",
       url: bg1,
-      date: "2012/06/25",
-      photoName: "允儿",
-      author: "@Archie"
+      like: true,
+      likeAmount: 2,
+      createTime: "2012/06/25",
+      last: null
     },
   
     {
-      id: 2,
+      photoId: 2,
+      userName: "Mike",
+      photoName: "迪丽热巴",
+      photoDescription: "666",
       url: bg2,
-      date: "2012/09/10",
-      photoName: "迪丽热巴",
-      author: "@Archie"
+      like: true,
+      likeAmount: 2,
+      createTime: "2012/07/25",
+      last: null
     },
-  
     {
-      id: 3,
+      photoId: 3,
+      userName: "Mike",
+      photoName: "宋茜",
+      photoDescription: "999",
       url: bg3,
-      date: "2012/10/01",
-      photoName: "宋茜",
-      author: "@Archie"
+      like: true,
+      likeAmount: 2,
+      createTime: "2013/07/25",
+      last: null
     },
-  
     {
-      id: 4,
-      url: bg4,
-      date: "2012/09/10",
+      photoId: 4,
+      userName: "Mike",
       photoName: "杨幂",
-      author: "@Archie"
+      photoDescription: "233",
+      url: bg4,
+      like: true,
+      likeAmount: 2,
+      createTime: "2014/07/25",
+      last: null
     },
-  
     {
-      id: 5,
-      url: bg5,
-      date: "2013/05/03",
+      photoId: 5,
+      userName: "Mike",
       photoName: "宋茜",
-      author: "@Archie"
+      photoDescription: "666",
+      url: bg5,
+      like: true,
+      likeAmount: 2,
+      createTime: "2012/07/25",
+      last: null
     },
-  
     {
-      id: 6,
-      url: bg6,
-      date: "2014/07/13",
+      photoId: 6,
+      userName: "Mike",
       photoName: "七朵",
-      author: "@Archie"
+      photoDescription: "666",
+      url: bg6,
+      like: true,
+      likeAmount: 2,
+      createTime: "2012/07/25",
+      last: null
     },
-  
     {
-      id: 7,
-      url: bg7,
-      date: "2015/08/30",
+      photoId: 7,
+      userName: "Mike",
       photoName: "允儿",
-      author: "@Archie"
+      photoDescription: "666",
+      url: bg7,
+      like: true,
+      likeAmount: 2,
+      createTime: "2012/07/25",
+      last: null
     },
-  
     {
-      id: 8,
-      url: bg8,
-      date: "2016/12/28",
+      photoId: 8,
+      userName: "Mike",
       photoName: "迪丽热巴",
-      author: "@Archie"
+      photoDescription: "666",
+      url: bg8,
+      like: true,
+      likeAmount: 2,
+      createTime: "2012/07/25",
+      last: null
     },
     {
-      id: 9,
-      url: bg9,
-      date: "2016/12/28",
+      photoId: 9,
+      userName: "Mike",
       photoName: "动漫1",
-      author: "@Archie"
+      photoDescription: "666",
+      url: bg9,
+      like: true,
+      likeAmount: 2,
+      createTime: "2012/07/25",
+      last: null
     },
     {
-      id: 10,
-      url: bg10,
-      date: "2016/12/28",
+      photoId: 10,
+      userName: "Mike",
       photoName: "动漫2",
-      author: "@Archie"
+      photoDescription: "666",
+      url: bg10,
+      like: true,
+      likeAmount: 2,
+      createTime: "2012/07/25",
+      last: null
     },
     {
-      id: 11,
-      url: bg11,
-      date: "2016/12/28",
+      photoId: 11,
+      userName: "Mike",
       photoName: "动漫3",
-      author: "@Archie"
+      photoDescription: "666",
+      url: bg11,
+      like: true,
+      likeAmount: 2,
+      createTime: "2012/07/25",
+      last: null
     },
     {
-      id: 12,
-      url: bg12,
-      date: "2016/12/28",
+      photoId: 12,
+      userName: "Mike",
       photoName: "动漫4",
-      author: "@Archie"
+      photoDescription: "666",
+      url: bg12,
+      like: true,
+      likeAmount: 2,
+      createTime: "2012/07/25",
+      last: null
     },
     {
-      id: 13,
-      url: bg13,
-      date: "2016/12/28",
+      photoId: 13,
+      userName: "Mike",
       photoName: "动漫5",
-      author: "@Archie"
+      photoDescription: "666",
+      url: bg13,
+      like: true,
+      likeAmount: 2,
+      createTime: "2012/07/25",
+      last: null
     },
     {
-      id: 14,
-      url: bg14,
-      date: "2016/12/28",
+      photoId: 14,
+      userName: "Mike",
       photoName: "动漫6",
-      author: "@Archie"
+      photoDescription: "666",
+      url: bg14,
+      like: true,
+      likeAmount: 2,
+      createTime: "2012/07/25",
+      last: null
     },
     {
-      id: 15,
-      url: bg15,
-      date: "2016/12/28",
+      photoId: 15,
+      userName: "Mike",
       photoName: "动漫7",
-      author: "@Archie"
+      photoDescription: "666",
+      url: bg15,
+      like: true,
+      likeAmount: 2,
+      createTime: "2012/07/25",
+      last: null
     },
     
   ];
@@ -174,16 +234,19 @@
         bigsize: 5.556,
         smallsize: 1.389,
         url: bg0,
-        date: "2009/06/25",
+        createTime: "2019/06/25",
         photoName: "允儿",
-        author: "@Archie",
+        userName: "Tony",
         titlesize: 2.778,
         datesize: 1.0185,
         images: afterData,   //后台数据接口
 
         oLeft: 2.084,
         counter: 0,
-        amount: afterData.length
+        amount: afterData.length,
+        bgs:[
+          bg
+        ]
       }
     },
   
@@ -208,13 +271,18 @@
 
 
 <style>
-  body {
+  #favorite {
     width: 100vw;
     height: 100vh;
-    background: url('../assets/favorite/bg.png');
     overflow: hidden;
   }
-  
+  .favorite-bg {
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
   .title {
     font-family: font757;
     font-size: 5.556vh;
@@ -224,6 +292,15 @@
     top: 6.481vh;
     left: 6.25vw;
   }
+  .photo-amount {
+    font-family: font757;
+    font-size: 2.222vh;
+    color: #f1f1f1;
+    letter-spacing: 0.093vh;
+    position: absolute;
+    top: 14vh;
+    left: 6.25vw;
+  }
 
   #favorite-container {
     width: 100vw;
@@ -231,6 +308,7 @@
     position: absolute;
     top: 0;
     left: 0;
+    overflow: hidden;
     /* border: 1px solid red; */
   }
   

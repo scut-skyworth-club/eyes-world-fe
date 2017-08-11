@@ -10,7 +10,6 @@
       </div>
       <hr class="line" v-if="!(index==amount)"/>
       <div class="work-img"
-
         v-on:click="getMoreInfo">
            <img :src="url" alt="2"> 
            <div class="shelter">
@@ -31,13 +30,10 @@ export default {
         getMoreInfo:function () {
             alert("查看图片详细信息");
         },
-        drawLine:function () {
-            if(this.index===8){
-                return true;
-            }else {
-                return false;
-            }
-        }
+        uploadPhoto: function () {
+            alert("上传图片");
+        },
+        
     },
     props:['index','date','url','title','amount']
 }
@@ -94,6 +90,7 @@ export default {
         /* background: url(../assets/favorite/bg1.jpg) no-repeat center center; */
     }
     .sub-work .work-img:hover {
+        cursor: pointer;
         transform: scale(1.1,1.083);
         box-shadow: 0 5px 25px #222222;
     }
@@ -112,7 +109,9 @@ export default {
         font-family: font757;
         font-size: 2.963vh;
         color: #f1f1f1;
-        background-color: rgba(49,71,127,1);
+        letter-spacing: 0.4vh;
+        background-color: #31477f;
+        opacity: 1;
         transition: all 0.7s ease
     }
     .shelter p {
@@ -120,7 +119,7 @@ export default {
         width: 100%;
         z-index: 2;
         text-align: center;
-        margin: 20px auto;
+        margin: 1.852vh auto;
     }
     .work-img:hover .shelter {
         font-size: 3.333vh;
@@ -133,7 +132,7 @@ export default {
         top: 7.195vh;
         z-index: 1;
         border: none;
-        border-top: 0.185vh solid #f1f1f1;
+        border-top: 0.093vh solid #f1f1f1;
     }
 </style>
 

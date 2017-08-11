@@ -1,24 +1,30 @@
 <template>
   <div id="works">
+    <img :src="bgs[0]" class="works-bg">
     <h2 class="title">我的作品</h2>
     <h5 class="photo-amount">{{amount}} Photos</h5>
-    <div id="upload">
-      <img src="../assets/works/uploadIcon.png" alt="1">
+    <div :id="uploadId" @click="uploadPhoto" :style="initBg" @mouseover="changeBg" @mouseout="changeBackBg">
+      <img :src="bgs[1]" alt="1">
       <span>上传</span>
-    </div> 
+    </div>
     <date class="time"></date>
-    
+
     <div id="works-container" :style="{left:left+'vw', width:oWidth+'vw'}" v-on:click="move">
       <ul>
         <li v-for="(item,index) in works" :key="item.id">
-          <sub-work class="my-works" :index="item.id" :url="item.url" :date="item.date" :title="item.title"
-          :amount="amount"></sub-work>
+          <sub-work class="my-works" :index="item.id" :url="item.url" :date="item.date" :title="item.title" :amount="amount"></sub-work>
         </li>
       </ul>
-    </div> 
+    </div>
   </div>
 </template>
+
 <script>
+  import bg from '../assets/works/bg.png'
+  import uploadIcon from '../assets/works/uploadIcon.png'
+  import uploadBg from '../assets/works/bt_bg2.png'
+  import uploadBgHover from '../assets/works/bt_bg3.png'
+
   import bg1 from '../assets/favorite/bg1.jpg'
   import bg2 from '../assets/favorite/bg2.jpg'
   import bg3 from '../assets/favorite/bg3.jpg'
@@ -29,6 +35,19 @@
   import bg8 from '../assets/favorite/bg8.jpg'
   import Date from './Date'
   import SubWork from './SubWork'
+  import router from '../router/index'
+  
+
+  var myData = [];
+  // $.get('http://39.108.149.106/api/user/works',function(data) {
+  //   myData = data;
+  // });
+
+  fetch('http://39.108.149.106/api/user/works', {mode: 'cors'})
+    .then(function(response) {
+      console.log(response);
+    })
+
   var oldX = 0;
   var afterData2 = [{
       id: 1,
@@ -85,9 +104,6 @@
       title: "迪丽热巴"
     },
   ];
-
-
-
   export default {
     name: 'works',
     data() {
@@ -96,52 +112,100 @@
         oWidth: 100,
         works: afterData2,
         counter: 0,
-        amount:afterData2.length
+        amount: afterData2.length,
+        uploadId: 'upload',
+        bgs:[
+          bg,
+          uploadIcon,
+          uploadBg,
+          uploadBgHover
+        ]
       }
     },
     components: {
       Date,
       SubWork,
     },
+    // created:function() {
+    //   var myData = [];
+    //   $.get('http://39.108.149.106/api/user/works',function(data) {
+    //     myData = data;
+    //   });
 
+    //   console.log(myData);
+    // },
     methods: {
       move: function () {
-        if (Math.floor(this.counter++/(afterData2.length-2))%2===0) {
-            this.oWidth = this.oWidth + 20.833; this.left = this.left - 20.833;
-          }
-          else {
-            this.oWidth = this.oWidth - 20.833;
-            this.left = this.left + 20.833;
-          }
-        },
+      if (Math.floor(this.counter++/(afterData2.length-2))%2===0) {
+          this.oWidth = this.oWidth + 20.833; this.left = this.left - 20.833;
+        }
+        else {
+          this.oWidth = this.oWidth - 20.833;
+          this.left = this.left + 20.833;
+        }
+      },
+      uploadPhoto: function () {
+        // alert("上传图片");
+        // console.log(this.$el);
+        // router.push({name:'Upload'});
+      },
+      changeBg: function (){
+        var upload = document.getElementById(this.uploadId);
+        upload.style.backgroundImage = "url("+this.bgs[3]+")";
+        upload.style.backgroundRepeat = "no-repeat";
+        upload.style.backgroundPositionX = "center";
+        upload.style.backgroundPositionY = "center";
+      },
+      changeBackBg: function (){
+        var upload = document.getElementById(this.uploadId);
+        upload.style.backgroundImage = "url("+this.bgs[2]+")";
+        upload.style.backgroundRepeat = "no-repeat";
+        upload.style.backgroundPositionX = "center";
+        upload.style.backgroundPositionY = "center";
+      },
+    },
+    computed: {
+      initBg: function (){
+        return "background:url("+this.bgs[2]+") no-repeat center center";
       }
     }
+  }
 
 </script>
 
 
 <style>
-  body {
+  #works {
     width: 100vw;
     height: 100vh;
-    background: url('../assets/works/bg.png');
+    margin: 0;
+    padding: 0;
     overflow: hidden;
   }
-
-  .title {
+  .works-bg {
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin: 0;
+    padding: 0;
+  }
+  #works .title {
     font-family: font757;
     font-size: 5.556vh;
     color: #f1f1f1;
-    letter-spacing: 2px;
+    letter-spacing: 0.185vh;
     position: absolute;
     top: 6.481vh;
     left: 6.25vw;
   }
+
   .photo-amount {
     font-family: font757;
     font-size: 2.222vh;
     color: #f1f1f1;
-    letter-spacing: 1px;
+    letter-spacing: 0.093vh;
     position: absolute;
     top: 14vh;
     left: 6.25vw;
@@ -156,11 +220,9 @@
     z-index: 15;
     top: 7.5vh;
     left: 20.677vw;
-    background: url("../assets/works/bt_bg2.png") no-repeat center center; 
   }
 
   #upload:hover {
-    background: url("../assets/works/bt_bg3.png") no-repeat center center; 
     cursor: pointer;
   }
 
@@ -174,12 +236,13 @@
 
   #upload span {
     font-family: font757;
-    font-size: 20px;
+    font-size: 1.852vh;
     color: #f1f1f1;
     width: 3.75vw;
     height: 4.907vh;
     text-align: center;
-    margin: 13px auto;
+    margin: 0 auto;
+    padding-top: 13px;
     letter-spacing: 1px;
     position: absolute;
     top: 0;
@@ -193,6 +256,7 @@
     position: absolute;
     top: 0;
     left: 0;
+    overflow: hidden;
     transition: all 1s ease;
   }
 

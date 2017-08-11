@@ -1,38 +1,40 @@
 <template>
     <div id="User">
+        <img :src="bgs[0]">
         <h2 class="user-title">
             用户管理
         </h2>
         <date class="time"></date>
         <div id="user-manage-container">
             <div id="user-manage">
-                <div id="profile-photo"></div>
+                <img :src="bgs[2]" id="profile-photo">
                 <div id="username-logout">
+                    <img :src="bgs[1]">
                     <div id="username-container">
-                        <p class="username">{{username}}</p>
+                        <p class="username">{{userName}}</p>
                     </div>
                     <div id="logout-container">
-                        <p id="logout" v-on:click="logout">退出登录</p>
+                        <p :id="logoutId" @click="logout" @mouseover="showBg" @mouseout="hideBg">退出登录</p>
                     </div>
                 </div>
             </div>
             <div id="menu-container">
                 <ul>
                     <li v-for="(item,index) in menu" :key="item.id">
-                        <sub-user :title="item.title" :url="item.url" :index="item.id" 
-                        v-on:aboutus="aboutus"></sub-user>
+                        <sub-user :title="item.title" :icon-url="item.iconUrl" :index="item.id" 
+                        v-on:aboutus="aboutus" :user-name="userName"></sub-user>
                     </li>
                 </ul>
             </div>
         </div>
     
-     <transition name="fade">
-        <logout-confirm v-if="sure" v-on:oevent="oevent"></logout-confirm>
-    </transition> 
-    <transition name="fade-about">
-          <about v-if="isClicked"  v-on:aboutus="aboutus"></about>  
-    </transition>
-    <h3 id="login-website">PC端登录网站：www.baidu.com</h3>
+        <transition name="confirm">
+            <logout-confirm v-if="sure" v-on:oevent="oevent"></logout-confirm>
+        </transition> 
+        <transition name="about">
+            <about v-if="isClicked"  v-on:aboutus="aboutus"></about>  
+        </transition>
+        <h3 id="login-website">PC端登录网站：www.baidu.com</h3>
     </div>
 </template>
 
@@ -43,6 +45,11 @@
     import icon1 from '../assets/user/my_works.png'
     import icon2 from '../assets/user/my_collections.png'
     import icon3 from '../assets/user/about.png'
+
+    import bg from '../assets/user/bg.png'
+    import bt_bg3 from '../assets/user/bt_bg3.png'
+    import profilePhoto from '../assets/user/profile_photo.jpg'
+    import logoutBg from '../assets/user/bt_bg2.png'
     
     import SubUser from './SubUser'
     import LogoutConfirm from './LogoutConfirm'
@@ -64,22 +71,29 @@
                 menu: [{
                         id: 1,
                         title: "我的作品",
-                        url: icon1,
+                        iconUrl: icon1,
                     },
                     {
                         id: 2,
                         title: "我的收藏",
-                        url: icon2,
+                        iconUrl: icon2,
                     },
                     {
                         id: 3,
                         title: "关于我们",
-                        url: icon3,
+                        iconUrl: icon3,
                     },
                 ],
-                username: user.username,
+                bgs:[
+                    bg,
+                    bt_bg3,
+                    profilePhoto,
+                    logoutBg,
+                ],
+                userName: user.username,
                 sure: false,
-                isClicked: false
+                isClicked: false,
+                logoutId: 'logout',
             }
         },
         methods: {
@@ -103,15 +117,20 @@
             },
             aboutus: function (data) {
                 this.isClicked = data;
+            },
+            
+            showBg: function (){
+                // console.log(this.$el.getElementById.logoutId);
+                var logout = document.getElementById(this.logoutId);
+                logout.style.backgroundImage = "url("+this.bgs[3]+")";
+                logout.style.backgroundRepeat = "no-repeat";
+                logout.style.backgroundPositionX = "center";
+                logout.style.backgroundPositionY = "center";
+            },
+            hideBg: function (){
+                var logout = document.getElementById(this.logoutId);
+                logout.style.background = "none";
             }
-            // choose:function () {
-            //     switch (item.id){
-            //         case 1: location.href = Favorite;break;
-            //         case 2: location.href = Works;break;
-            //         case 3: about();break;
-            //         default: return;
-            //     }
-            // },
         },
         components: {
             Date,
@@ -128,10 +147,10 @@
         src: url("../assets/font/小米兰亭.ttf");
     }
     
-    body {
+    #User {
         width: 100vw;
         height: 100vh;
-        background: url('../assets/user/bg.png') no-repeat center center;
+        overflow: hidden;
     }
     .user-title {
         font-family: font757;
@@ -164,7 +183,7 @@
         position: absolute;
         top: 0;
         left: 0;
-        background: url('../assets/user/profile_photo.jpg') no-repeat center center;
+        /* background: url('../assets/user/profile_photo.jpg') no-repeat center center; */
     }
     #username-logout {
         width: 18.75vw;
@@ -173,20 +192,26 @@
         margin: 0;
         top: 0;
         left: 12.5vw;
-        background: url('../assets/user/bt_bg3.png') no-repeat center center;
+    }
+    #username-logout img {
+        width: 18.75vw;
+        height: 55.556vh;
+        position: absolute;
+        top: 0;
+        left: 0;
     }
     #username-container {
         width: 18.75vw;
-        height: 38.889vh;
+        height: 36.889vh;
         position: absolute;
         top: 0;
         left: 0;
     }
     #logout-container {
         width: 18.75vw;
-        height: 16.667vh;
+        height: 18.667vh;
         position: absolute;
-        top: 38.889vh;
+        top: 36.481vh;
         left: 0;
     }
     #menu-container {
@@ -205,6 +230,8 @@
         color: #f1f1f1;
     }
     #logout {
+        width: 13.542vw;
+        height: 9.259vh;
         border: none;
         background: none;
         font-family: font757;
@@ -212,22 +239,25 @@
         color: #f1f1f1;
         text-align: center;
         margin: 0 auto;
+        padding-top: 2vh;
     }
     #logout:hover {
         cursor: pointer;
     }
-    .fade-enter-active, .fade-leave-active {
-        transition: opacity 1s;
+     .confirm-enter-active, .confirm-leave-active {
+        transition: all 0.7s cubic-bezier(0.075, 0.82, 0.165, 1);
     }
-    .fade-enter, .fade-leave-to /* .fade-leave-active in below version 2.1.8 */ {
+    .confirm-enter, .confirm-leave-to {
+        transform: translateY(-55vh);
+        opacity: 0;
+    }
+    .about-enter-active, .about-leave-active {
+        transition: all 0.7s cubic-bezier(0.075, 0.82, 0.165, 1);
+    }
+    .about-enter, .about-leave-to {
+        transform: translateX(-60vw);
         opacity: 0
-    }
-    .fade-about-enter-active, .fade-about-leave-active {
-        transition: opacity 1s;
-    }
-    .fade-about-enter, .fade-about-leave-to /* .fade-leave-active in below version 2.1.8 */ {
-        opacity: 0
-    }
+    }   
     #login-website {
         font-family: font757;
         color: #f1f1f1;

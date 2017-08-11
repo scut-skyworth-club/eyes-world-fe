@@ -1,5 +1,6 @@
 <template>
   <div id="LogoutConfirm">
+      <img :src="bgs[0]" class="confirm-bg">
       <div class="sure"><p>确定要退出吗？</p></div>
       <div class="button-group"><button class="yes-bt" v-on:click="yes">是</button>
       <button class="no-bt" v-on:click="no">否</button>
@@ -7,7 +8,15 @@
   </div>
 </template>
 <script>
+import bg from '../assets/user/bt_bg3.png'
 export default {
+  data () {
+      return{
+          bgs:[
+            bg
+          ]
+      }
+  },
   props:['oevent'],
   methods: {
       yes:function () {
@@ -28,13 +37,19 @@ export default {
         top: 30vh;
         left: 40vw;
         z-index: 100;
-        background: url("../assets/user/bt_bg3.png") no-repeat center center;
         font-family: font757;
-        font-size: 30px;
+        font-size: 2.778vh;
         color: #f1f1f1;
-        border: 1px solid #444444;
-        font-size: 30px;
+        border: 0.104vw solid #eeeeee;
         color: #f1f1f1;
+        overflow: hidden;
+    }
+    .confirm-bg {
+        width: 20vw;
+        height: 25vh;
+        position: absolute;
+        top: 0;
+        left: 0;
     }
     .sure {
         width: 100%;
@@ -60,7 +75,7 @@ export default {
         left: 7vw;
         background: none;
         border: none;
-        font-size: 30px;
+        font-size: 2.778vh;
         color: #f1f1f1;
     }
     .no-bt {
@@ -68,7 +83,8 @@ export default {
         right: 7vw;
         background: none;
         border: none;
-        font-size: 30px;
+        font-size: 2.778vh;
         color: #f1f1f1;
     }
+    
 </style>
