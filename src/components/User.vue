@@ -11,7 +11,7 @@
                 <div id="username-logout">
                     <img :src="bgs[1]">
                     <div id="username-container">
-                        <p class="username">{{username}}</p>
+                        <p class="username">{{userName}}</p>
                     </div>
                     <div id="logout-container">
                         <p :id="logoutId" @click="logout" @mouseover="showBg" @mouseout="hideBg">退出登录</p>
@@ -21,8 +21,8 @@
             <div id="menu-container">
                 <ul>
                     <li v-for="(item,index) in menu" :key="item.id">
-                        <sub-user :title="item.title" :url="item.url" :index="item.id" 
-                        v-on:aboutus="aboutus"></sub-user>
+                        <sub-user :title="item.title" :icon-url="item.iconUrl" :index="item.id" 
+                        v-on:aboutus="aboutus" :user-name="userName"></sub-user>
                     </li>
                 </ul>
             </div>
@@ -71,17 +71,17 @@
                 menu: [{
                         id: 1,
                         title: "我的作品",
-                        url: icon1,
+                        iconUrl: icon1,
                     },
                     {
                         id: 2,
                         title: "我的收藏",
-                        url: icon2,
+                        iconUrl: icon2,
                     },
                     {
                         id: 3,
                         title: "关于我们",
-                        url: icon3,
+                        iconUrl: icon3,
                     },
                 ],
                 bgs:[
@@ -90,7 +90,7 @@
                     profilePhoto,
                     logoutBg,
                 ],
-                username: user.username,
+                userName: user.username,
                 sure: false,
                 isClicked: false,
                 logoutId: 'logout',
@@ -118,15 +118,9 @@
             aboutus: function (data) {
                 this.isClicked = data;
             },
-            // choose:function () {
-            //     switch (item.id){
-            //         case 1: location.href = Favorite;break;
-            //         case 2: location.href = Works;break;
-            //         case 3: about();break;
-            //         default: return;
-            //     }
-            // },
+            
             showBg: function (){
+                // console.log(this.$el.getElementById.logoutId);
                 var logout = document.getElementById(this.logoutId);
                 logout.style.backgroundImage = "url("+this.bgs[3]+")";
                 logout.style.backgroundRepeat = "no-repeat";

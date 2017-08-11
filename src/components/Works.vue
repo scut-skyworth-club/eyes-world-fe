@@ -18,6 +18,7 @@
     </div>
   </div>
 </template>
+
 <script>
   import bg from '../assets/works/bg.png'
   import uploadIcon from '../assets/works/uploadIcon.png'
@@ -35,6 +36,18 @@
   import Date from './Date'
   import SubWork from './SubWork'
   import router from '../router/index'
+  
+
+  var myData = [];
+  // $.get('http://39.108.149.106/api/user/works',function(data) {
+  //   myData = data;
+  // });
+
+  fetch('http://39.108.149.106/api/user/works', {mode: 'cors'})
+    .then(function(response) {
+      console.log(response);
+    })
+
   var oldX = 0;
   var afterData2 = [{
       id: 1,
@@ -113,7 +126,14 @@
       Date,
       SubWork,
     },
+    // created:function() {
+    //   var myData = [];
+    //   $.get('http://39.108.149.106/api/user/works',function(data) {
+    //     myData = data;
+    //   });
 
+    //   console.log(myData);
+    // },
     methods: {
       move: function () {
       if (Math.floor(this.counter++/(afterData2.length-2))%2===0) {
@@ -126,7 +146,8 @@
       },
       uploadPhoto: function () {
         // alert("上传图片");
-        router.push({name:'Upload'});
+        // console.log(this.$el);
+        // router.push({name:'Upload'});
       },
       changeBg: function (){
         var upload = document.getElementById(this.uploadId);
@@ -146,7 +167,7 @@
     computed: {
       initBg: function (){
         return "background:url("+this.bgs[2]+") no-repeat center center";
-      },
+      }
     }
   }
 

@@ -26,7 +26,7 @@
         },
         methods: {
             detail: function () {
-                location.href = '/#/tvlogin';
+                location.href = '/#/user/panorama';
                 // console.log('hello');
             }
             

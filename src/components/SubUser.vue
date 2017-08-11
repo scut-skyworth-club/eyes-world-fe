@@ -4,7 +4,7 @@
         <img :src="bgs[0]" class="box-img"> 
         <div class="icon-container">
             <div class="img-container">
-                <img :src="url" alt="2"/>
+                <img :src="iconUrl" alt="2"/>
             </div>
         </div>
         <div class="item-title-container">
@@ -12,6 +12,8 @@
         </div>
     </div>
 </template>
+
+<script type="text/javascript" src="/jquery/jquery.js"></script>
 <script>
     // import Favorite from './Favorite'
     
@@ -31,7 +33,7 @@
                 ]
             }
         },
-        props: ['title', 'url', 'index','aboutus'],
+        props: ['title', 'iconUrl', 'index','aboutus','userName'],
         comments: {
             //   Favorite,
             //   Works
@@ -40,8 +42,14 @@
             choose: function() {
                 switch (this.index) {
                     case 1:
-                        // location.href = 'http://localhost:8080/#/user/works/hello';
-                        router.push({name:'Works',params:{userName:'hello'}});
+                        router.push({name:'Works',params:{userName:this.userName}});
+                        // $.ajax({
+                        //     url:'请求后台的地址',
+                        //     data: 'userName',
+                        //     success:function(data) {
+                        //         router.push({name:'Works',params:{userName:data.userName}});
+                        //     }
+                        // });
                         break;
                     case 2:
                         router.push({name:'Favorite',params:{userId:'145'}});

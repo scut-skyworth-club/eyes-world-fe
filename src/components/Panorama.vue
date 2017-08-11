@@ -11,7 +11,18 @@
         <img v-show="showPhoto" :src="bgs[index]" alt="#">
       </transition>
       <figcaption>
-        <p class="title">{{msg}}</p>
+        <div>
+          <img :src="profile" class="icon">
+          <p class="title">&nbsp&nbsp@{{author}}&nbsp&nbsp{{date}}&nbsp&nbsp{{spot}}</p>
+        </div>
+        <div>
+          <img :src="visitedIcon" class="visited-icon">
+          <p class="visited-amount">{{visitedAmount}}</p>
+        </div>
+        <div>
+          <img :src="likeIcon" class="like-icon">
+          <p class="like-amount">{{likeAmount}}</p>
+        </div>
       </figcaption>
     </figure>
      <div class="navigation">
@@ -36,6 +47,9 @@ import bg3 from '../assets/login/demo4.jpg'
 import bg4 from '../assets/login/demo5.jpg'
 import bg5 from '../assets/login/demo6.jpg'
 import bg6 from '../assets/login/demo7.jpg'
+import icon from '../assets/panorama/profile_icon.png'
+import visited from '../assets/panorama/visited_icon.png'
+import liked from '../assets/panorama/liked.png'
 
 import icon1 from '../assets/panorama/liked_big.png'
 import icon2 from '../assets/panorama/no_like_big.png'
@@ -46,15 +60,23 @@ import icon6 from '../assets/panorama/detail_icon.png'
 
 import Comment from './Comment'
 import Detail from './Detail'
+
 export default {
   data() {
       return {
-          msg: "全景图组件",
+          author: 'Mike',
+          date: '2017/4/21',
+          spot: '广州塔',
           like: true,
           showComments: false,
-          showDetails:false,
+          showDetails: false,
           showPhoto: true,
-          index:0,
+          index: 0,
+          profile: icon,
+          likeIcon: liked,
+          visitedIcon: visited,
+          visitedAmount: 100,
+          likeAmount: 60,
           bgs:[
               bg1,
               bg2,
@@ -284,6 +306,54 @@ export default {
         left: 0.3vw;
         font-size: 2.037vh;
         letter-spacing: 0.0556vh;
+    }
+    #Panorama figcaption .icon {
+        width: 1.927vw;
+        height: 3.426vh;
+        position: absolute;
+        top: 1.481vh;
+        left: 0.833vw;
+    }
+    #Panorama figcaption .visited-icon {
+        width: 1.458vw;
+        height: 1.667vh;
+        position: absolute;
+        top: 5.185vh;
+        left: 3.646vw;
+    }
+    #Panorama figcaption .like-icon {
+        width: 1.042vw;
+        height: 1.667vh;
+        position: absolute;
+        top: 5.185vh;
+        left: 8.333vw;
+    }
+    #Panorama figcaption .visited-amount {
+        position: absolute;
+        top: 5.185vh;
+        left: 5.365vw;
+        font-family: font757;
+        font-size: 1.852vh;
+        color: #f1f1f1;
+        text-shadow: 0 0 0.278vh #000000; 
+    }
+    #Panorama figcaption .like-amount {
+        position: absolute;
+        top: 5.185vh;
+        left: 9.635vw;
+        font-family: font757;
+        font-size: 1.852vh;
+        color: #f1f1f1;
+        text-shadow: 0 0 0.278vh #000000; 
+    }
+    #Panorama figcaption .title {
+        position: absolute;
+        top: 1.852vh;
+        left: 2.76vw;
+        font-family: font757;
+        font-size: 2.222vh;
+        color: #f1f1f1;
+        text-shadow: 0 0 0.278vh #000000; 
     }
     .show-comments-enter-active {
         transition: all 0.7s ease;

@@ -61,7 +61,7 @@
       userName: "Mike",
       photoName: "允儿",
       photoDescription: "666",
-      url: bg0,
+      url: bg1,
       like: true,
       likeAmount: 2,
       createTime: "2012/06/25",
