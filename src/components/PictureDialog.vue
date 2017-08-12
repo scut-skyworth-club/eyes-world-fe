@@ -1,5 +1,5 @@
 <template> 
-	<div id="picture-dialog" :style="Adjust" @click="link"> 
+	<div id="picture-dialog" :style="bg" @click="link"> 
 		<div v-if="type==5" class="middleTitle">{{title}}</div>
         <div class="text_bg" :style="text_bg" v-if="type==0?false:true" >
             <div v-if="type!=5" :style="fontAdjustBig" class="title">{{title}}</div>
@@ -15,6 +15,7 @@
 	            	<span :style="fontAdjustMiddle" class="like"><img :src="pic_like"/>{{like}}</span>
 	            </span>
             </transition>
+            {{Adjust}}
         </div>
     </div>
 </template>
@@ -35,17 +36,15 @@
 			'url',
 			'date',
 			'author',
-			'width',
-			'height',
 			'type'
 		],
 		data(){
 			return{
 				bg:{
 					backgroundImage:"url("+this.pic_url+")",
-					width:"75vh",
-					height:"75vh"
 				},
+				height:0,
+				width:0,
 				text_bg:{
 					height: "15%",
 				},
@@ -55,17 +54,17 @@
 					display:"none",
 				},
 				fontAdjust:{
-					fontSize:"1.3vw",
+					fontSize:"0.8vw",
 				},
 				fontAdjustMiddle:{
-					fontSize:"1.35vw",
+					fontSize:"0.7vw",
 				},
 				fontAdjustMiddleWithMargin:{
-					fontSize:"1.35vw",
-					marginRight:"2vw",
+					fontSize:"0.6vw",
+					marginRight:"1vw",
 				},
 				fontAdjustBig:{
-					fontSize:"3vw",
+					fontSize:"0.9vw",
 				},
 				icoAdjust:{},
 				// hasLabel:true,
@@ -75,62 +74,47 @@
 		},
 		computed:{
 			Adjust:function(){
-				this.bg.width = this.width + "vw";
-				this.bg.height = this.height + "vh";
-
-				var x;
-				//屏幕比例16:9
-				// if(this.width*16 > this.height*9){
-					x = this.height*9/16;
-				// }else{
-					// x = this.width;
-				// }
+				var x = this.height;
 
 				let font_s = x * 0.022;
 				let font_m = x * 0.029;
 				let font_b = x * 0.07;
 
-				// //15px
-				// if(font_s > 0.78){
-				// 	font_s = 0.78;
-				// }
-
-				// //20px
-				// if(font_m > 1.04){
-				// 	font_m = 1.04;
-				// }
-
-				// //48px
-				// if(font_b > 2.5){
-				// 	font_b = 2.5;
-				// }
-
-				//11px
-				if(font_s < 0.57){
-					font_s = 0.57;
+				if(font_s > 15){
+					font_s = 15;
 				}
 
-				//15px
-				if(font_m < 0.78){
-					font_m = 0.78;
+				if(font_m > 20){
+					font_m = 20;
 				}
 
-				//30px
-				if(font_b < 1.56){
-					font_b = 1.56;
+				if(font_b > 48){
+					font_b = 48;
+				}
+
+				if(font_s < 11){
+					font_s = 11;
+				}
+
+				if(font_m < 15){
+					font_m = 15;
+				}
+
+				if(font_b < 30){
+					font_b = 30;
 				}
 
 				this.fontAdjust = {
-					fontSize:font_s +"vw"
+					fontSize:font_s +"px"
 				}
 
 				this.fontAdjustMiddle = {
-					fontSize:font_m +"vw"
+					fontSize:font_m +"px"
 				}
 
 				this.fontAdjustMiddleWithMargin = {
-					fontSize:font_m +"vw",
-					marginRight:(font_m+0.38)+"vw"
+					fontSize:font_m +"px",
+					marginRight:(font_m+7)+"px"
 				}
 
 				switch(this.type){
@@ -138,28 +122,25 @@
 						break;
 					case 1:
 						this.fontAdjustBig = {
-							fontSize:font_b +"vw",
-							verticalAlign: "middle",
-							top:"1.5vh",
+							fontSize:font_b +"px",
 							textAlign: "center"
 						}
 						break;
 					case 2:
 						this.fontAdjustBig = {
-							fontSize:font_b*0.8 +"vw",
-							verticalAlign: "middle",
+							fontSize:font_b*0.8 +"px",
 							textAlign: "center",
 							left:0
 						}
 						this.text_bg = {
-							height:"20%"
+							height:"15%"
 						}
 						break;
 					case 3:
 						this.fontAdjustBig = {
-							fontSize:font_b*1.1 +"vw",
-							top:"15%",
+							fontSize:font_b +"px",
 							textAlign: "center",
+							top: -x*0.001 +"vh",
 							left:0
 						}
 						this.text_bg = {
@@ -167,26 +148,32 @@
 						}
 						break;
 					case 4:
+						this.text_bg = {
+							display:"table",
+							minHeight:"4.5vh",
+						}
 						this.fontAdjustBig = {
-							fontSize:font_b +"vw",
+							position:"absolute",
+							fontSize:font_b +"px",
 							textAlign:"left",
 							top:"1vh",
 							left:"1vw",
 						}
 						this.fontAdjustMiddle = {
-							fontSize:font_m*0.8 +"vw"
+							fontSize:font_m*0.8 +"px"
 						}
 						this.fontAdjustMiddleWithMargin = {
-							fontSize:font_m*0.8 +"vw",
-							marginRight:(font_m*0.8+0.38)+"vw"
+							fontSize:font_m*0.8 +"px",
+							marginRight:(font_m*0.8+7)+"px"
 						}
 						break;
 					case 5:
 						this.text_bg = {
+							height:font_s+"px",
 							minHeight:"4.5vh",
 						}
 						this.fontAdjust = {
-							fontSize:font_s +"vw",
+							fontSize:font_s +"px",
 							bottom:"1.5vh",
 						}
 						this.icoAdjust = {
@@ -194,8 +181,6 @@
 						}
 						break;
 				}
-				
-				return this.bg;
 			}
 		},
 		methods:{
@@ -206,7 +191,18 @@
 					router.push(url);
 				}
 			},
+		},
+		mounted:function(){
+			// let el = this.$el; 
+			// this.height = el.offsetHeight;
+			// this.width = el.offsetWidth;
+		},
+		updated:function(){
+			let el = this.$el; 
+			this.height = el.offsetHeight;
+			this.width = el.offsetWidth;
 		}
+
 	}
 </script>
 
@@ -247,23 +243,25 @@
 #picture-dialog > .text_bg{
 	width:100%;
 	min-height: 6.8vh;
-	/*max-height: 9.26vh;*/
+	max-height: 11vh;
+	height: 15%;
 	bottom: 0;
+	display: flex;
+	justify-content: center;
+	flex-direction: column;
 	position: absolute;
 	background: rgba(49,71,127,0.5);
-	display: table;
+	/*display: table;*/
+	transition: all 0.4s ease;
 }
 
 #picture-dialog > .text_bg > .title{
-	position: absolute;
-	top:30%;
-	/*left:1vw;*/
+	position: relative;
+	top:0;
 	width: 100%;
 	text-align: center;
 	display: table-cell;
 	vertical-align: top;
-	/*padding-top: 1vh;*/
-	/*padding-left: 1vw;*/
 	font-size: 3vw;
 	color: white;
 	transition: all 0.4s ease;
@@ -274,6 +272,7 @@
 	position: absolute;
 	bottom: 0.74vh;
 	left:1vw;
+	transition: all 0.4s ease;
 }
 
 
@@ -284,14 +283,6 @@
 	width: 100%;
 	text-align: right;
 }
-
-/*#picture-dialog > .text_bg > .ico_box:before{
-	content: ".";
-	height: 100%;
-	display: inline-block;
-	vertical-align: middle;
-	visibility: hidden;
-}*/
 
 #picture-dialog > .text_bg > .ico_box > .like{
 	position:relative;

@@ -2,9 +2,9 @@
   <div id="Collage">
     {{msg}}
     <!-- <search></search> -->
-    <picture-dialog  :type="type" :date="date" :author="author" :pic_url="bg2" :like="like" :title="title" :visited="visited" :width="width" :height="height" class="pic"></picture-dialog>
-    <picture-dialog  :type="type" :date="date" :author="author" :pic_url="bg2" :like="like" :title="title" :visited="visited" :width="width" :height="height" class="pic"></picture-dialog>
-    <picture-dialog  :type="type" :date="date" :author="author" :pic_url="bg2" :like="like" :title="title" :visited="visited" :width="width" :height="height" class="pic"></picture-dialog>
+    <picture-dialog  class="first" :type="type" :date="date" :author="author" :pic_url="bg2" :like="like" :title="title" :visited="visited" ></picture-dialog>
+    <picture-dialog  class="second" :type="type" :date="date" :author="author" :pic_url="bg2" :like="like" :title="title" :visited="visited" ></picture-dialog>
+    <picture-dialog  class="third" :type="type" :date="date" :author="author" :pic_url="bg2" :like="like" :title="title" :visited="visited" ></picture-dialog>
   </div>
 </template>
 
@@ -38,4 +38,19 @@
 
 
 <style>
+
+.first{
+    height:60vh;
+    width: 20vw;
+}
+
+.second{
+    height:46.3vh;
+    width: 75vw;
+}
+
+.third{
+    height:62.96vh;
+    width: 35.42vw;
+}
 </style>
