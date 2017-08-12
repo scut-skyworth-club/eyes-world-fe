@@ -26,7 +26,7 @@
           </picture-dialog>
 
           <picture-dialog
-            v-else="toggle"  
+            v-else 
             :title="item.name"
             :like="item.likeNum"
             :visited="item.visited"
@@ -45,7 +45,7 @@
        <li v-for="index in getPageIndex"> 
         <transition name="indexFade" mode="out-in">
            <img v-if="index" key="foucs" :src="ico_index_foucs" /> 
-           <img v-else="index" key="unfoucs" :src="ico_index" /> 
+           <img v-else key="unfoucs" :src="ico_index" /> 
         </transition>
       </li>
     </ul> 
