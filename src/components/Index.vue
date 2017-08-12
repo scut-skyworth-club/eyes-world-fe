@@ -169,8 +169,10 @@
               self.select();
               break;
             case 82:
+            //menu
               break;
             case 4:
+            //back
               break;
           }
         }
