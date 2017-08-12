@@ -151,6 +151,9 @@
 							textAlign: "center",
 							left:0
 						}
+						this.text_bg = {
+							height:"20%"
+						}
 						break;
 					case 3:
 						this.fontAdjustBig = {
