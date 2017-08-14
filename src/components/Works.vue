@@ -86,10 +86,8 @@
     },
   ];
 
-
-
   export default {
-    name: 'works',
+    name: 'Works',
     data() {
       return {
         left: 0,
