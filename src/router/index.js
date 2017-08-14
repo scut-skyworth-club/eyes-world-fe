@@ -13,7 +13,7 @@ import Album from '@/components/Album'
 import Comment from '@/components/Comment'
 import Works from '@/components/Works'
 import Favorite from '@/components/Favorite'
-// import CollagePart from '@/components/CollagePart'
+import Login from '@/components/login'
 
 Vue.use(Router)
 
@@ -80,19 +80,19 @@ export default new Router({
             component: User
         },
         {
-            path: '/user/works/:userName',
+            path: '/user/works',
             name: 'Works',
             component: Works
         },
         {
-            path: '/user/favorite/:userId',
+            path: '/user/favorite',
             name: 'Favorite',
             component: Favorite
         },
-        // {
-        //     path: '/collagePart',
-        //     name: 'CollagePart',
-        //     component: CollagePart
-        // }
+        {
+            path: '/login',
+            name: 'login',
+            component: Login
+        }
     ]
 })

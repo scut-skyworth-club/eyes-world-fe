@@ -96,9 +96,9 @@
           }
         });
       },
-      switch2AreaNode(adcode, callback) {
+      switch2AreaNode(adcode, province, city, callback) {
         //切换区域
-        console.log(adcode)
+        console.log(adcode);
         switch (adcode) {
           case 110000:
             router.push(`/provinces/cities/北京/北京/spots`);
@@ -114,10 +114,11 @@
             break;
         }
 
+//        点击某个市的时候
         let result = adcode % 10000;
         if (result > 0) {
-          let province = '广东';
-          let city = '广州';
+          console.log(city);
+          console.log(province);
           router.push(`/provinces/cities/${province}/${city}/spots`)
         }
         if (this.currentAreaNode && ('' + this.currentAreaNode.getAdcode() === '' + adcode)) {
@@ -192,7 +193,9 @@
         let that = this;
         $('#area-tree').on('click', 'h2[data-children-num]', function () {
           let adcode = $(this).attr('data-adcode');
-          that.switch2AreaNode(adcode);
+          let city = $(this).text();
+          let province = $(this).closest('ul').siblings('.selected').text();
+          that.switch2AreaNode(adcode, province, city);
         });
         //全国
         this.switch2AreaNode(100000);

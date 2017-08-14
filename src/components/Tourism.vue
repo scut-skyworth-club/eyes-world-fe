@@ -5,16 +5,18 @@
 
     <router-link :to="getPath">
       <div>
-        <!-- 景点组件 -->
+        <button>
+        景点组件
+        </button>
       </div>
     </router-link>
-
+  {{setKey}}
   </div>
 </template>
 
 <script>
 
-  import areaMap from './map'
+  import areaMap from './Map'
   import router from '../router/index'
 
   export default {
@@ -29,6 +31,11 @@
 
     },
     computed: {
+      setKey:function(){
+        document.onkeydown = function(event){
+          
+        }
+      },
       getPath: function () {
         return "/provinces/cities/" + this.provinceName + "/" + this.cityName + "/spots";
       }

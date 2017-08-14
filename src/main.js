@@ -6,6 +6,17 @@ import App from './App'
 Vue.use(vueResource)
 import router from './router/index'
 
+/* import ECharts from 'vue-echarts/components/ECharts.vue' */
+// import IEcharts from 'vue-echarts-v3/src/full.vue';
+// import './assets/china.json';
+// import './assets/china.js'
+// import 'echarts/lib/chart/bar';
+// import 'echarts/lib/component/title';
+/* import IEcharts from 'vue-echarts-v3/src/lite.vue';
+import 'echarts/lib/chart/map';
+import 'echarts/lib/chart/effectScatter';
+import 'echarts/lib/component/geo'; */
+
 // 不同平台统一样式
 import 'normalize.css'
 import './assets/reset.css'

@@ -11,29 +11,27 @@
     </div>
 
     <ul id="spotsList">
-       <li v-for="item in getSpots" :class="item.type==3?'select':'noSelect'"> 
-         <transition name="fade" mode="out-in"> 
+       <li v-for="(item,index) in getSpots" :class="select==index?'select':'noSelect'" :key="index"> 
+        <transition name="fade" mode="out-in">
           <picture-dialog
             v-if="toggle"
-            :title="item.name"
-            :like="item.likeNum"
-            :visited="item.visited"
+            :title="item.albumName"
+            :like="item.likeAmount"
+            :visited="item.visitAmount"
             :pic_url="item.url"
-            :type="item.type"
-            :height="item.type==3?59.9:53.89"
-            :width="item.type==3?20.83:18.75"
+            :type="select==index?3:2"
+            class="pic"
             key="first">
           </picture-dialog>
 
           <picture-dialog
             v-else 
-            :title="item.name"
-            :like="item.likeNum"
-            :visited="item.visited"
+            :title="item.albumName"
+            :like="item.likeAmount"
+            :visited="item.visitAmount"
             :pic_url="item.url"
-            :type="item.type"
-            :height="item.type==3?59.9:53.89"
-            :width="item.type==3?20.83:18.75"
+            :type="select==index?3:2"
+            class="pic"
             key="second"
              > 
           </picture-dialog>
@@ -43,16 +41,16 @@
  
     <ul id="pageIndex">
        <li v-for="index in getPageIndex"> 
-        <!-- <transition name="indexFade" mode="out-in"> -->
-            <img v-if="index" key="foucs" :src="ico_index_foucs" />  
-            <img v-else="index" key="unfoucs" :src="ico_index" />  
-        <!-- </transition> -->
+        <transition name="indexFade" mode="out-in">
+           <img v-if="index" key="foucs" :src="ico_index_foucs" /> 
+           <img v-else key="unfoucs" :src="ico_index" /> 
+        </transition>
       </li>
     </ul> 
 
      <div id="button_re" @click="select_re"></div> 
     <div id="button_ad" @click="select_ad"></div>  
-
+    {{setKey}}
   </div>
 </template>
 
@@ -69,42 +67,88 @@
   export default {
     name: 'spots',
     methods:{
+      toggleSlide:function(){
+        this.canSlide = !this.canSlide;
+      },
       select_ad:function(){
-        (this.getSpots[this.select]).type = 2;
-        this.select++;
-        if(this.select>3||this.offset*4+this.select>this.spots.length){
-          if(this.offset+1>=this.getPageIndex.length){
-            this.select--;
-          }else{
-            this.offset++;
-            this.select = 0;
-            this.toggle = !this.toggle;
+        if(this.canSlide){
+          (this.getSpots[this.select]).type = 2;
+          this.select++;
+          if(this.select>3||this.offset*4+this.select>this.spots.length){
+            if(this.offset+1>=this.getPageIndex.length){
+              this.select--;
+            }else{
+              this.offset++;
+              this.select = 0;
+              this.toggle = !this.toggle;
+            }
           }
+          this.toggleSlide();
+          setTimeout(this.toggleSlide,600);
+          (this.getSpots[this.select]).type = 3;
         }
-        (this.getSpots[this.select]).type = 3;
       },
       select_re:function(){
-        (this.getSpots[this.select]).type = 2;
-        this.select--;
-        if(this.select<0){
-          if(this.offset-1<0){
-            this.select++;
-          }else{
-            this.offset--;
-            this.select = 3;
-            this.toggle = !this.toggle;
+        if(this.canSlide){
+          (this.getSpots[this.select]).type = 2;
+          this.select--;
+          if(this.select<0){
+            if(this.offset-1<0){
+              this.select++;
+            }else{
+              this.offset--;
+              this.select = 3;
+              this.toggle = !this.toggle;
+            }
           }
+          this.toggleSlide();
+          setTimeout(this.toggleSlide,600);
+          (this.getSpots[this.select]).type = 3;
         }
-        (this.getSpots[this.select]).type = 3;
       },
     },
     computed:{
+      setKey:function(){
+        let self = this;
+        document.onkeydown = function(event){
+          switch(event.which){
+            case 37:
+            //left
+              self.select_re();
+              break;
+            case 38:
+            //up
+              break;
+            case 39:
+            //right
+              self.select_ad();
+              break;
+            case 40:
+            //down
+              break;
+            case 13:
+            //center
+              break;
+            case 82:
+              break;
+            case 4:
+              break;
+          }
+        }
+      },
       getDay:function(){
         var day = ["日","一","二","三","四","五","六"];
         return "星期"+day[new Date().getDay()];
       },
       getWeather:function(){
+        //天气使用的是阿里云的api
+        //官方链接在这：
+        //https://market.aliyun.com/products/57126001/cmapi014302.html?spm=5176.2020520132.101.5.vFRCrl#sku=yuncode830200000
+        let self = this;
         var name = encodeURIComponent(this.$route.params.cityName);
+
+        //我为此注册了一个阿里云帐号，appcode如下
+        //帐号密码我放trello上吧
         var appCode = "83f43e4013354de2ab53c487cd86797e";
         fetch('http://jisutqybmf.market.alicloudapi.com/weather/query?city='+name,{
           headers:{
@@ -113,13 +157,13 @@
         }).then(function(res){
           if(res.status == "200"){
             res.json().then(function(json){
-              document.getElementById("spots").__vue__.weather = json.result.weather;
+              self.weather = json.result.weather;
             })
           }else{
-            document.getElementById("spots").__vue__.weather = "获取失败";
+            self.weather = "获取失败";
           }
         }, function(res){
-            document.getElementById("spots").__vue__.weather = "获取失败";
+            self.weather = "获取失败";
         });
       },
       getSpots:function(){
@@ -158,105 +202,94 @@
         offset:0,
         ico_index:ico_index,
         ico_index_foucs:ico_index_foucs,
+        canSlide:true,
         bg:{
           backgroundImage:"url("+bg+")",
         },
         spots:[
           {
             albumId:0,
-            name:"广州塔0",
-            visited:200,
-            likeNum:200,
+            albumName:"广州塔0",
+            visitAmount:200,
+            likeAmount:200,
             url:bg1,
-            type:3,
           },
           {
             albumId:1,
-            name:"海心沙0",
-            visited:200,
-            likeNum:200,
+            albumName:"海心沙0",
+            visitAmount:200,
+            likeAmount:200,
             url:bg2,
-            type:2,
           },
           {
             albumId:2,
-            name:"烈士陵园0",
-            visited:200,
-            likeNum:200,
+            albumName:"烈士陵园0",
+            visitAmount:200,
+            likeAmount:200,
             url:bg3,
-            type:2,
           },
           {
             albumId:3,
-            name:"华南理工大学0",
-            visited:200,
-            likeNum:200,
+            albumName:"华南理工大学0",
+            visitAmount:200,
+            likeAmount:200,
             url:bg4,
-            type:2,
           },
           {
             albumId:0,
-            name:"广州塔1",
-            visited:200,
-            likeNum:200,
+            albumName:"广州塔1",
+            visitAmount:200,
+            likeAmount:200,
             url:bg4,
-            type:3,
           },
           {
             albumId:1,
-            name:"海心沙1",
-            visited:200,
-            likeNum:200,
+            albumName:"海心沙1",
+            visitAmount:200,
+            likeAmount:200,
             url:bg3,
-            type:2,
           },
           {
             albumId:2,
-            name:"烈士陵园1",
-            visited:200,
-            likeNum:200,
+            albumName:"烈士陵园1",
+            visitAmount:200,
+            likeAmount:200,
             url:bg2,
-            type:2,
           },
           {
             albumId:3,
-            name:"华南理工大学1",
-            visited:200,
-            likeNum:200,
+            albumName:"华南理工大学1",
+            visitAmount:200,
+            likeAmount:200,
             url:bg1,
-            type:2,
           },
           {
             albumId:0,
-            name:"广州塔2",
-            visited:200,
-            likeNum:200,
+            albumName:"广州塔2",
+            visitAmount:200,
+            likeAmount:200,
             url:bg1,
-            type:3,
           },
           {
             albumId:1,
-            name:"海心沙2",
-            visited:200,
-            likeNum:200,
+            albumName:"海心沙2",
+            visitAmount:200,
+            likeAmount:200,
             url:bg2,
-            type:2,
           },
           {
             albumId:2,
-            name:"烈士陵园2",
-            visited:200,
-            likeNum:200,
+            albumName:"烈士陵园2",
+            visitAmount:200,
+            likeAmount:200,
             url:bg3,
-            type:2,
           },
           {
             albumId:3,
-            name:"华南理工大学2",
-            visited:200,
-            likeNum:200,
+            albumName:"华南理工大学2",
+            visitAmount:200,
+            likeAmount:200,
             url:bg4,
-            type:2,
           },
         ],
       }
@@ -284,8 +317,13 @@
 
 
 <style>
+@font-face {
+  font-family: font757;
+  src: url("../assets/font/小米兰亭.ttf");
+}
+
 #spots div{
-  font-family: "小米兰亭";
+  font-family: font757;
   color: white;
   font-size: 2.96vh;
   /*letter-spacing: 1vh;*/
@@ -350,6 +388,11 @@
   transition: all 0.4s
 }
 
+#spotsList > .noSelect > .pic{
+  width:18.75vw;
+  height: 53.89vh;
+}
+
 #spotsList > .select{
   box-shadow: 0 0 5vw rgba(0,0,0,0.7);
   width:20.83vw;
@@ -358,6 +401,11 @@
   top:0;
   vertical-align: top; 
   transition: all 0.4s
+}
+
+#spotsList > .select > .pic{
+  width:20.83vw;
+  height: 59.9vh;
 }
 
 #pageIndex{
