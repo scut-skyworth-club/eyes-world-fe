@@ -55,7 +55,7 @@ export default {
 
 <style>
   .date {
-    font-family: font757;
+    font-family: '小米兰亭';
     font-size: 2.963vh;
     color: #f1f1f1;
     letter-spacing: 1px;

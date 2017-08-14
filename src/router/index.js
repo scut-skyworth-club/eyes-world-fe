@@ -16,6 +16,7 @@ import Favorite from '@/components/Favorite'
 import Panorama from '@/components/Panorama'
 import TVLogin from '@/components/TVLogin'
 import Upload from '@/components/Upload'
+import Login from '@/components/login'
 
 Vue.use(Router)
 
@@ -82,12 +83,12 @@ export default new Router({
             component: User
         },
         {
-            path: '/user/works/:userName',
+            path: '/user/works',
             name: 'Works',
             component: Works
         },
         {
-            path: '/user/favorite/:userId',
+            path: '/user/favorite',
             name: 'Favorite',
             component: Favorite
         },
@@ -105,6 +106,11 @@ export default new Router({
             path: '/user/works/upload',
             name: 'Upload',
             component: Upload
+        },
+        {
+            path: '/login',
+            name: 'Login',
+            component: Login
         },
     ]
 })

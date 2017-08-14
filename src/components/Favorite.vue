@@ -1,21 +1,40 @@
 <template>
   <div id="favorite">
-    <div id="favorite-container" v-on:click="slideImg">
+    <div id="favorite-container">
       <img :src="bgs[0]" class="favorite-bg">
-      <h2 class="title">{{title}}</h2>
-      <h5 class="photo-amount">{{amount}} Photos</h5>
+      <p class="title">{{title}}</p>
+      <p class="photo-amount">{{amount}} Photos</p>
       <date class="time"></date>
-      <first-image id="first-img" :bigsize="bigsize" :smallsize="smallsize" :url="url" :create-time="createTime" :photo-name="photoName" :user-name="userName" ></first-image>
+      <first-image id="first-img"
+       :bigsize="bigsize"
+       :smallsize="smallsize" 
+       :url="url" 
+       :create-time="createTime" 
+       :photo-name="photoName" 
+       :user-name="userName" 
+       :counter="counter">
+      </first-image>
       <div id="slide-img-container">
-        <div id="slide-img" :style="{left:oLeft+'vw'}">
+        <div id="slide-img"
+        :style="{left:oLeft+'vw'}">
           <ul>
             <li v-for="(item,index) in images" :key="item.photoId">
-              <small-images class="small-img" :titlesize="titlesize" :datesize="datesize" :index="item.photoId" :url="item.url" :create-time="item.createTime" :photo-name="item.photoName" :user-name="item.userName" ></small-images>
+              <small-images class="small-img"
+               :titlesize="titlesize" 
+               :datesize="datesize" 
+               :index="index" 
+               :url="item.url" 
+               :create-time="item.createTime" 
+               :photo-name="item.photoName" 
+               :user-name="item.userName" 
+               :counter="counter">
+              </small-images>
             </li>
           </ul>
         </div>
       </div>
     </div>
+    {{setKey}}
   </div>
 </template>
 
@@ -23,6 +42,7 @@
   import Date from './Date'
   import FirstImage from './FirstImage'
   import SmallImages from './SmallImages'
+  import router from '../router/index'
 
   import bg from '../assets/favorite/bg.png'
 
@@ -240,8 +260,7 @@
         titlesize: 2.778,
         datesize: 1.0185,
         images: afterData,   //后台数据接口
-
-        oLeft: 2.084,
+        oLeft: 2.084, 
         counter: 0,
         amount: afterData.length,
         bgs:[
@@ -251,16 +270,94 @@
     },
   
     methods: {
-      slideImg: function () {
-        if (Math.floor(this.counter++/(Math.ceil(this.amount/2)-3))%2===0) {
-          this.oLeft = this.oLeft - 17.708;
+      // slideImg: function () {
+      //   if (Math.floor(this.counter++/(Math.ceil(this.amount/2)-3))%2===0) {
+      //     this.oLeft = this.oLeft - 17.708;
+      //   }
+      //   else {
+      //     this.oLeft = this.oLeft + 17.708;
+      //   }
+      // }
+      leftMove: function (){
+        if (this.counter!==1) {
+          if (this.counter===2) {
+            this.counter--;
+          }else{
+            this.counter = this.counter-2;
+          }
+          if (Math.floor(this.counter/2)%3===0&&this.counter!==1) {
+            //通过除以2，把两行的情况归并到一类，同时要把第一张图片的情况排除
+            this.oLeft = this.oLeft+53.124;
+          }
         }
-        else {
-          this.oLeft = this.oLeft + 17.708;
+      },
+      rightMove: function (){
+        if (this.counter!==this.amount&&this.counter!==this.amount+1) {
+          if (this.counter===1) {
+            this.counter++;
+          }else{
+            this.counter = this.counter+2;
+          }
+          if ((Math.floor(this.counter/2)-4)%3===0&&(Math.floor(this.counter/2)-4)!==-3) {
+            //(Math.floor(this.counter/2)-4)!==-3是把小图第一列的情况排除
+            this.oLeft = this.oLeft-53.124;
+          }
         }
+      },
+      upMove: function (){
+        if (this.counter!==1&&this.counter%2===1) {
+          //排除首张大图的情况，小图位于第二行可以使用up键
+          this.counter--;
+        }
+      },
+      downMove: function (){
+        if (this.counter%2===0&&this.counter!==this.amount+1) {
+          //小图位于第一行可以使用down键，同时排除最后一张小图在第一行的情况
+          this.counter++;
+        }
+      },
+      enterItem: function (){
+        router.push({name:'Panorama'});
       }
     },
-  
+    computed: {
+      setKey:function(){
+          let self = this;
+          document.onkeydown = function(event){
+              if(self.counter===0){
+                  self.counter=1;
+              }else{
+                  switch(event.which){
+                      case 37:
+                      //left
+                      self.leftMove();
+                      
+                      break;
+                      case 38:
+                      //up
+                      self.upMove();
+                      break;
+                      case 39:
+                      //right
+                      self.rightMove();
+                      break;
+                      case 40:
+                      //down
+                      self.downMove();
+                      break;
+                      case 13:
+                      //center
+                      self.enterItem();
+                      break;
+                      case 82:
+                      break;
+                      case 4:
+                      break;
+                  }
+              }
+          }
+      },
+    },
     components: {
       Date,
       FirstImage,
@@ -284,7 +381,7 @@
     left: 0;
   }
   .title {
-    font-family: font757;
+    font-family: "小米兰亭";
     font-size: 5.556vh;
     color: #f1f1f1;
     letter-spacing: 2px;
@@ -293,7 +390,7 @@
     left: 6.25vw;
   }
   .photo-amount {
-    font-family: font757;
+    font-family: "小米兰亭";
     font-size: 2.222vh;
     color: #f1f1f1;
     letter-spacing: 0.093vh;
@@ -309,15 +406,15 @@
     top: 0;
     left: 0;
     overflow: hidden;
-    /* border: 1px solid red; */
+     /* border: 1px solid red;  */
   }
   
   #slide-img-container {
     width: 68.75vw;
-    height: 62.964vh;
-     /* border: 1px solid red;    */
+    height: 100vh;
+     /* border: 1px solid red;      */
     position: absolute;
-    top: 18.518vh;
+    top: 0vh;
     left: 39.586vw;
     overflow: hidden;
   }
@@ -325,8 +422,8 @@
     width: 68.75vw;
     height: 59.26vh;
     position: absolute;
-     /* border: 1px solid yellow;  */
-    top: 1.852vh;
+    /* border: 1px solid yellow;     */
+    top: 20.37vh;
     transition: all 1s ease;
   }
   

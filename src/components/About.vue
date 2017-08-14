@@ -2,7 +2,10 @@
   <div id="About">
     <img :src="bgs[0]" class="about-bg">
     <div class="info"><p>我们是SkyWorth团队</p></div>
-    <div class="return-bt"><button v-on:click="closeIt">返回</button></div> 
+    <div class="return-bt">
+        <button v-if="aboutReturn" :style="{border:'2px solid #f1f1f1'}">返回</button>
+        <button>返回</button>
+    </div> 
   </div>
 </template>
 <script>
@@ -15,12 +18,9 @@ export default {
             ]
         }
     },
-  props:['aboutus'],
+  props:['aboutReturn'],
   methods: {
-      closeIt:function () {
-          let data = false;
-          this.$emit('aboutus',data);
-      }
+      
   }
 }
 </script>
@@ -55,19 +55,22 @@ export default {
         color: #f1f1f1;
         font-size: 30px;
     }
-    #About .return-bt {
+    .return-bt {
         width: 30vw;
         height: 10vh;
         position: absolute;
         top: 15vh;
         left: 0;
     }
-    #About button {
+    .return-bt>button {
         border: none;
         background: none;
         color: #f1f1f1;
+        font-family: '小米兰亭';
         font-size: 30px;
+        width: 5vw;
+        height: 4vh;
         position: absolute;
-        left: 25vw;
+        left: 24vw;
     }
 </style>

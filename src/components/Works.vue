@@ -1,21 +1,21 @@
 <template>
   <div id="works">
-    <img :src="bgs[0]" class="works-bg">
-    <h2 class="title">我的作品</h2>
-    <h5 class="photo-amount">{{amount}} Photos</h5>
-    <div :id="uploadId" @click="uploadPhoto" :style="initBg" @mouseover="changeBg" @mouseout="changeBackBg">
-      <img :src="bgs[1]" alt="1">
-      <span>上传</span>
-    </div>
+    <img :src="bgs[0]">
+    <p class="title">我的作品</p>
+    <p class="photo-amount">{{amount}} Photos</p>
+    <div id="upload" v-if="focus" :style="{background:'url('+bgs[2]+') no-repeat center center'}"><img :src="bgs[1]" alt="1"><span>上传</span></div>
+    <div id="upload" v-else :style="{background:'url('+bgs[3]+') no-repeat center center'}"><img :src="bgs[1]" alt="1"><span>上传</span></div>
     <date class="time"></date>
 
-    <div id="works-container" :style="{left:left+'vw', width:oWidth+'vw'}" v-on:click="move">
+     <div id="works-container" :style="{left:left+'vw', width:oWidth+'vw'}">
       <ul>
         <li v-for="(item,index) in works" :key="item.id">
-          <sub-work class="my-works" :index="item.id" :url="item.url" :date="item.date" :title="item.title" :amount="amount"></sub-work>
+          <sub-work class="my-works" :index="index" :url="item.url" :date="item.date" 
+          :title="item.title" :amount="amount" :counter="counter"></sub-work>
         </li>
       </ul>
-    </div>
+    </div> 
+    {{setKey}}
   </div>
 </template>
 
@@ -43,10 +43,19 @@
   //   myData = data;
   // });
 
-  fetch('http://39.108.149.106/api/user/works', {mode: 'cors'})
-    .then(function(response) {
-      console.log(response);
-    })
+  var myHeader = new Headers();
+
+
+
+  // fetch('http://192.168.0.106:8080/api/user/works', {
+  //   method: 'GET',
+  //   mode: 'cors',
+  //   headers: myHeader
+  // }).then(function(response) {
+  //   console.log(response);
+  // }).then(function(text) {
+  //   console.log(text);
+  // })
 
   var oldX = 0;
   var afterData2 = [{
@@ -111,15 +120,15 @@
         left: 0,
         oWidth: 100,
         works: afterData2,
-        counter: 0,
         amount: afterData2.length,
-        uploadId: 'upload',
         bgs:[
           bg,
           uploadIcon,
           uploadBg,
           uploadBgHover
-        ]
+        ],
+        focus: 1,  //focus=0聚焦到上传按钮上，focus=1聚焦到图片上，默认起始聚焦在图片上
+        counter: 0,
       }
     },
     components: {
@@ -135,39 +144,92 @@
     //   console.log(myData);
     // },
     methods: {
-      move: function () {
-      if (Math.floor(this.counter++/(afterData2.length-2))%2===0) {
-          this.oWidth = this.oWidth + 20.833; this.left = this.left - 20.833;
-        }
-        else {
-          this.oWidth = this.oWidth - 20.833;
-          this.left = this.left + 20.833;
-        }
-      },
       uploadPhoto: function () {
         // alert("上传图片");
         // console.log(this.$el);
-        // router.push({name:'Upload'});
+        router.push({name:'Upload'});
       },
-      changeBg: function (){
-        var upload = document.getElementById(this.uploadId);
-        upload.style.backgroundImage = "url("+this.bgs[3]+")";
-        upload.style.backgroundRepeat = "no-repeat";
-        upload.style.backgroundPositionX = "center";
-        upload.style.backgroundPositionY = "center";
+      enterItem: function (){
+        if (!this.focus) {  //如果聚焦在上传按钮上，调用上传图片函数以实现上传功能，并把焦点重置
+          this.uploadPhoto();
+          this.focus = 1;
+        }else { //否则进入图片详情页
+          router.push({name:'Panorama'});
+        }
       },
-      changeBackBg: function (){
-        var upload = document.getElementById(this.uploadId);
-        upload.style.backgroundImage = "url("+this.bgs[2]+")";
-        upload.style.backgroundRepeat = "no-repeat";
-        upload.style.backgroundPositionX = "center";
-        upload.style.backgroundPositionY = "center";
+      rightMove: function (){
+        if (this.focus) {
+          if (this.counter!==this.amount) {
+            this.counter++;
+          }
+          if (this.counter===4) { //焦点在第四张图片上时要触发移动，否则看不到后面图片
+            this.oWidth = this.oWidth + 75; this.left = this.left - 75;
+          }
+          if ((this.counter-4)%3===0&&(this.counter!==4)) {
+             //除了第四张图片，7,10,13...也要触发移动，同时移动距离与第四张移动距离不同，因为图片排布不同
+            this.oWidth = this.oWidth + 81.25; this.left = this.left - 81.25;
+          }
+        }
+      },
+      leftMove: function (){
+        if (this.focus) {
+          if (this.counter!==1) {
+            this.counter--;
+          }
+          if (this.counter===3) { //第四张触发右移，所以第三张触发左移
+            this.oWidth = this.oWidth - 75; this.left = this.left + 75;
+          }
+          if (this.counter%3===0&&(this.counter!==3)) {
+            //6,9,12...触发左移，同时由于第三张移动距离不一样，要将其排除
+            this.oWidth = this.oWidth - 81.25; this.left = this.left + 81.25;
+          }
+        }
       },
     },
     computed: {
-      initBg: function (){
-        return "background:url("+this.bgs[2]+") no-repeat center center";
-      }
+      setKey:function(){
+          let self = this;
+          document.onkeydown = function(event){
+              if(self.counter===0&&self.focus===1){
+                  self.counter=1;
+              }else{
+                  switch(event.which){
+                      case 37:
+                      //left
+                      self.leftMove();
+                      
+                      break;
+                      case 38:
+                      //up
+                      if (self.focus) {
+                        self.focus = 0;
+                      }
+                      break;
+                      case 39:
+                      //right
+                      self.rightMove();
+                      break;
+                      case 40:
+                      //down
+                      if (!self.focus) {
+                        self.focus = 1;
+                      }
+                      break;
+                      case 13:
+                      //center
+                      self.enterItem();
+                      break;
+                      case 82:
+                      break;
+                      case 4:
+                      break;
+                  }
+              }
+          }
+      },
+      itemFocus: function (){
+        
+      },
     }
   }
 
@@ -182,7 +244,7 @@
     padding: 0;
     overflow: hidden;
   }
-  .works-bg {
+  #works>img {
     width: 100vw;
     height: 100vh;
     position: absolute;
@@ -191,8 +253,8 @@
     margin: 0;
     padding: 0;
   }
-  #works .title {
-    font-family: font757;
+  #works>.title {
+    font-family: '小米兰亭';
     font-size: 5.556vh;
     color: #f1f1f1;
     letter-spacing: 0.185vh;
@@ -202,7 +264,7 @@
   }
 
   .photo-amount {
-    font-family: font757;
+    font-family: '小米兰亭';
     font-size: 2.222vh;
     color: #f1f1f1;
     letter-spacing: 0.093vh;
@@ -221,21 +283,15 @@
     top: 7.5vh;
     left: 20.677vw;
   }
-
-  #upload:hover {
-    cursor: pointer;
-  }
-
-  #upload img {
+  #upload>img {
     width: 2.76vw;
     height: 4.907vh;
     position: absolute;
     top: 0;
     left: 0;
   }
-
-  #upload span {
-    font-family: font757;
+  #upload>span {
+    font-family: '小米兰亭';
     font-size: 1.852vh;
     color: #f1f1f1;
     width: 3.75vw;

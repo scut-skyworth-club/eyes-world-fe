@@ -25,18 +25,31 @@
         </div>
       </figcaption>
     </figure>
-     <div class="navigation">
+     <div class="navigation" v-if="showBar">
         <ul>
-            <li><div class="like" v-if="like" @click="likeOrCancel"><figure><img :src="icons[0]"></figure></div>
-                <div class="like" v-else @click="likeOrCancel"><figure><img :src="icons[1]"></figure></div>
+            <li><div class="like no-focus" v-if="like" v-show="counter!==1"><figure><img :src="icons[0]"></figure></div>
+                <div class="like no-focus" v-else v-show="counter!==1"><figure><img :src="icons[1]"></figure></div>
+                <div class="like focus" v-if="like" v-show="counter===1"><figure><img :src="icons[0]"></figure></div>
+                <div class="like focus" v-else v-show="counter===1"><figure><img :src="icons[1]"></figure></div> 
             </li>
-            <li><div class="continute" @click="hideNavBar"><p>继续欣赏</p></div></li>
-            <li><div class="prev-photo" @click="askForPrevPic"><figure><img :src="icons[2]"><figcaption>上一张</figcaption></figure></div></li>
-            <li><div class="next-photo" @click="askForNextPic"><figure><img :src="icons[3]"><figcaption>下一张</figcaption></figure></div></li>
-            <li><div class="comment" @click="showComments=!showComments"><figure><img :src="icons[4]"><figcaption>评&nbsp&nbsp&nbsp论</figcaption></figure></div></li>
-            <li><div class="detail" @click="showDetails=!showDetails"><figure><img :src="icons[5]"><figcaption>详&nbsp&nbsp&nbsp情</figcaption></figure></div></li>
+            <li><div class="continute no-focus" v-show="counter!==2"><p>继续欣赏</p></div>
+                <div class="continute focus" v-show="counter===2"><p>继续欣赏</p></div>
+            </li>
+            <li><div class="prev-photo no-focus" v-show="counter!==3"><figure><img :src="icons[2]"><figcaption>上一张</figcaption></figure></div>
+                <div class="prev-photo focus" v-show="counter===3"><figure><img :src="icons[2]"><figcaption>上一张</figcaption></figure></div>
+            </li>
+            <li><div class="next-photo no-focus" v-show="counter!==4"><figure><img :src="icons[3]"><figcaption>下一张</figcaption></figure></div>
+                <div class="next-photo focus" v-show="counter===4"><figure><img :src="icons[3]"><figcaption>下一张</figcaption></figure></div>
+            </li>
+            <li><div class="comment no-focus" v-show="counter!==5"><figure><img :src="icons[4]"><figcaption>评&nbsp&nbsp&nbsp论</figcaption></figure></div>
+                <div class="comment focus" v-show="counter===5"><figure><img :src="icons[4]"><figcaption>评&nbsp&nbsp&nbsp论</figcaption></figure></div>
+            </li>
+            <li><div class="detail no-focus" v-show="counter!==6"><figure><img :src="icons[5]"><figcaption>详&nbsp&nbsp&nbsp情</figcaption></figure></div>
+                <div class="detail focus" v-show="counter===6"><figure><img :src="icons[5]"><figcaption>详&nbsp&nbsp&nbsp情</figcaption></figure></div>
+            </li>
         </ul>
     </div> 
+    {{setKey}}
   </div>
 </template>
 
@@ -67,6 +80,7 @@ export default {
           author: 'Mike',
           date: '2017/4/21',
           spot: '广州塔',
+          showBar: true,
           like: true,
           showComments: false,
           showDetails: false,
@@ -77,6 +91,7 @@ export default {
           visitedIcon: visited,
           visitedAmount: 100,
           likeAmount: 60,
+          counter: 0,
           bgs:[
               bg1,
               bg2,
@@ -96,11 +111,11 @@ export default {
       }
   },
   methods: {
-    likeOrCancel: function () {
+    likeOrCancel: function () { //点赞或者取消，需要完善的是把点赞数统计加入进来
         this.like = !(this.like);
     },
-    hideNavBar: function () {
-        console.log('hello');
+    hideNavBar: function () { //隐藏操作栏
+        this.showBar = false;
     },
     askForPrevPic: function () {
         // alert("请求上一张图片");
@@ -110,7 +125,7 @@ export default {
         }else {
             this.showPhoto=false;
             var _this = this;
-            window.setTimeout(function() {
+            window.setTimeout(function() { //设置图片切换时延迟，以产生原图片退出和新图片进入时动画
                 _this.index--;
                 _this.showPhoto=true;
             },700);
@@ -123,12 +138,52 @@ export default {
         }else {
             this.showPhoto=false;
             var _this = this;
-            window.setTimeout(function() {
+            window.setTimeout(function() { //设置图片切换时延迟，以产生原图片退出和新图片进入时动画
                 _this.index++;
                 _this.showPhoto=true;
             },700);
         }
     },
+    leftMove: function (){
+        if (this.counter!==1) {
+            this.counter--;
+        }
+    },
+    rightMove: function (){
+        if(this.counter!==6) {
+            this.counter++;
+        }
+    },
+    barReturn: function(){
+        if (!this.showBar) {
+            this.showBar = true;
+            this.counter = 0;
+        }
+    },
+    enterItem: function (){
+        switch (this.counter) {
+            case 1:
+                this.likeOrCancel();
+                break;
+            case 2:
+                this.hideNavBar();
+                break;
+            case 3: 
+                this.askForPrevPic();
+                break;
+            case 4: 
+                this.askForNextPic();
+                break;
+            case 5: 
+                this.showComments = !this.showComments;
+                break;
+            case 6: 
+                this.showDetails = !this.showDetails;
+                break;
+            default:
+                break;
+        }
+    }
     //showComment和showPhotoDetails这两个函数用作处理评论和详情信息的接口
     // showComment: function () {
     //     // if(this.commentRight===-20){
@@ -141,6 +196,44 @@ export default {
     // showPhotoDetails: function () {
     //     this.showDetails = !(this.showDetails);
     // }
+  },
+  computed: {
+    setKey:function(){
+        let self = this;
+        document.onkeydown = function(event){
+            if(self.counter===0){
+                self.counter=1;
+            }else{
+                switch(event.which){
+                    case 37:
+                    //left
+                    self.leftMove();
+                    
+                    break;
+                    case 38:
+                    //up
+                
+                    break;
+                    case 39:
+                    //right
+                    self.rightMove();
+                    break;
+                    case 40:
+                    //down
+                    self.barReturn();   //这里先用down键替代返回键
+                    break;
+                    case 13:
+                    //center
+                    self.enterItem();
+                    break;
+                    case 82:
+                    break;
+                    case 4:
+                    break;
+                }
+            }
+        }
+    },
   },
   components: {
       Comment,
@@ -202,16 +295,22 @@ export default {
         width: 6.771vw;
         height: 12.037vh;
         margin-right: 1.979vw;
+    }
+    .no-focus {
         background-color: #7d7070;
         opacity: 0.5;
+    }
+    .focus {
+        background-color: #dddddd;
+        opacity: 0.7;
     }
     /* #Panorama figcaption:hover li div{
         opacity: 0.5;
     } */
-    #Panorama li div:hover {
+    /* #Panorama li div:hover {
         background-color: #dddddd;
         opacity: 0.7;
-    }
+    } */
     #Panorama .like figure {
         width: 4.167vw;
         height: 6.481vh;

@@ -1,5 +1,5 @@
 <template>
-  <div class="sub-work" :style="{left:((index-1)*27.083+6.25)+'vw'}" >
+  <div class="sub-work" :style="{left:(index*27.083+6.25)+'vw'}">
       <div class="time-container">
         <h3 class="upload-time">{{date}}</h3>
       </div>
@@ -8,12 +8,11 @@
             <img src="../assets/works/cameraIcon.jpg" alt="1">
         </div> 
       </div>
-      <hr class="line" v-if="!(index==amount)"/>
-      <div class="work-img"
-        v-on:click="getMoreInfo">
+      <hr class="line" v-if="!(index+1==amount)"/>
+      <div class="work-img" :style="{transform:'scale('+xScale+','+yScale+')'}" :xScale="calculteSize" :yScale="calculteSize">
            <img :src="url" alt="2"> 
            <div class="shelter">
-             <p>{{title}}</p>
+             <p :style="{fontSize:size+'vh'}" :size="calculteSize">{{title}}</p>
            </div>
       </div>
   </div>
@@ -23,7 +22,9 @@
 export default {
     data () {
         return {
-            
+           xScale: 1,
+           yScale: 1,
+           size: 2.963, 
         }
     },
     methods:{
@@ -35,7 +36,20 @@ export default {
         },
         
     },
-    props:['index','date','url','title','amount']
+    computed:{
+        calculteSize: function (){
+            if (this.index===this.counter-1) {//如果focus到图片上就变大
+                this.xScale = 1.1;
+                this.yScale = 1.083;
+                this.size = 3.333;
+            }else {
+                this.xScale = 1;
+                this.yScale = 1;
+                this.size = 2.963;
+            }
+        },
+    },
+    props:['index','date','url','title','amount','counter']
 }
 </script>
 <style>
@@ -52,7 +66,7 @@ export default {
         z-index: 5;
     }
     .upload-time {
-        font-family: font757;
+        font-family: '小米兰亭';
         color: #f1f1f1;
         font-size: 2.222vh;
         text-align: center;
@@ -89,11 +103,6 @@ export default {
         /* border: 1px solid red; */
         /* background: url(../assets/favorite/bg1.jpg) no-repeat center center; */
     }
-    .sub-work .work-img:hover {
-        cursor: pointer;
-        transform: scale(1.1,1.083);
-        box-shadow: 0 5px 25px #222222;
-    }
     .work-img img {
         width: 100%;
         height: 100%;
@@ -106,8 +115,7 @@ export default {
         position: absolute;
         z-index: 2;
         bottom: 0;
-        font-family: font757;
-        font-size: 2.963vh;
+        font-family: '小米兰亭';
         color: #f1f1f1;
         letter-spacing: 0.4vh;
         background-color: #31477f;
@@ -120,9 +128,6 @@ export default {
         z-index: 2;
         text-align: center;
         margin: 1.852vh auto;
-    }
-    .work-img:hover .shelter {
-        font-size: 3.333vh;
     }
     .line {
         width: 27.083vw;

@@ -1,9 +1,15 @@
 <template>
-  <div class="first-pic">
+  <div class="first-pic" :style="{transform:'scale('+size+')',boxShadow:shadow}"
+  :size="change" :shadow="change">
     <img :src="url" alt="1"  class="image"> 
     <pics-info class="pics-information"
-    :bigsize="bigsize" :smallsize="smallsize" :create-time="createTime"
-    :photo-name="photoName" :user-name="userName" ></pics-info>
+    :bigsize="bigsize"
+    :smallsize="smallsize" 
+    :create-time="createTime"
+    :photo-name="photoName" 
+    :user-name="userName" 
+    :style="{display:display}"
+    :display="change"></pics-info>
   </div>
 </template>
 
@@ -14,16 +20,32 @@ export default {
     name:'Collections',
     data() {
         return {
-            msg:'hello',
-            bgs:[bg1]
+            msg: 'hello',
+            bgs: [bg1],
+            size: 1,
+            shadow: 'none',
+            display: 'none',
         }
     },
-    props:['bigsize','smallsize','url','createTime','photoName','userName'],
+    props:['bigsize','smallsize','url','createTime','photoName','userName','counter'],
     components:{
         PicsInfo
     },
     methods:{
         
+    },
+    computed:{
+        change: function (){
+            if (this.counter===1) {
+                this.size = 1.0625;
+                this.shadow = '0 30px 80px #303030';
+                this.display = 'block';
+            }else{
+                this.size = 1;
+                this.shadow = 'none';
+                this.display = 'none';
+            }
+        }
     }
     
 }
@@ -37,11 +59,11 @@ export default {
         left: 6.25vw;
         transition: all 0.5s ease;
     }
-    .first-pic:hover {
+    /* .first-pic:hover {
         transform: scale(1.0625);
         position: absolute;
         box-shadow: 0 30px 80px #303030;
-    }
+    } */
     .image {
         width: 100%;
         height: 100%;
@@ -49,6 +71,7 @@ export default {
     .first-pic .pics-information {
         width: 100%;
         height: 9.259vh;
+        font-family: '小米兰亭';
         position: absolute;
         bottom: 0;
         left: 0;
@@ -56,8 +79,8 @@ export default {
         z-index: 2; 
         transition: all 0.5s ease;
     }
-    .first-pic:hover .pics-information {
+    /* .first-pic:hover .pics-information {
         display: block;
-    }
+    } */
 </style>
 

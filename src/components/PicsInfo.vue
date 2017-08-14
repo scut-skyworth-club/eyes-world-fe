@@ -1,6 +1,6 @@
 <template>
     <div class="info-container" v-on:click="showSize">
-        <h2 :style="{fontSize:bigsize+'vh'}">{{photoName}}</h2>
+        <p :style="{fontSize:bigsize+'vh'}">{{photoName}}</p>
         <p :style="{fontSize:smallsize+'vh'}">{{createTime}}&nbsp&nbsp&nbsp@{{userName}} </p>
     </div>
 </template>
@@ -40,12 +40,12 @@
     
     
     
-    h2 {
+    .info-container>p {
         /* font-size: 40px;   */
         margin: 0.3vw 0.3vw;
     }
     
-    p {
+    .info-container>p {
         /* font-size: 23px; */
         margin-left: 0.3vw;
         margin-bottom: 0.3vw;
