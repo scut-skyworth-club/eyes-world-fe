@@ -1,85 +1,42 @@
 <template> 
   <div id="index">
-    <div class="item_carousel index_-2" v-bind:class="{select:isSelect[0]}" name="item_carousel" v-bind:id="index_id.id_m2" @click="slide">
-      <img :src="bgs[2]" />
+    <div v-for="(label,index) in labelList"
+        class="item_carousel" 
+        name="item_carousel"
+        :style="getLeft(index)"
+        :class="{
+          select:(selection==index),
+          index_m2:(index-offset==-2),
+          index_0:(index-offset==0),
+          index_4:(index-offset==4)
+          }"
+        >
+      <img :src="label.bg" />
       <div class="shadow">
-<!--      <div class="line"></div>
-          <div class="circle"></div> -->
       </div>
       <div class="text_bg"></div>
-      <span>{{title.t3}}</span>
+      <span>{{label.title}}</span>
     </div>
 
-    <div class="item_carousel index_-1" v-bind:class="{select:isSelect[1]}" name="item_carousel" v-bind:id="index_id.id_m1" @click="slide">
-      <img :src="bgs[3]" />
+    <div v-for="(label,index) in labelList_op"
+        class="item_carousel" 
+        name="item_carousel"
+        :style="getLeft(-index-1)"
+        :class="{
+          select:(selection==-index-1),
+          index_m2:(-index-offset-1==-2),
+          index_0:(-index-offset-1==0),
+          index_4:(-index-offset-1==4)
+          }"
+        >
+      <img :src="label.bg" />
       <div class="shadow">
-<!--           <div class="line"></div>
-          <div class="circle"></div> -->
       </div>
       <div class="text_bg"></div>
-      <span>{{title.t4}}</span>
+      <span>{{label.title}}</span>
     </div>
 
-    <div class="item_carousel index_0" v-bind:class="{select:isSelect[2]}" name="item_carousel" v-bind:id="index_id.id_0" @click="slide">
-      <img :src="bgs[0]" />
-      <div class="shadow">
-<!--           <div class="line"></div>
-          <div class="circle"></div> -->
-      </div>
-      <div class="text_bg"></div>
-      <span>{{title.t1}}</span>
-    </div>
-
-    <div class="item_carousel index_1" v-bind:class="{select:isSelect[3]}" name="item_carousel" v-bind:id="index_id.id_1" @click="slide">
-        <img :src="bgs[1]" />
-        <div class="shadow">
-<!--           <div class="line"></div>
-          <div class="circle"></div> -->
-        </div>
-        <div class="text_bg"></div>
-        <span>{{title.t2}}</span>
-    </div>
-
-    <div class="item_carousel index_2" v-bind:class="{select:isSelect[4]}" name="item_carousel" v-bind:id="index_id.id_2" @click="slide">
-        <img :src="bgs[2]" />
-        <div class="shadow">
-<!--           <div class="line"></div>
-          <div class="circle"></div> -->
-        </div>
-        <div class="text_bg"></div>
-        <span>{{title.t3}}</span>
-    </div>
-
-    <div class="item_carousel index_3" v-bind:class="{select:isSelect[5]}" name="item_carousel" v-bind:id="index_id.id_3" @click="slide">
-        <img :src="bgs[3]" />
-        <div class="shadow">
-<!--           <div class="line"></div>
-          <div class="circle"></div> -->
-        </div>
-        <div class="text_bg"></div>
-        <span>{{title.t4}}</span>
-    </div>
-
-    <div class="item_carousel index_4" v-bind:class="{select:isSelect[6]}" name="item_carousel" v-bind:id="index_id.id_4" @click="slide">
-      <img :src="bgs[0]" />
-      <div class="shadow">
-<!--         <div class="line"></div>
-        <div class="circle"></div> -->
-      </div>
-      <div class="text_bg"></div>
-      <span>{{title.t1}}</span>
-    </div>
-
-    <div class="item_carousel index_5" v-bind:class="{select:isSelect[7]}" name="item_carousel" v-bind:id="index_id.id_5" @click="slide">
-      <img :src="bgs[1]" />
-      <div class="shadow">
-<!--         <div class="line"></div>
-        <div class="circle"></div> -->
-      </div>
-      <div class="text_bg"></div>
-      <span>{{title.t2}}</span>
-    </div>
-      {{setKey}}
+    {{setKey}}
   </div>
 </template>
 
@@ -106,50 +63,78 @@
     data() {
       return {
         msg: '这里是首页',
-        //selection表示当前选中的模块在屏幕的第几（最左边的为0）
+        toggle:true,
+        //这里是所有模块
+        labels:[
+          {
+            title:"旅游全景",
+            bg:bg1,
+          },
+          {
+            title:"高校景观",
+            bg:bg2,
+          },
+          {
+            title:"最新推荐",
+            bg:bg3,
+          },
+          {
+            title:"用户管理",
+            bg:bg4,
+          },
+        ],
+        //正向显示的列表（向右延伸）
+        labelList:[
+          {
+            title:"旅游全景",
+            bg:bg1,
+          },
+          {
+            title:"高校景观",
+            bg:bg2,
+          },
+          {
+            title:"最新推荐",
+            bg:bg3,
+          },
+          {
+            title:"用户管理",
+            bg:bg4,
+          },
+          {
+            title:"旅游全景",
+            bg:bg1,
+          },
+          {
+            title:"高校景观",
+            bg:bg2,
+          },
+        ],
+        //反向显示的列表（向左延伸）
+        labelList_op:[
+          {
+            title:"用户管理",
+            bg:bg4,
+          },
+          {
+            title:"最新推荐",
+            bg:bg3,
+          },
+          {
+            title:"高校景观",
+            bg:bg2,
+          },
+          {
+            title:"旅游全景",
+            bg:bg1,
+          },
+        ],
+        //selection表示当前选中的label的下标
+        //大于0选中的是正向列表
+        //小于0选中的是反向列表
         selection:2,
-        //index表示当前屏幕最左边的模块是第几个（用做路由）
-        index:1,
-        //下面是各模块的背景图片
-        bgs:[
-          bg1,
-          bg2,
-          bg3,
-          bg4,
-        ],
-        //模块的名称
-        title:{
-          t1:"旅游全景",
-          t2:"高校景观",
-          t3:"最新推荐",
-          t4:"用户管理",
-        },
-        index_id:{
-          id_m2:"index_-2",
-          id_m1:"index_-1",
-          id_0:"index_0",
-          id_1:"index_1",
-          id_2:"index_2",
-          id_3:"index_3",
-          id_4:"index_4",
-          id_5:"index_5",
-        },
-        select_class:[
-          "item_carousel index_1",
-          "item_carousel index_2",
-          "item_carousel index_3",
-        ],
-        //表示模块是否被选中
-        isSelect:[
-          false,
-          false,
-          false,
-          false,
-          false,
-          true,
-          false,
-          false,
-        ],
+        //offset表示当前整体的偏移量
+        offset:0,
         //各模块的路由地址
         path:[
           "provinces/cities",
@@ -184,286 +169,84 @@
               self.select();
               break;
             case 82:
+            //menu
               break;
             case 4:
+            //back
               break;
           }
         }
       },
     },
     methods: {
+      getLabels:function(){
+        this.labelList = new Array(6);
+        for(let i=0;i<6;i++){
+          this.labelList[i] = this.labels[(this.offset+i)%this.labels.length];
+        }
+      },
+      getLabels_op:function(){
+        this.labelList_op = new Array(4);
+        for(let i=0;i<4;i++){
+          this.labelList_op[i] = this.labels[this.labels.length-1-(this.offset+i)%this.labels.length];
+        }
+      },
+      getLeft:function(index){
+        let left;
+        if(index-this.offset == 0){
+          left = (index - this.offset) * 20 - 5;
+        }else{
+          left = (index - this.offset) * 20 + 5;
+        }
+        return {
+          left:left+"vw"
+        }
+      },
       select_ad:function(){
         if(this.canSlide){
-          switch(this.selection){
-            case 0:
-              this.index_2();
-              this.toggleSlide();
-              setTimeout(this.toggleSlide,1000);
-              break;
-            case 1:
-              this.index_3();
-              this.toggleSlide();
-              setTimeout(this.toggleSlide,1000);
-              break
-            case 2:
-              this.index_4();
-              this.toggleSlide();
-              setTimeout(this.toggleSlide,1000);
-              break;
+          if(this.selection-this.offset>2){
+            if(this.labelList.length-this.selection<4){
+              this.labelList[this.labelList.length] = this.labelList[this.labelList.length-4];
+            }
+            this.selection++;
+            this.offset++;
+            this.toggleSlide();
+            setTimeout(this.toggleSlide,1000);
+          }else{
+            this.selection++;
+            this.toggleSlide();
+            setTimeout(this.toggleSlide,1000);
           }
+          
         }
       },
       select_re:function(){
         if(this.canSlide){
-          switch(this.selection){
-            case 0:
-              this.index_0();
-              this.toggleSlide();
-              setTimeout(this.toggleSlide,1000);
-              break;
-            case 1:
-              this.index_1();
-              this.toggleSlide();
-              setTimeout(this.toggleSlide,1000);
-              break
-            case 2:
-              this.index_2();
-              this.toggleSlide();
-              setTimeout(this.toggleSlide,1000);
-              break;
+          if(this.selection-this.offset<2){
+            if(this.labelList_op.length + this.selection<3){
+              this.labelList_op[this.labelList_op.length] = this.labelList_op[this.labelList_op.length-4];
+            }
+            this.selection--;
+            this.offset--;
+            this.toggleSlide();
+            setTimeout(this.toggleSlide,1000);
+          }else{
+            this.selection--;
+            this.toggleSlide();
+            setTimeout(this.toggleSlide,1000);
           }
         }
       },
       toggleSlide:function(){
         this.canSlide = !this.canSlide;
       },
-      //所有项目点击事件都是slide()
-      slide:function(){
-        var id = window.event.target.parentNode.getAttribute("id");
-        //通过id判定为第几个
-        //若项目被选中，则进行路由
-        //否则，改变选中项目
-        //若点击项目为第0或第4个，则所有模块需要进行整体平移
-        //
-        if(this.canSlide){
-          switch(id){
-            case this.index_id.id_0:
-              this.index_0();
-              this.toggleSlide();
-              setTimeout(this.toggleSlide,1000);
-              break;
-            case this.index_id.id_1:
-              if(this.selection == 0){
-                this.select();
-              }else{
-                this.index_1();
-              }
-              break;
-            case this.index_id.id_2:
-              if(this.selection == 1){
-                this.select();
-              }else{
-                this.index_2();
-              }
-              break;
-            case this.index_id.id_3:
-              if(this.selection == 2){
-                this.select();
-              }else{
-                this.index_3();
-              }
-              break;
-            case this.index_id.id_4:
-              this.index_4();
-              this.toggleSlide();
-              setTimeout(this.toggleSlide,1000);
-              break;
-            default:
-              break;
-          }
-        }
-      },
-      index_0:function(){
-        // document.getElementById("carousel_selector")
-        // .setAttribute("class","item_carousel carousel_selector index_1");
-
-        let item_m2 = document.getElementById(this.index_id.id_m2);
-        if(item_m2 != undefined){
-          item_m2.setAttribute("class","item_carousel index_-1");
-        }else{
-          return;
-        }
-
-        let item_m1 = document.getElementById(this.index_id.id_m1);
-        if(item_m1 != undefined){
-          item_m1.setAttribute("class","item_carousel index_0");
-        }else{
-          return;
-        }
-
-        let item_0 = document.getElementById(this.index_id.id_0);
-        if(item_0 != undefined){
-          item_0.setAttribute("class","item_carousel index_1 select");
-        }else{
-          return;
-        }
-
-        let item_1 = document.getElementById(this.index_id.id_1);
-        if(item_1 != undefined){
-          item_1.setAttribute("class","item_carousel index_2");
-        }else{
-          return;
-        }
-
-        let item_2 = document.getElementById(this.index_id.id_2);
-        if(item_2 != undefined){
-          item_2.setAttribute("class","item_carousel index_3");
-        }else{
-          return;
-        }
-
-        let item_3 = document.getElementById(this.index_id.id_3);
-        if(item_3 != undefined){
-          item_3.setAttribute("class","item_carousel index_4");
-        }else{
-          return;
-        }
-
-        let item_4 = document.getElementById(this.index_id.id_4);
-        if(item_4 != undefined){
-          item_4.setAttribute("class","item_carousel index_5");
-        }else{
-          return;
-        }
-
-        let item_5 = document.getElementById(this.index_id.id_5);
-        if(item_5 != undefined){
-          item_5.setAttribute("class","item_carousel index_-2");
-        }else{
-          return;
-        }
-
-        item_m2.setAttribute("id","");
-        item_5.setAttribute("id",this.index_id.id_m2);
-        item_4.setAttribute("id",this.index_id.id_5);
-        item_3.setAttribute("id",this.index_id.id_4);
-        item_2.setAttribute("id",this.index_id.id_3);
-        item_1.setAttribute("id",this.index_id.id_2);
-        item_0.setAttribute("id",this.index_id.id_1);
-        item_m1.setAttribute("id",this.index_id.id_0);
-        item_m2.setAttribute("id",this.index_id.id_m1);
-
-        this.index = this.index - 1;
-        if(this.index < 0){
-          this.index = this.index + 4;
-        }
-        this.selection = 0;
-      },
-      index_1:function(){
-        let item_1 = document.getElementById(this.index_id.id_1);
-        let item_2 = document.getElementById(this.index_id.id_2);
-        let item_3 = document.getElementById(this.index_id.id_3);
-
-        if(item_1 == undefined||item_2 == undefined||item_3 == undefined){
-          return;
-        }
-        let items = [item_1,item_2,item_3];
-        items[this.selection].setAttribute("class",this.select_class[this.selection]);
-
-        this.selection = 0;
-        items[0].setAttribute("class","item_carousel index_1 select");
-      },
-      index_2:function(){
-        let item_1 = document.getElementById(this.index_id.id_1);
-        let item_2 = document.getElementById(this.index_id.id_2);
-        let item_3 = document.getElementById(this.index_id.id_3);
-        if(item_1 == undefined||item_2 == undefined||item_3 == undefined){
-          return;
-        }
-        let items = [item_1,item_2,item_3];
-        items[this.selection].setAttribute("class",this.select_class[this.selection]);
-
-        this.selection = 1;
-        items[1].setAttribute("class","item_carousel index_2 select");
-      },
-      index_3:function(){
-
-        let item_1 = document.getElementById(this.index_id.id_1);
-        let item_2 = document.getElementById(this.index_id.id_2);
-        let item_3 = document.getElementById(this.index_id.id_3);
-        if(item_1 == undefined||item_2 == undefined||item_3 == undefined){
-          return;
-        }
-        let items = [item_1,item_2,item_3];
-        items[this.selection].setAttribute("class",this.select_class[this.selection]);
-
-        this.selection = 2;
-        items[2].setAttribute("class","item_carousel index_3 select");
-      },
-      index_4:function(){
-        let item_m2 = document.getElementById(this.index_id.id_m2);
-        if(item_m2 == undefined){
-          return;
-        }
-        item_m2.setAttribute("class","item_carousel index_5");
-
-        let item_m1 = document.getElementById(this.index_id.id_m1);
-        if(item_m1 == undefined){
-          return;
-        }
-        item_m1.setAttribute("class","item_carousel index_-2");
-
-        let item_0 = document.getElementById(this.index_id.id_0);
-        if(item_0 == undefined){
-          return;
-        }
-        item_0.setAttribute("class","item_carousel index_-1");
-
-        let item_1 = document.getElementById(this.index_id.id_1);
-        if(item_1 == undefined){
-          return;
-        }
-        item_1.setAttribute("class","item_carousel index_0");
-
-        let item_2 = document.getElementById(this.index_id.id_2);
-        if(item_2 == undefined){
-          return;
-        }
-        item_2.setAttribute("class","item_carousel index_1");
-
-        let item_3 = document.getElementById(this.index_id.id_3);
-        if(item_3 == undefined){
-          return;
-        }
-        item_3.setAttribute("class","item_carousel index_2");
-
-        let item_4 = document.getElementById(this.index_id.id_4);
-        if(item_4 == undefined){
-          return;
-        }
-        item_4.setAttribute("class","item_carousel index_3 select");
-
-        let item_5 = document.getElementById(this.index_id.id_5);
-        if(item_5 == undefined){
-          return;
-        }
-        item_5.setAttribute("class","item_carousel index_4");
-
-        item_5.setAttribute("id","");
-        item_m2.setAttribute("id",this.index_id.id_5);
-        item_m1.setAttribute("id",this.index_id.id_m2);
-        item_0.setAttribute("id",this.index_id.id_m1);
-        item_1.setAttribute("id",this.index_id.id_0);
-        item_2.setAttribute("id",this.index_id.id_1);
-        item_3.setAttribute("id",this.index_id.id_2);
-        item_4.setAttribute("id",this.index_id.id_3);
-        item_5.setAttribute("id",this.index_id.id_4);
-
-        this.index = (this.index + 1) % 4;
-        this.selection = 2;
-      },
       select:function(){
-        router.push(this.path[(this.index+this.selection)%4]);
+        if(this.selection>=0){
+          router.push(this.path[this.selection%4]);
+        }else{
+          router.push(this.path[(this.selection%4+4)%4]);
+        }
+        
       }
     }
   }
@@ -480,13 +263,8 @@
     overflow: hidden;
     width: 200vw;
     position: relative;
-    background: #000;
+    background: #fff;
   }
-  .section{
-    flex: 1;
-    height:100vh;
-  }
-
   .item_carousel{
     display: inline-block;
     position: fixed;
@@ -494,7 +272,8 @@
     height: 100vh;
     transform: skew(-7.5deg);
     overflow: hidden;
-    transition: all 0.6s ease;
+    transition-property:left,width;
+    transition-duration: 0.6s;
   }
 
   .item_carousel img{
@@ -550,22 +329,22 @@
   /*
     被选中z-index变为2，否则外发光效果可能会被遮挡
    */
-  .select{
+  #index > .select{
     box-shadow: 0px 0px 5vw rgba(0,0,0,0.75);
     width: 20vw;
     z-index: 2;
   }
 
-  .select img{
+  #index > .select img{
     opacity: 1;
   }
 
-  .select span{
+  #index > .select span{
     font-size: 3vw;
     text-shadow: 0px 0px 1.5vw rgba(255,255,255,1);
   }
   
-  .shadow{
+  #index > .item_carousel > .shadow{
     height: 100%;
     width: 100%;
     top: 0vh;
@@ -575,11 +354,11 @@
     opacity: 0.45;
   }
 
-  .select > .shadow{
+  #index > .select > .shadow{
     opacity: 0;
   }
 
-  .text_bg{
+  #index > .item_carousel >.text_bg{
     position: absolute;
     bottom: 0vh;
     width:100%;
@@ -588,7 +367,7 @@
     background: -webkit-linear-gradient(bottom, rgba(255,255,255,0.3), rgba(255,255,255,0));
   }
 
-  .select > .text_bg{
+  #index > .select > .text_bg{
     height: 15%;
     background: -webkit-linear-gradient(bottom, rgba(78,123,235,0.7), rgba(78,123,235,0));
   }
@@ -607,22 +386,11 @@
     每次向左/右移动时最左/右的模块都会移动到最右/左边
     由于-2和5的透明度为0，所以穿过屏幕时并不会被目击到
   */
-  .index_-2{
-    opacity: 0;
-    left:-55vw;
-  }
-
-  .index_-1{
-    opacity: 1;
-    left:-20vw;
+  .index_m2{
+    z-index:-1;
   }
   
-  /*
-    由于index_0比较宽需要遮住index_-1,z-index设为1  
-   */
   .index_0{
-    opacity: 1;
-    left:-5vw;
     width: 30vw;
     z-index: 1;
   }
@@ -630,24 +398,8 @@
   .index_0 span{
     left:3.8vw;
   }
-
-  .index_1{
-    opacity: 1;
-    left:25vw;
-  } 
-  
-  .index_2{
-    opacity: 1;
-    left:45vw;
-  } 
-  
-  .index_3{
-    opacity: 1;
-    left:65vw;
-  } 
   
   .index_4{
-    opacity: 1;
     left:85vw;
   } 
 
@@ -655,9 +407,5 @@
     left:2vw;
   }
 
-  .index_5{
-    opacity: 0;
-    left:105vw;
-  }
 </style>
 

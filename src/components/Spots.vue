@@ -20,20 +20,18 @@
             :visited="item.visited"
             :pic_url="item.url"
             :type="item.type"
-            :height="item.type==3?59.9:53.89"
-            :width="item.type==3?20.83:18.75"
+            class="pic"
             key="first">
           </picture-dialog>
 
           <picture-dialog
-            v-else="toggle"  
+            v-else 
             :title="item.name"
             :like="item.likeNum"
             :visited="item.visited"
             :pic_url="item.url"
             :type="item.type"
-            :height="item.type==3?59.9:53.89"
-            :width="item.type==3?20.83:18.75"
+            class="pic"
             key="second"
              > 
           </picture-dialog>
@@ -45,7 +43,7 @@
        <li v-for="index in getPageIndex"> 
         <transition name="indexFade" mode="out-in">
            <img v-if="index" key="foucs" :src="ico_index_foucs" /> 
-           <img v-else="index" key="unfoucs" :src="ico_index" /> 
+           <img v-else key="unfoucs" :src="ico_index" /> 
         </transition>
       </li>
     </ul> 
@@ -390,6 +388,11 @@
   transition: all 0.4s
 }
 
+#spotsList > .noSelect > .pic{
+  width:18.75vw;
+  height: 53.89vh;
+}
+
 #spotsList > .select{
   box-shadow: 0 0 5vw rgba(0,0,0,0.7);
   width:20.83vw;
@@ -398,6 +401,11 @@
   top:0;
   vertical-align: top;
   transition: all 0.4s
+}
+
+#spotsList > .select > .pic{
+  width:20.83vw;
+  height: 59.9vh;
 }
 
 #pageIndex{
