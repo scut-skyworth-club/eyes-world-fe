@@ -2,7 +2,7 @@
   <div id="favorite">
     <div id="favorite-container" v-on:click="slideImg">
       <h2 class="title">{{title}}</h2>
-      <h5 class="photo-amount">{{amount}} Photos</h5>
+      <h5 class="photo-amount">{{amount}} Photos</h5> 
       <date class="time"></date>
       <first-image id="first-img" :bigsize="bigsize" :smallsize="smallsize" :url="url" :date="date" :photo-name="photoName" :author="author"></first-image>
       <div id="slide-img-container">

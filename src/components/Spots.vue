@@ -12,7 +12,7 @@
 
     <ul id="spotsList">
        <li v-for="item in getSpots" :class="item.type==3?'select':'noSelect'"> 
-        <transition name="fade" mode="out-in">
+         <transition name="fade" mode="out-in"> 
           <picture-dialog
             v-if="toggle"
             :title="item.name"
@@ -26,7 +26,7 @@
           </picture-dialog>
 
           <picture-dialog
-            v-else-if="toggle"  
+            v-else 
             :title="item.name"
             :like="item.likeNum"
             :visited="item.visited"
@@ -37,20 +37,20 @@
             key="second"
              > 
           </picture-dialog>
-        </transition>
+         </transition> 
       </li>
     </ul>
  
     <ul id="pageIndex">
        <li v-for="index in getPageIndex"> 
-        <transition name="indexFade" mode="out-in">
-           <img v-if="index" key="foucs" :src="ico_index_foucs" /> 
-           <img v-else-if="index" key="unfoucs" :src="ico_index" /> 
-        </transition>
+        <!-- <transition name="indexFade" mode="out-in"> -->
+            <img v-if="index" key="foucs" :src="ico_index_foucs" />  
+            <img v-else="index" key="unfoucs" :src="ico_index" />  
+        <!-- </transition> -->
       </li>
     </ul> 
 
-    <div id="button_re" @click="select_re"></div>
+     <div id="button_re" @click="select_re"></div> 
     <div id="button_ad" @click="select_ad"></div>  
 
   </div>
@@ -316,7 +316,7 @@
   height:100vh;
   width:5vw;
   left:0;
-  /*background:red;*/
+  /* background:red; */
 }
 
 #button_ad{
@@ -330,14 +330,14 @@
 #spotsList{
   position: absolute;
   top:18.33vh;
-  left:5.2vw;
+  left:5.2vw; 
   width: 100vw;
   height: 59.9vh;
 }
 
 #spotsList li{
-  display: inline-block;
-  position: relative;
+  display: inline-block; 
+   position: relative; 
 }
 
 #spotsList > .noSelect{
@@ -345,7 +345,7 @@
   width:18.75vw;
   height: 53.89vh;
   margin-right:4vw;
-  vertical-align: top;
+  vertical-align: top; 
   top:3vh;
   transition: all 0.4s
 }
@@ -356,7 +356,7 @@
   height: 59.9vh;
   margin-right: 3.125vw;
   top:0;
-  vertical-align: top;
+  vertical-align: top; 
   transition: all 0.4s
 }
 
@@ -368,7 +368,7 @@
 }
 
 #pageIndex > li{
-  display: inline-block;
+  display: inline;
   vertical-align: middle;
   margin-left:1.3vw;
   margin-right: 1.3vw;
@@ -377,16 +377,16 @@
 .indexFade-enter-active, .indexFade-leave-active {
   transition: all 0.2s
 }
-.indexFade-enter, .indexFade-leave-to /* .fade-leave-active in below version 2.1.8 */ {
+.indexFade-enter, .indexFade-leave-to  {
   opacity: 0.5
-}
+}  
 
 .fade-enter-active, .fade-leave-active {
   transition: all 0.4s
 }
 .fade-enter, .fade-leave-to {
   opacity: 0
-}
+}     
 
 /*#pageIndex > li > img{
   position: relative;
