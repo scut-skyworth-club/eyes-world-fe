@@ -22,6 +22,8 @@ For detailed explanation on how things work, checkout the [guide](http://vuejs-t
 
 ## 前端从后端取数据
 
+**注意：**fetch 的请求网址为后端接口，不同页面可能有不同的接口，具体请参考接口文档 [https://github.com/eyes-world/eyes-world-api/blob/master/api.md](https://github.com/eyes-world/eyes-world-api/blob/master/api.md)
+
 ```js
 // 代码示例
 fetch('http://39.108.149.106/login/tv/login', {
@@ -49,6 +51,6 @@ fetch('http://39.108.149.106/login/tv/login', {
 
 | 用户名 | 密码 |
 |------|------|
-|Mike | 123 |
+| mike | 123 |
 
 进行登录,然后点击 <登录> 按钮,然后回到你的原工程网页,刷新,便可以获取到后端数据
