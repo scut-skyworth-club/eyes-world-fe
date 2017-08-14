@@ -11,26 +11,26 @@
     </div>
 
     <ul id="spotsList">
-       <li v-for="item in getSpots" :class="item.type==3?'select':'noSelect'"> 
+       <li v-for="(item,index) in getSpots" :class="select==index?'select':'noSelect'" :key="index"> 
         <transition name="fade" mode="out-in">
           <picture-dialog
             v-if="toggle"
-            :title="item.name"
-            :like="item.likeNum"
-            :visited="item.visited"
+            :title="item.albumName"
+            :like="item.likeAmount"
+            :visited="item.visitAmount"
             :pic_url="item.url"
-            :type="item.type"
+            :type="select==index?3:2"
             class="pic"
             key="first">
           </picture-dialog>
 
           <picture-dialog
             v-else 
-            :title="item.name"
-            :like="item.likeNum"
-            :visited="item.visited"
+            :title="item.albumName"
+            :like="item.likeAmount"
+            :visited="item.visitAmount"
             :pic_url="item.url"
-            :type="item.type"
+            :type="select==index?3:2"
             class="pic"
             key="second"
              > 
@@ -141,7 +141,14 @@
         return "星期"+day[new Date().getDay()];
       },
       getWeather:function(){
+        //天气使用的是阿里云的api
+        //官方链接在这：
+        //https://market.aliyun.com/products/57126001/cmapi014302.html?spm=5176.2020520132.101.5.vFRCrl#sku=yuncode830200000
+        let self = this;
         var name = encodeURIComponent(this.$route.params.cityName);
+
+        //我为此注册了一个阿里云帐号，appcode如下
+        //帐号密码我放trello上吧
         var appCode = "83f43e4013354de2ab53c487cd86797e";
         fetch('http://jisutqybmf.market.alicloudapi.com/weather/query?city='+name,{
           headers:{
@@ -150,13 +157,13 @@
         }).then(function(res){
           if(res.status == "200"){
             res.json().then(function(json){
-              document.getElementById("spots").__vue__.weather = json.result.weather;
+              self.weather = json.result.weather;
             })
           }else{
-            document.getElementById("spots").__vue__.weather = "获取失败";
+            self.weather = "获取失败";
           }
         }, function(res){
-            document.getElementById("spots").__vue__.weather = "获取失败";
+            self.weather = "获取失败";
         });
       },
       getSpots:function(){
@@ -202,99 +209,87 @@
         spots:[
           {
             albumId:0,
-            name:"广州塔0",
-            visited:200,
-            likeNum:200,
+            albumName:"广州塔0",
+            visitAmount:200,
+            likeAmount:200,
             url:bg1,
-            type:3,
           },
           {
             albumId:1,
-            name:"海心沙0",
-            visited:200,
-            likeNum:200,
+            albumName:"海心沙0",
+            visitAmount:200,
+            likeAmount:200,
             url:bg2,
-            type:2,
           },
           {
             albumId:2,
-            name:"烈士陵园0",
-            visited:200,
-            likeNum:200,
+            albumName:"烈士陵园0",
+            visitAmount:200,
+            likeAmount:200,
             url:bg3,
-            type:2,
           },
           {
             albumId:3,
-            name:"华南理工大学0",
-            visited:200,
-            likeNum:200,
+            albumName:"华南理工大学0",
+            visitAmount:200,
+            likeAmount:200,
             url:bg4,
-            type:2,
           },
           {
             albumId:0,
-            name:"广州塔1",
-            visited:200,
-            likeNum:200,
+            albumName:"广州塔1",
+            visitAmount:200,
+            likeAmount:200,
             url:bg4,
-            type:3,
           },
           {
             albumId:1,
-            name:"海心沙1",
-            visited:200,
-            likeNum:200,
+            albumName:"海心沙1",
+            visitAmount:200,
+            likeAmount:200,
             url:bg3,
-            type:2,
           },
           {
             albumId:2,
-            name:"烈士陵园1",
-            visited:200,
-            likeNum:200,
+            albumName:"烈士陵园1",
+            visitAmount:200,
+            likeAmount:200,
             url:bg2,
-            type:2,
           },
           {
             albumId:3,
-            name:"华南理工大学1",
-            visited:200,
-            likeNum:200,
+            albumName:"华南理工大学1",
+            visitAmount:200,
+            likeAmount:200,
             url:bg1,
-            type:2,
           },
           {
             albumId:0,
-            name:"广州塔2",
-            visited:200,
-            likeNum:200,
+            albumName:"广州塔2",
+            visitAmount:200,
+            likeAmount:200,
             url:bg1,
-            type:3,
           },
           {
             albumId:1,
-            name:"海心沙2",
-            visited:200,
-            likeNum:200,
+            albumName:"海心沙2",
+            visitAmount:200,
+            likeAmount:200,
             url:bg2,
-            type:2,
           },
           {
             albumId:2,
-            name:"烈士陵园2",
-            visited:200,
-            likeNum:200,
+            albumName:"烈士陵园2",
+            visitAmount:200,
+            likeAmount:200,
             url:bg3,
-            type:2,
           },
           {
             albumId:3,
-            name:"华南理工大学2",
-            visited:200,
-            likeNum:200,
+            albumName:"华南理工大学2",
+            visitAmount:200,
+            likeAmount:200,
             url:bg4,
-            type:2,
           },
         ],
       }
@@ -322,8 +317,13 @@
 
 
 <style>
+@font-face {
+  font-family: font757;
+  src: url("../assets/font/小米兰亭.ttf");
+}
+
 #spots div{
-  font-family: "小米兰亭";
+  font-family: font757;
   color: white;
   font-size: 2.96vh;
   /*letter-spacing: 1vh;*/

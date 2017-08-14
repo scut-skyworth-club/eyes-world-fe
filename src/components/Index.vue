@@ -253,6 +253,12 @@
 </script>
 
 <style>
+
+  @font-face {
+    font-family: font757;
+    src: url("../assets/font/小米兰亭.ttf");
+  }
+
   body {
     width: 200vw;
     height: 100vh;
@@ -286,7 +292,7 @@
   }
 
   .item_carousel span{
-    font-family: "小米兰亭";
+    font-family: font757;
     position: absolute;
     bottom:5.55vh;
     text-align: center;
