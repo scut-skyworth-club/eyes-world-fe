@@ -445,20 +445,23 @@
             }
         },
 
-        // created:function(){
-        //     url="39.108.149.106"
-        //     $.ajax({
-        //         type:"GET",
-        //         // data:data,
-        //         url:url,
-        //         dataType:"json",
-        //         success:function(data){
-        //             console.log("success");
-        //             console.log(data);
-        //         }
+        beforeCreate:function(){
+            var url="http://39.108.149.106:8080/login.html";
+            $.ajax({
+                type:"GET",
+                async:true,
+                url:url,
+                dataType:"jsonp",
+                success:function(data){
+                    console.log("success");
+                    console.log(data);
+                },
+                error:function(){
+                    console.log("error");
+                }
 
-        //     });
-        // }, 
+            });
+        }, 
 
         methods:{
 
