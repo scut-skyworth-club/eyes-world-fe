@@ -15,7 +15,7 @@
     // import Favorite from './Favorite'
     
     // import Works from './Works'
-    
+    import router from '../router/index';
     import User from './User'
     export default {
         data() {
@@ -32,7 +32,12 @@
             choose: function() {
                 switch (this.index) {
                     case 1:
-                        location.href = 'http://localhost:8080/#/user/works/hello';
+                        router.push({
+                            name: 'Works',
+                            params: {
+                                userName: 'Ice'
+                            }
+                        });
                         break;
                     case 2:
                         location.href = 'http://localhost:8080/#/user/favorite/456';
