@@ -6,26 +6,24 @@
       <p class="photo-amount">{{amount}} Photos</p>
       <date class="time"></date>
       <first-image id="first-img"
-       :bigsize="bigsize"
-       :smallsize="smallsize" 
-       :url="url" 
-       :create-time="createTime" 
-       :photo-name="photoName" 
-       :user-name="userName" 
-       :counter="counter">
+       :url="firstImg.url" 
+       :create-time="firstImg.createTime" 
+       :photo-name="firstImg.photoName" 
+       :user-name="firstImg.username" 
+       :counter="counter"
+       :visited-amount="firstImg.visitedAmount"
+       :like-amount="firstImg.likeAmount">
       </first-image>
       <div id="slide-img-container">
         <div :style="{left:oLeft+'vw'}">
           <ul>
             <li v-for="(item,index) in images" :key="item.photoId">
               <small-images class="small-img"
-               :titlesize="titlesize" 
-               :datesize="datesize" 
                :index="index" 
                :url="item.url" 
                :create-time="item.createTime" 
                :photo-name="item.photoName" 
-               :user-name="item.userName" 
+               :user-name="item.username" 
                :counter="counter">
               </small-images>
             </li>
@@ -249,34 +247,37 @@
     data() {
       return {
         title: "我的收藏",
-        firstinfo: firstPic,
-        bigsize: 5.556,
-        smallsize: 1.389,
-        url: bg0,
-        createTime: "2019/06/25",
-        photoName: "允儿",
-        userName: "Tony",
-        titlesize: 2.778,
-        datesize: 1.0185,
-        images: afterData,   //后台数据接口
+        images: [],//afterData,   //后台数据接口
         oLeft: 2.084, 
         counter: 0,
-        amount: afterData.length,
+        amount: 0,
+        firstImg: {},
         bgs:[
           bg
         ]
       }
     },
-  
+    mounted: function (){
+      var self = this;
+      fetch('http://39.108.149.106/api/user/works', {
+        method: 'GET',
+        mode: 'cors',
+        headers: {
+          'Access-Control-Allow-Credentials': true,
+          'Content-Type':'application/x-www-form-urlencoded; charset=UTF-8',
+        },
+        credentials: "include"
+      }).then(function(response) {
+        return response.json();
+      }).then(function(getData) {
+        self.amount = getData.length;
+        let tmp = getData.reverse();
+        let [first,...rest]=tmp;
+        self.firstImg = first;
+        self.images = rest;
+      });
+    },
     methods: {
-      // slideImg: function () {
-      //   if (Math.floor(this.counter++/(Math.ceil(this.amount/2)-3))%2===0) {
-      //     this.oLeft = this.oLeft - 17.708;
-      //   }
-      //   else {
-      //     this.oLeft = this.oLeft + 17.708;
-      //   }
-      // }
       leftMove: function (){
         if (this.counter!==1) {
           if (this.counter===2) {
@@ -291,7 +292,7 @@
         }
       },
       rightMove: function (){
-        if (this.counter!==this.amount&&this.counter!==this.amount+1) {
+        if (this.counter!==this.amount-1&&this.counter!==this.amount) {
           if (this.counter===1) {
             this.counter++;
           }else{
@@ -310,7 +311,7 @@
         }
       },
       downMove: function (){
-        if (this.counter%2===0&&this.counter!==this.amount+1) {
+        if (this.counter%2===0&&this.counter!==this.amount) {
           //小图位于第一行可以使用down键，同时排除最后一张小图在第一行的情况
           this.counter++;
         }

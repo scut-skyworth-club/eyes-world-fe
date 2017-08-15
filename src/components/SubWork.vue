@@ -1,7 +1,7 @@
 <template>
   <div class="sub-work" :style="{left:(index*27.083+6.25)+'vw'}">
-      <div class="time-container">
-        <p>{{date}}</p>
+      <div class="time-container" :create-time="parseDate">
+        <p>{{createTime}}</p>
       </div>
       <div class="camera-container">
         <div>
@@ -9,10 +9,15 @@
         </div> 
       </div>
       <hr class="line" v-if="!(index+1==amount)"/>
-      <div class="work-img" :style="{transform:'scale('+xScale+','+yScale+')'}" :xScale="calculteSize" :yScale="calculteSize">
-           <img :src="url" alt="2"> 
+      <div class="work-img"
+       :style="{transform:'scale('+xScale+','+yScale+')'}" 
+       :xScale="calculteSize" 
+       :yScale="calculteSize"
+       :newUrl="parseUrl"
+       :photo-name="parseName">
+           <img :src="newUrl" alt="2"> 
            <div>
-             <p :style="{fontSize:size+'vh'}" :size="calculteSize">{{title}}</p>
+             <p :style="{fontSize:size+'vh'}" :size="calculteSize">{{photoName}}</p>
            </div>
       </div>
   </div>
@@ -25,6 +30,9 @@ export default {
            xScale: 1,
            yScale: 1,
            size: 2.963, 
+           newUrl: "",
+           photoName: "",
+           createTime: 0,
         }
     },
     methods:{
@@ -34,7 +42,6 @@ export default {
         uploadPhoto: function () {
             alert("上传图片");
         },
-        
     },
     computed:{
         calculteSize: function (){
@@ -47,6 +54,50 @@ export default {
                 this.yScale = 1;
                 this.size = 2.963;
             }
+        },
+        parseUrl: function (){
+            this.newUrl = "http://39.108.149.106"+this.url; //对传过来的url进行解析
+        },
+        parseName: function (){
+            let str = "-";
+            this.photoName = this.title.split(str)[0];
+        },
+        parseDate: function (){
+            // this.createTime = new Date(parseInt(this.date)).toLocaleString().substr(0,18);
+            // function formatDate(time) {
+            //     if (time<10) {
+            //         time = '0'+time;
+            //     }
+            //     return time;
+            // }
+            let newDate = new Date(parseInt(this.date));
+            let year = newDate.getFullYear();
+            let month = newDate.getMonth();
+            let day = newDate.getDay();
+            let hours = newDate.getHours();
+            let minutes = newDate.getMinutes();
+            let seconds = newDate.getSeconds();
+            // formatDate(month);
+            // formatDate(day);
+            // formatDate(hours);
+            // formatDate(minutes);
+            // formatDate(seconds);
+            if (month<10) {
+                month = '0'+month;
+            }
+            if (day<10) {
+                day = '0'+day;
+            }
+            if (hours<10) {
+                hours = '0'+hours;
+            }
+            if (minutes<10) {
+                minutes = '0'+minutes;
+            }
+            if (seconds<10) {
+                seconds = '0'+seconds;
+            }
+            this.createTime = year+'-'+month+'-'+day+' '+hours+':'+minutes+':'+seconds;
         },
     },
     props:['index','date','url','title','amount','counter']

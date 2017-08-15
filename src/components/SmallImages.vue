@@ -5,13 +5,15 @@
         transform:'scale('+size+')',
         boxShadow:shadow}"
         :size="change"
-        :shadow="change">   
-        <img :src="url">
+        :shadow="change"
+        :new-url="parseUrl"
+        :new-photo-name="parseName">   
+        <img :src="newUrl">
         <pics-info class="pics-information"
-         :bigsize="titlesize" 
-         :smallsize="datesize"
+         :big-size="bigSize" 
+         :small-size="smallSize"
          :create-time="createTime" 
-         :photo-name="photoName" 
+         :photo-name="newPhotoName" 
          :user-name="userName"
          :style="{display:display}"
          :display="change">
@@ -30,9 +32,13 @@
                 size: 1,
                 shadow: 'none',
                 display: 'none',
+                bigSize: 2.778,
+                smallSize: 1.019,
+                newUrl: "",
+                newPhotoName: "",
             }
         },
-        props: ['titlesize', 'datesize', 'index', 'url', 'createTime', 'photoName', 'userName','counter'],
+        props: ['index', 'url', 'createTime', 'photoName', 'userName','counter'],
         components: {
             PicsInfo
         },
@@ -50,7 +56,14 @@
                     this.shadow = 'none';
                     this.display = 'none';
                 }
-            }
+            },
+            parseUrl: function (){
+                this.newUrl = "http://39.108.149.106"+this.url;
+            },
+            parseName: function (){
+                let str = "-";
+                this.newPhotoName = this.photoName.split(str)[0];
+            },
         }
     }
 </script>

@@ -1,12 +1,12 @@
 <template>
   <div class="first-pic" :style="{transform:'scale('+size+')',boxShadow:shadow}"
-  :size="change" :shadow="change">
-    <img :src="url" alt="1"> 
+  :size="change" :shadow="change" :newUrl="parseUrl" :new-photo-name="parseName">
+    <img :src="newUrl" alt="1"> 
     <pics-info class="pics-information"
-    :bigsize="bigsize"
-    :smallsize="smallsize" 
+    :big-size="bigSize"
+    :small-size="smallSize" 
     :create-time="createTime"
-    :photo-name="photoName" 
+    :photo-name="newPhotoName" 
     :user-name="userName" 
     :style="{display:display}"
     :display="change"></pics-info>
@@ -22,12 +22,16 @@ export default {
         return {
             msg: 'hello',
             bgs: [bg1],
+            bigSize: 4.444,
+            smallSize: 1.389,
             size: 1,
             shadow: 'none',
             display: 'none',
+            newUrl: "",
+            newPhotoName: "",
         }
     },
-    props:['bigsize','smallsize','url','createTime','photoName','userName','counter'],
+    props:['url','createTime','photoName','userName','counter'],
     components:{
         PicsInfo
     },
@@ -45,7 +49,14 @@ export default {
                 this.shadow = 'none';
                 this.display = 'none';
             }
-        }
+        },
+        parseUrl: function (){
+            this.newUrl = "http://39.108.149.106"+this.url;
+        },
+        parseName: function (){
+            let str = "-";
+            this.newPhotoName = this.photoName.split(str)[0];
+        },
     }
     
 }

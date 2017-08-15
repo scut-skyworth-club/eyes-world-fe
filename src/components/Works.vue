@@ -39,86 +39,69 @@
   import SubWork from './SubWork'
   import router from '../router/index'
   
-
-  // var myData = [];
-  // fetch('http://39.108.149.106/api/user/works', {
-  //   method: 'GET',
-  //   mode: 'cors',
-  //   headers: {
-  //     'Access-Control-Allow-Credentials': true,
-  //     'Content-Type':'application/x-www-form-urlencoded; charset=UTF-8',
+  // var afterData2 = [{
+  //     id: 1,
+  //     url: bg1,
+  //     createTime: "2015-03-30 13:24:01",
+  //     photoName: "允儿"
   //   },
-  //   credentials: "include"
-  // }).then(function(response) {
-  //   return response.json();
-  // }).then(function(getData) {
-  //   myData = getData;
-  //   console.log(myData);
-  // });
 
-  var afterData2 = [{
-      id: 1,
-      url: bg1,
-      createTime: "2015-03-30 13:24:01",
-      photoName: "允儿"
-    },
+  //   {
+  //     id: 2,
+  //     url: bg2,
+  //     createTime: "2016-08-30 10:10:01",
+  //     photoName: "迪丽热巴"
+  //   },
+  //   {
+  //     id: 3,
+  //     url: bg4,
+  //     createTime: "2016-10-09 20:24:23",
+  //     photoName: "杨幂"
+  //   },
+  //   {
 
-    {
-      id: 2,
-      url: bg2,
-      createTime: "2016-08-30 10:10:01",
-      photoName: "迪丽热巴"
-    },
-    {
-      id: 3,
-      url: bg4,
-      createTime: "2016-10-09 20:24:23",
-      photoName: "杨幂"
-    },
-    {
+  //     id: 4,
+  //     url: bg3,
+  //     createTime: "2017-07-28 09:08:02",
+  //     photoName: "宋茜"
+  //   },
 
-      id: 4,
-      url: bg3,
-      createTime: "2017-07-28 09:08:02",
-      photoName: "宋茜"
-    },
+  //   {
+  //     id: 5,
+  //     url: bg5,
+  //     createTime: "2017-08-03 09:08:02",
+  //     photoName: "宋茜"
+  //   },
 
-    {
-      id: 5,
-      url: bg5,
-      createTime: "2017-08-03 09:08:02",
-      photoName: "宋茜"
-    },
+  //   {
+  //     id: 6,
+  //     url: bg6,
+  //     createTime: "2017-08-21 09:08:02",
+  //     photoName: "七朵"
+  //   },
 
-    {
-      id: 6,
-      url: bg6,
-      createTime: "2017-08-21 09:08:02",
-      photoName: "七朵"
-    },
+  //   {
+  //     id: 7,
+  //     url: bg7,
+  //     createTime: "2017-09-01 09:08:02",
+  //     photoName: "允儿"
+  //   },
 
-    {
-      id: 7,
-      url: bg7,
-      createTime: "2017-09-01 09:08:02",
-      photoName: "允儿"
-    },
-
-    {
-      id: 8,
-      url: bg8,
-      createTime: "2017-10-13 09:08:02",
-      photoName: "迪丽热巴"
-    },
-  ];
+  //   {
+  //     id: 8,
+  //     url: bg8,
+  //     createTime: "2017-10-13 09:08:02",
+  //     photoName: "迪丽热巴"
+  //   },
+  // ];
   export default {
     name: 'works',
     data() {
       return {
         left: 0,
         oWidth: 100,
-        works: afterData2,
-        amount: afterData2.length,
+        works: [],
+        amount: 0,//afterData2.length,
         bgs:[
           bg,
           uploadIcon,
@@ -129,18 +112,29 @@
         counter: 0,
       }
     },
+    mounted: function (){
+      var self = this;
+      fetch('http://39.108.149.106/api/user/works', {
+        method: 'GET',
+        mode: 'cors',
+        headers: {
+          'Access-Control-Allow-Credentials': true,
+          'Content-Type':'application/x-www-form-urlencoded; charset=UTF-8',
+        },
+        credentials: "include"
+      }).then(function(response) {
+        return response.json();
+      }).then(function(getData) {
+        self.works = getData;
+        self.amount = getData.length;
+        console.log(getData);
+      });
+    },
+    
     components: {
       Date,
       SubWork,
     },
-    // created:function() {
-    //   var myData = [];
-    //   $.get('http://39.108.149.106/api/user/works',function(data) {
-    //     myData = data;
-    //   });
-
-    //   console.log(myData);
-    // },
     methods: {
       uploadPhoto: function () {
         // alert("上传图片");
@@ -183,11 +177,7 @@
           }
         }
       },
-      fetchData: function (){
-        
-      }
     },
-
     computed: {
       setKey:function(){
           let self = this;
@@ -233,23 +223,6 @@
         
       },
     },
-    // watch: {
-    //   works: function (){
-    //     fetch('http://39.108.149.106/api/user/works', {
-    //       method: 'GET',
-    //       mode: 'cors',
-    //       headers: {
-    //         'Access-Control-Allow-Credentials': true,
-    //         'Content-Type':'application/x-www-form-urlencoded; charset=UTF-8',
-    //       },
-    //       credentials: "include"
-    //     }).then(function(response) {
-    //       return response.json();
-    //     }).then(function(getData) {
-    //       this.works = getData;
-    //     });
-    //   }
-    // }
   }
 
 </script>
