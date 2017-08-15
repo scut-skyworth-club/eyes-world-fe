@@ -165,7 +165,7 @@
 						}
 						this.fontAdjustMiddleWithMargin = {
 							fontSize:font_m*0.8 +"px",
-							marginRight:(font_m*0.8+x*0.02)+"px"
+							marginRight:(font_m*0.8+x*0.03)+"px"
 						}
 						break;
 					case 5:
