@@ -17,29 +17,27 @@
                         <picture-dialog
                             v-if="toggle[index]"
                             key="first"
+                            class="picture"
                             :date="item.date"
                             :author="item.author"
                             :title="item.name"
                             :like="item.likeNum"
                             :visited="item.visited"
                             :pic_url="item.url"
-                            :type="item.type"
-                            :height="item.type==5?27.5:24"
-                            :width="item.type==5?21.5:19.5">
+                            :type="item.type">
                         </picture-dialog>
 
                         <picture-dialog
                             v-else
                             key="second"
+                            class="picture"
                             :date="item.date"
                             :author="item.author"
                             :title="item.name"
                             :like="item.likeNum"
                             :visited="item.visited"
                             :pic_url="item.url"
-                            :type="item.type"
-                            :height="item.type==5?27.5:24"
-                            :width="item.type==5?21.5:19.5"> 
+                            :type="item.type"> 
                         </picture-dialog>
                     </transition>
                 </li>
@@ -51,7 +49,6 @@
 </template>
 
 <script>
-
     import $ from 'jquery'
 
     import bg1 from '../assets/bg1.jpg'
@@ -446,21 +443,21 @@
         },
 
         beforeCreate:function(){
-            var url="http://39.108.149.106:8080/login.html";
-            $.ajax({
-                type:"GET",
-                async:true,
-                url:url,
-                dataType:"jsonp",
-                success:function(data){
-                    console.log("success");
-                    console.log(data);
+            var url = "";
+            fetch(url, {
+                mode:'cors',
+                method:'GET',
+                headers:{
+                    'Access-Control-Allow-Credentials': true,
+                    'Content-Type':'application/x-www-form-urlencoded; charset=UTF-8',
                 },
-                error:function(){
-                    console.log("error");
-                }
-
-            });
+                credentials:"include",
+                body:'marker=' + this.marker
+            }).then(function(response){
+                return response.json();
+            }).then(function(data){
+                console.log(data);
+            })
         }, 
 
         methods:{
@@ -613,6 +610,14 @@
         top:0;
         vertical-align: top; 
         transition: all 0.4s
+    }
+    .collageUl > .noSelect > .picture{
+        width:19.5vw;
+        height: 24vh;
+    }
+    .collageUl > .select > .picture{
+        width:21.5vw;
+        height: 27.5vh;
     }
 
     .fade-enter-active, .fade-leave-active {
