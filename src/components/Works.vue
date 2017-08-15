@@ -73,29 +73,8 @@
   //     photoName: "宋茜"
   //   },
 
-  //   {
-  //     id: 6,
-  //     url: bg6,
-  //     createTime: "2017-08-21 09:08:02",
-  //     photoName: "七朵"
-  //   },
-
-  //   {
-  //     id: 7,
-  //     url: bg7,
-  //     createTime: "2017-09-01 09:08:02",
-  //     photoName: "允儿"
-  //   },
-
-  //   {
-  //     id: 8,
-  //     url: bg8,
-  //     createTime: "2017-10-13 09:08:02",
-  //     photoName: "迪丽热巴"
-  //   },
-  // ];
   export default {
-    name: 'works',
+    name: 'Works',
     data() {
       return {
         left: 0,
