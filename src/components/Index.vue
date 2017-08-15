@@ -78,8 +78,9 @@
       </div>
       <div class="text_bg"></div>
       <span>{{title.t2}}</span>
-    </div>  
-  </div>   
+    </div>
+      {{setKey}}
+  </div>
 </template>
 
 <script>
@@ -156,11 +157,86 @@
           "latest",
           "user",
         ],
+        canSlide:true,
       }
     },
     computed: {
+      setKey:function(){
+        let self = this;
+        document.onkeydown = function(event){
+          switch(event.which){
+            case 37:
+            //left
+              self.select_re();
+              break;
+            case 38:
+            //up
+              break;
+            case 39:
+            //right
+              self.select_ad();
+              break;
+            case 40:
+            //down
+              break;
+            case 13:
+            //center
+              self.select();
+              break;
+            case 82:
+              break;
+            case 4:
+              break;
+          }
+        }
+      },
     },
     methods: {
+      select_ad:function(){
+        if(this.canSlide){
+          switch(this.selection){
+            case 0:
+              this.index_2();
+              this.toggleSlide();
+              setTimeout(this.toggleSlide,1000);
+              break;
+            case 1:
+              this.index_3();
+              this.toggleSlide();
+              setTimeout(this.toggleSlide,1000);
+              break
+            case 2:
+              this.index_4();
+              this.toggleSlide();
+              setTimeout(this.toggleSlide,1000);
+              break;
+          }
+        }
+      },
+      select_re:function(){
+        if(this.canSlide){
+          switch(this.selection){
+            case 0:
+              this.index_0();
+              this.toggleSlide();
+              setTimeout(this.toggleSlide,1000);
+              break;
+            case 1:
+              this.index_1();
+              this.toggleSlide();
+              setTimeout(this.toggleSlide,1000);
+              break
+            case 2:
+              this.index_2();
+              this.toggleSlide();
+              setTimeout(this.toggleSlide,1000);
+              break;
+          }
+        }
+      },
+      toggleSlide:function(){
+        this.canSlide = !this.canSlide;
+      },
       //所有项目点击事件都是slide()
       slide:function(){
         var id = window.event.target.parentNode.getAttribute("id");
@@ -168,36 +244,43 @@
         //若项目被选中，则进行路由
         //否则，改变选中项目
         //若点击项目为第0或第4个，则所有模块需要进行整体平移
-        switch(id){
-          case this.index_id.id_0:
-            this.index_0();
-            break;
-          case this.index_id.id_1:
-            if(this.selection == 0){
-              this.select();
-            }else{
-              this.index_1();
-            }
-            break;
-          case this.index_id.id_2:
-            if(this.selection == 1){
-              this.select();
-            }else{
-              this.index_2();
-            }
-            break;
-          case this.index_id.id_3:
-            if(this.selection == 2){
-              this.select();
-            }else{
-              this.index_3();
-            }
-            break;
-          case this.index_id.id_4:
-            this.index_4();
-            break;
-          default:
-            break;
+        //
+        if(this.canSlide){
+          switch(id){
+            case this.index_id.id_0:
+              this.index_0();
+              this.toggleSlide();
+              setTimeout(this.toggleSlide,1000);
+              break;
+            case this.index_id.id_1:
+              if(this.selection == 0){
+                this.select();
+              }else{
+                this.index_1();
+              }
+              break;
+            case this.index_id.id_2:
+              if(this.selection == 1){
+                this.select();
+              }else{
+                this.index_2();
+              }
+              break;
+            case this.index_id.id_3:
+              if(this.selection == 2){
+                this.select();
+              }else{
+                this.index_3();
+              }
+              break;
+            case this.index_id.id_4:
+              this.index_4();
+              this.toggleSlide();
+              setTimeout(this.toggleSlide,1000);
+              break;
+            default:
+              break;
+          }
         }
       },
       index_0:function(){
@@ -205,28 +288,60 @@
         // .setAttribute("class","item_carousel carousel_selector index_1");
 
         let item_m2 = document.getElementById(this.index_id.id_m2);
-        item_m2.setAttribute("class","item_carousel index_-1");
+        if(item_m2 != undefined){
+          item_m2.setAttribute("class","item_carousel index_-1");
+        }else{
+          return;
+        }
 
         let item_m1 = document.getElementById(this.index_id.id_m1);
-        item_m1.setAttribute("class","item_carousel index_0");
+        if(item_m1 != undefined){
+          item_m1.setAttribute("class","item_carousel index_0");
+        }else{
+          return;
+        }
 
         let item_0 = document.getElementById(this.index_id.id_0);
-        item_0.setAttribute("class","item_carousel index_1 select");
+        if(item_0 != undefined){
+          item_0.setAttribute("class","item_carousel index_1 select");
+        }else{
+          return;
+        }
 
         let item_1 = document.getElementById(this.index_id.id_1);
-        item_1.setAttribute("class","item_carousel index_2");
+        if(item_1 != undefined){
+          item_1.setAttribute("class","item_carousel index_2");
+        }else{
+          return;
+        }
 
         let item_2 = document.getElementById(this.index_id.id_2);
-        item_2.setAttribute("class","item_carousel index_3");
+        if(item_2 != undefined){
+          item_2.setAttribute("class","item_carousel index_3");
+        }else{
+          return;
+        }
 
         let item_3 = document.getElementById(this.index_id.id_3);
-        item_3.setAttribute("class","item_carousel index_4");
+        if(item_3 != undefined){
+          item_3.setAttribute("class","item_carousel index_4");
+        }else{
+          return;
+        }
 
         let item_4 = document.getElementById(this.index_id.id_4);
-        item_4.setAttribute("class","item_carousel index_5");
+        if(item_4 != undefined){
+          item_4.setAttribute("class","item_carousel index_5");
+        }else{
+          return;
+        }
 
         let item_5 = document.getElementById(this.index_id.id_5);
-        item_5.setAttribute("class","item_carousel index_-2");
+        if(item_5 != undefined){
+          item_5.setAttribute("class","item_carousel index_-2");
+        }else{
+          return;
+        }
 
         item_m2.setAttribute("id","");
         item_5.setAttribute("id",this.index_id.id_m2);
@@ -248,6 +363,10 @@
         let item_1 = document.getElementById(this.index_id.id_1);
         let item_2 = document.getElementById(this.index_id.id_2);
         let item_3 = document.getElementById(this.index_id.id_3);
+
+        if(item_1 == undefined||item_2 == undefined||item_3 == undefined){
+          return;
+        }
         let items = [item_1,item_2,item_3];
         items[this.selection].setAttribute("class",this.select_class[this.selection]);
 
@@ -258,6 +377,9 @@
         let item_1 = document.getElementById(this.index_id.id_1);
         let item_2 = document.getElementById(this.index_id.id_2);
         let item_3 = document.getElementById(this.index_id.id_3);
+        if(item_1 == undefined||item_2 == undefined||item_3 == undefined){
+          return;
+        }
         let items = [item_1,item_2,item_3];
         items[this.selection].setAttribute("class",this.select_class[this.selection]);
 
@@ -269,6 +391,9 @@
         let item_1 = document.getElementById(this.index_id.id_1);
         let item_2 = document.getElementById(this.index_id.id_2);
         let item_3 = document.getElementById(this.index_id.id_3);
+        if(item_1 == undefined||item_2 == undefined||item_3 == undefined){
+          return;
+        }
         let items = [item_1,item_2,item_3];
         items[this.selection].setAttribute("class",this.select_class[this.selection]);
 
@@ -277,27 +402,51 @@
       },
       index_4:function(){
         let item_m2 = document.getElementById(this.index_id.id_m2);
+        if(item_m2 == undefined){
+          return;
+        }
         item_m2.setAttribute("class","item_carousel index_5");
 
         let item_m1 = document.getElementById(this.index_id.id_m1);
+        if(item_m1 == undefined){
+          return;
+        }
         item_m1.setAttribute("class","item_carousel index_-2");
 
         let item_0 = document.getElementById(this.index_id.id_0);
+        if(item_0 == undefined){
+          return;
+        }
         item_0.setAttribute("class","item_carousel index_-1");
 
         let item_1 = document.getElementById(this.index_id.id_1);
+        if(item_1 == undefined){
+          return;
+        }
         item_1.setAttribute("class","item_carousel index_0");
 
         let item_2 = document.getElementById(this.index_id.id_2);
+        if(item_2 == undefined){
+          return;
+        }
         item_2.setAttribute("class","item_carousel index_1");
 
         let item_3 = document.getElementById(this.index_id.id_3);
+        if(item_3 == undefined){
+          return;
+        }
         item_3.setAttribute("class","item_carousel index_2");
 
         let item_4 = document.getElementById(this.index_id.id_4);
+        if(item_4 == undefined){
+          return;
+        }
         item_4.setAttribute("class","item_carousel index_3 select");
 
         let item_5 = document.getElementById(this.index_id.id_5);
+        if(item_5 == undefined){
+          return;
+        }
         item_5.setAttribute("class","item_carousel index_4");
 
         item_5.setAttribute("id","");
@@ -345,7 +494,7 @@
     height: 100vh;
     transform: skew(-7.5deg);
     overflow: hidden;
-    transition: all 0.5s ease;
+    transition: all 0.6s ease;
   }
 
   .item_carousel img{
@@ -354,7 +503,7 @@
     top: 0px;
     transform: skew(7.5deg);
     height: 100vh; 
-    transition: all 0.5s ease;
+    transition: all 0.6s ease;
   }
 
   .item_carousel span{
@@ -366,7 +515,7 @@
     left:0;
     letter-spacing: 0.5vw;
     transform: skew(7.5deg);
-    transition: all 0.5s ease;
+    transition: all 0.6s ease;
     color: #f1f1f1;
     font-size: 2.3vw;
   }
@@ -383,7 +532,7 @@
     background: -webkit-radial-gradient(center,closest-side,rgba(255,255,255,1),rgba(255,255,255,0));
     position: relative;
     top: 93vh;
-    transition: all 0.5s ease;
+    transition: all 0.6s ease;
     opacity: 0;
   }
 
@@ -394,7 +543,7 @@
     top: 90vh;
     left :8.5vw;
     background: -webkit-radial-gradient(center,closest-side,rgba(255,255,255,1),rgba(255,255,255,0));
-    transition: all 0.5s ease;
+    transition: all 0.6s ease;
     opacity: 0;
   }*/
 
@@ -421,7 +570,7 @@
     width: 100%;
     top: 0vh;
     position: absolute;
-    transition: all 0.5s ease;
+    transition: all 0.6s ease;
     background: #000;
     opacity: 0.45;
   }
@@ -435,7 +584,7 @@
     bottom: 0vh;
     width:100%;
     height:10%;
-    transition: all 0.5s ease;
+    transition: all 0.6s ease;
     background: -webkit-linear-gradient(bottom, rgba(255,255,255,0.3), rgba(255,255,255,0));
   }
 
