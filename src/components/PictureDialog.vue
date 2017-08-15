@@ -75,34 +75,35 @@
 		computed:{
 			Adjust:function(){
 				var x = this.height;
+				var y = this.width;
 
 				let font_s = x * 0.022;
 				let font_m = x * 0.029;
 				let font_b = x * 0.07;
 
-				if(font_s > 15){
-					font_s = 15;
-				}
+				// if(font_s > 15){
+				// 	font_s = 15;
+				// }
 
-				if(font_m > 20){
-					font_m = 20;
-				}
+				// if(font_m > 20){
+				// 	font_m = 20;
+				// }
 
-				if(font_b > 48){
-					font_b = 48;
-				}
+				// if(font_b > 48){
+				// 	font_b = 48;
+				// }
 
-				if(font_s < 11){
-					font_s = 11;
-				}
+				// if(font_s < 11){
+				// 	font_s = 11;
+				// }
 
-				if(font_m < 15){
-					font_m = 15;
-				}
+				// if(font_m < 15){
+				// 	font_m = 15;
+				// }
 
-				if(font_b < 30){
-					font_b = 30;
-				}
+				// if(font_b < 30){
+				// 	font_b = 30;
+				// }
 
 				this.fontAdjust = {
 					fontSize:font_s +"px"
@@ -114,7 +115,7 @@
 
 				this.fontAdjustMiddleWithMargin = {
 					fontSize:font_m +"px",
-					marginRight:(font_m+7)+"px"
+					marginRight:(font_m+x*0.03)+"px"
 				}
 
 				switch(this.type){
@@ -156,28 +157,30 @@
 							position:"absolute",
 							fontSize:font_b +"px",
 							textAlign:"left",
-							top:"1vh",
-							left:"1vw",
+							top: "5%",
+							left:"2%",
 						}
 						this.fontAdjustMiddle = {
 							fontSize:font_m*0.8 +"px"
 						}
 						this.fontAdjustMiddleWithMargin = {
 							fontSize:font_m*0.8 +"px",
-							marginRight:(font_m*0.8+7)+"px"
+							marginRight:(font_m*0.8+x*0.03)+"px"
 						}
 						break;
 					case 5:
 						this.text_bg = {
-							height:font_s+"px",
-							minHeight:"4.5vh",
+							height:"10%"
 						}
 						this.fontAdjust = {
 							fontSize:font_s +"px",
-							bottom:"1.5vh",
+							position:"static",
+							textAlign:"left",
+							paddingLeft:"1vw"
 						}
 						this.icoAdjust = {
-							bottom:"1.2vh",
+							// position:"static"
+							bottom:"25%",
 						}
 						break;
 				}
@@ -186,7 +189,7 @@
 		methods:{
 			link:function(){
 				if(this.url == undefined||this.url == ""){
-					alert("url为空！");
+					console.log("url为空！");
 				}else{
 					router.push(url);
 				}
@@ -247,8 +250,8 @@
 
 #picture-dialog > .text_bg{
 	width:100%;
-	min-height: 6.8vh;
-	max-height: 11vh;
+	/*min-height: 6.8vh;*/
+	/*max-height: 11vh;*/
 	height: 15%;
 	bottom: 0;
 	display: flex;
@@ -275,17 +278,16 @@
 #picture-dialog > .text_bg > .info_box{
 	font-size: 1.3vw;
 	position: absolute;
-	bottom: 0.74vh;
-	left:1vw;
+	bottom: 10%;
+	left:2%;
 	transition: all 0.4s ease;
 }
 
 
 #picture-dialog > .text_bg > .ico_box{
 	position: absolute;
-	bottom: 0.74vh;
-	right: 1vw;
-	width: 100%;
+	bottom: 10%;
+	right: 2%;
 	text-align: right;
 }
 
@@ -303,19 +305,19 @@
 }
 
 #picture-dialog > .text_bg > .ico_box >.like > img{
-	width: 67%;
 	/*height: 150%;*/
 	position: absolute;
 	bottom: 0;
 	right:110%;
+	height:120%;
 }
 
 #picture-dialog > .text_bg > .ico_box > .visited > img{
-	width: 67%;
 	/*height: 150%;*/
 	position: absolute;
 	bottom: 0;
 	right:110%;
+	height:120%;
 }
 
 .fade-enter-active, .fade-leave-active {
