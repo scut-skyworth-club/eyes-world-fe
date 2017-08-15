@@ -3,15 +3,17 @@
     <img :src="bgs[0]">
     <p class="title">我的作品</p>
     <p class="photo-amount">{{amount}} Photos</p>
-    <div id="upload" v-if="focus" :style="{background:'url('+bgs[2]+') no-repeat center center'}"><img :src="bgs[1]" alt="1"><span>上传</span></div>
+    <div id="upload" v-if="focus" 
+    :style="{background:'url('+bgs[2]+') no-repeat center center'}">
+    <img :src="bgs[1]" alt="1"><span>上传</span></div>
     <div id="upload" v-else :style="{background:'url('+bgs[3]+') no-repeat center center'}"><img :src="bgs[1]" alt="1"><span>上传</span></div>
     <date class="time"></date>
 
      <div id="works-container" :style="{left:left+'vw', width:oWidth+'vw'}">
       <ul>
         <li v-for="(item,index) in works" :key="item.id">
-          <sub-work class="my-works" :index="index" :url="item.url" :date="item.date" 
-          :title="item.title" :amount="amount" :counter="counter"></sub-work>
+          <sub-work class="my-works" :index="index" :url="item.url" :date="item.createTime" 
+          :title="item.photoName" :amount="amount" :counter="counter"></sub-work>
         </li>
       </ul>
     </div> 
@@ -38,79 +40,75 @@
   import router from '../router/index'
   
 
-  var myData = [];
-  // $.get('http://39.108.149.106/api/user/works',function(data) {
-  //   myData = data;
-  // });
-
-  var myHeader = new Headers();
-
-
-
-  // fetch('http://192.168.0.106:8080/api/user/works', {
+  // var myData = [];
+  // fetch('http://39.108.149.106/api/user/works', {
   //   method: 'GET',
   //   mode: 'cors',
-  //   headers: myHeader
+  //   headers: {
+  //     'Access-Control-Allow-Credentials': true,
+  //     'Content-Type':'application/x-www-form-urlencoded; charset=UTF-8',
+  //   },
+  //   credentials: "include"
   // }).then(function(response) {
-  //   console.log(response);
-  // }).then(function(text) {
-  //   console.log(text);
-  // })
+  //   return response.json();
+  // }).then(function(getData) {
+  //   myData = getData;
+  //   console.log(myData);
+  // });
 
-  var oldX = 0;
   var afterData2 = [{
       id: 1,
       url: bg1,
-      date: "2015-03-30 13:24:01",
-      title: "允儿"
+      createTime: "2015-03-30 13:24:01",
+      photoName: "允儿"
     },
 
     {
       id: 2,
       url: bg2,
-      date: "2016-08-30 10:10:01",
-      title: "迪丽热巴"
+      createTime: "2016-08-30 10:10:01",
+      photoName: "迪丽热巴"
     },
     {
       id: 3,
       url: bg4,
-      date: "2016-10-09 20:24:23",
-      title: "杨幂"
+      createTime: "2016-10-09 20:24:23",
+      photoName: "杨幂"
     },
     {
 
       id: 4,
       url: bg3,
-      date: "2017-07-28 09:08:02",
-      title: "宋茜"
+      createTime: "2017-07-28 09:08:02",
+      photoName: "宋茜"
     },
 
     {
       id: 5,
       url: bg5,
-      date: "2017-08-03 09:08:02",
-      title: "宋茜"
+      createTime: "2017-08-03 09:08:02",
+      photoName: "宋茜"
     },
 
     {
       id: 6,
       url: bg6,
-      date: "2017-08-21 09:08:02",
-      title: "七朵"
+      createTime: "2017-08-21 09:08:02",
+      photoName: "七朵"
     },
 
     {
       id: 7,
       url: bg7,
-      date: "2017-09-01 09:08:02",
-      title: "允儿"
+      createTime: "2017-09-01 09:08:02",
+      photoName: "允儿"
     },
 
     {
       id: 8,
       url: bg8,
-      date: "2017-10-13 09:08:02",
-      title: "迪丽热巴"
+      createTime: "2017-10-13 09:08:02",
+      photoName: "迪丽热巴"
     },
   ];
   export default {
@@ -185,7 +183,11 @@
           }
         }
       },
+      fetchData: function (){
+        
+      }
     },
+
     computed: {
       setKey:function(){
           let self = this;
@@ -230,7 +232,24 @@
       itemFocus: function (){
         
       },
-    }
+    },
+    // watch: {
+    //   works: function (){
+    //     fetch('http://39.108.149.106/api/user/works', {
+    //       method: 'GET',
+    //       mode: 'cors',
+    //       headers: {
+    //         'Access-Control-Allow-Credentials': true,
+    //         'Content-Type':'application/x-www-form-urlencoded; charset=UTF-8',
+    //       },
+    //       credentials: "include"
+    //     }).then(function(response) {
+    //       return response.json();
+    //     }).then(function(getData) {
+    //       this.works = getData;
+    //     });
+    //   }
+    // }
   }
 
 </script>
@@ -254,7 +273,7 @@
     padding: 0;
   }
   #works>.title {
-    font-family: '小米兰亭';
+    font-family: "小米兰亭";
     font-size: 5.556vh;
     color: #f1f1f1;
     letter-spacing: 0.185vh;
@@ -263,8 +282,8 @@
     left: 6.25vw;
   }
 
-  .photo-amount {
-    font-family: '小米兰亭';
+  #works>.photo-amount {
+    font-family: "小米兰亭";
     font-size: 2.222vh;
     color: #f1f1f1;
     letter-spacing: 0.093vh;
@@ -291,7 +310,7 @@
     left: 0;
   }
   #upload>span {
-    font-family: '小米兰亭';
+    font-family: "小米兰亭";
     font-size: 1.852vh;
     color: #f1f1f1;
     width: 3.75vw;

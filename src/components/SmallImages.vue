@@ -1,13 +1,12 @@
 <template>
-    <div 
-        class="small-pics" 
+    <div class="small-pics" 
         :style="{top:(index%2)*31.48+'vh',
         left:(Math.floor(index/2))*17.708+'vw',
         transform:'scale('+size+')',
         boxShadow:shadow}"
         :size="change"
         :shadow="change">   
-        <img :src="url" alt="1" class="image">
+        <img :src="url">
         <pics-info class="pics-information"
          :bigsize="titlesize" 
          :smallsize="datesize"
@@ -67,7 +66,7 @@
         position: absolute;
         box-shadow: 0 6px 20px #222222
     } */
-    .image {
+    .small-pics>img {
         width: 100%;
         height: 100%;
     }

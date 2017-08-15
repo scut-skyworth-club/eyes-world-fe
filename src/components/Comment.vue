@@ -22,6 +22,7 @@
     position: absolute;
     top: 0;
     right: 0;  
+    font-family: "小米兰亭";
     color: #f1f1f1;
     background: #453627;
     z-index: 10;

@@ -1,17 +1,17 @@
 <template>
   <div class="sub-work" :style="{left:(index*27.083+6.25)+'vw'}">
       <div class="time-container">
-        <h3 class="upload-time">{{date}}</h3>
+        <p>{{date}}</p>
       </div>
       <div class="camera-container">
-        <div class="camera">
+        <div>
             <img src="../assets/works/cameraIcon.jpg" alt="1">
         </div> 
       </div>
       <hr class="line" v-if="!(index+1==amount)"/>
       <div class="work-img" :style="{transform:'scale('+xScale+','+yScale+')'}" :xScale="calculteSize" :yScale="calculteSize">
            <img :src="url" alt="2"> 
-           <div class="shelter">
+           <div>
              <p :style="{fontSize:size+'vh'}" :size="calculteSize">{{title}}</p>
            </div>
       </div>
@@ -59,13 +59,13 @@ export default {
         position: absolute;
         top: 26.648vh;
     }
-    .time-container {
+    .sub-work>.time-container {
         width: 100%;
         position: absolute;
         height: 4vh;
         z-index: 5;
     }
-    .upload-time {
+    .sub-work>.time-container>p {
         font-family: '小米兰亭';
         color: #f1f1f1;
         font-size: 2.222vh;
@@ -73,27 +73,27 @@ export default {
         padding: 0 auto;
         z-index: 5;
     }
-    .camera-container {
+    .sub-work>.camera-container {
         width: 100%;
         height: 6.389vh;
         position: absolute;
         z-index: 4;
         margin-top: 4vh;
     }
-    .camera {
+    .sub-work>.camera-container>div {
         margin-left: 8.594vw;
         width: 3.597vw;
         height: 100%;
         position: absolute;
         z-index: 4;
     }
-    .camera img {
+    .sub-work>.camera-container>div>img {
         width: 100%;
         height: 100%;
         position: absolute;
         z-index: 4;
     }
-    .work-img {
+    .sub-work>.work-img {
         width: 100%;
         height: 44.444vh;
         position: absolute;
@@ -103,13 +103,13 @@ export default {
         /* border: 1px solid red; */
         /* background: url(../assets/favorite/bg1.jpg) no-repeat center center; */
     }
-    .work-img img {
+    .sub-work>.work-img>img {
         width: 100%;
         height: 100%;
         position: absolute;
         z-index: 1;
     } 
-    .shelter {
+    .sub-work>.work-img>div {
         width: 100%;
         height: 7.407vh;
         position: absolute;
@@ -122,14 +122,14 @@ export default {
         opacity: 1;
         transition: all 0.7s ease
     }
-    .shelter p {
+    .sub-work>.work-img>div>p {
         position: absolute;
         width: 100%;
         z-index: 2;
         text-align: center;
         margin: 1.852vh auto;
     }
-    .line {
+    .sub-work>.line {
         width: 27.083vw;
         height: 0.185vh;
         position: absolute;

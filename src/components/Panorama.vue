@@ -85,7 +85,8 @@ export default {
           showComments: false,
           showDetails: false,
           showPhoto: true,
-          index: 0,
+          index: 0, //图片序号，初始为0
+          focus: 1, //focus=1,2,3,  1：主页面；2：评论页；3：详情页
           profile: icon,
           likeIcon: liked,
           visitedIcon: visited,
@@ -145,43 +146,63 @@ export default {
         }
     },
     leftMove: function (){
-        if (this.counter!==1) {
-            this.counter--;
+        if (this.focus===1) {
+            if (this.counter!==1) {
+                this.counter--;
+            }
         }
     },
     rightMove: function (){
-        if(this.counter!==6) {
-            this.counter++;
+        if (this.focus===1) {
+            if(this.counter!==6) {
+                this.counter++;
+            }
         }
     },
     barReturn: function(){
-        if (!this.showBar) {
-            this.showBar = true;
-            this.counter = 0;
+        if (this.focus===1) {
+            if (!this.showBar) {
+                this.showBar = true;
+                this.counter = 0;
+            }
         }
     },
     enterItem: function (){
-        switch (this.counter) {
-            case 1:
-                this.likeOrCancel();
-                break;
-            case 2:
-                this.hideNavBar();
-                break;
-            case 3: 
-                this.askForPrevPic();
-                break;
-            case 4: 
-                this.askForNextPic();
-                break;
-            case 5: 
-                this.showComments = !this.showComments;
-                break;
-            case 6: 
-                this.showDetails = !this.showDetails;
-                break;
-            default:
-                break;
+        if (this.focus===1) {
+            switch (this.counter) {
+                case 1:
+                    this.likeOrCancel();
+                    break;
+                case 2:
+                    this.hideNavBar();
+                    break;
+                case 3: 
+                    this.askForPrevPic();
+                    break;
+                case 4: 
+                    this.askForNextPic();
+                    break;
+                case 5: 
+                    if (!this.showComments) {
+                        this.showComments = true;
+                    }
+                    this.focus = 2;
+                    break;
+                case 6: 
+                    if (!this.showDetails) {
+                        this.showDetails = true;
+                    }
+                    this.focus = 3;
+                    break;
+                default:
+                    break;
+            }
+        }else if (this.focus===2) {
+            this.showComments = false;
+            this.focus = 1;
+        }else {
+            this.showDetails = false;
+            this.focus = 1;
         }
     }
     //showComment和showPhotoDetails这两个函数用作处理评论和详情信息的接口
@@ -201,7 +222,7 @@ export default {
     setKey:function(){
         let self = this;
         document.onkeydown = function(event){
-            if(self.counter===0){
+            if(self.counter===0&&self.focus===1){
                 self.counter=1;
             }else{
                 switch(event.which){
@@ -272,7 +293,7 @@ export default {
         top: 1vh;
         left: 1.5vw;
         color: #f1f1f1;
-        font-family: font757;
+        font-family: "小米兰亭";
         font-size: 2.222vh;
     } 
     #Panorama .navigation {
@@ -296,11 +317,11 @@ export default {
         height: 12.037vh;
         margin-right: 1.979vw;
     }
-    .no-focus {
+    #Panorama .no-focus {
         background-color: #7d7070;
         opacity: 0.5;
     }
-    .focus {
+    #Panorama .focus {
         background-color: #dddddd;
         opacity: 0.7;
     }
@@ -325,7 +346,7 @@ export default {
         top: 0;
         left: 0;
     }
-    .continute p {
+    #Panorama .continute>p {
         width: 4.167vw;
         height: 7.407vh;
         position: absolute;
@@ -333,7 +354,7 @@ export default {
         left: 1.462vw;
         margin: 0;
         padding: 0; 
-        font-family: font757;
+        font-family: "小米兰亭";
         color: rgba(0, 0, 0, 0.65);
         font-size: 3.241vh;
         letter-spacing: 0.20vw;
@@ -431,7 +452,7 @@ export default {
         position: absolute;
         top: 5.185vh;
         left: 5.365vw;
-        font-family: font757;
+        font-family: "小米兰亭";
         font-size: 1.852vh;
         color: #f1f1f1;
         text-shadow: 0 0 0.278vh #000000; 
@@ -440,7 +461,7 @@ export default {
         position: absolute;
         top: 5.185vh;
         left: 9.635vw;
-        font-family: font757;
+        font-family: "小米兰亭";
         font-size: 1.852vh;
         color: #f1f1f1;
         text-shadow: 0 0 0.278vh #000000; 
@@ -449,7 +470,7 @@ export default {
         position: absolute;
         top: 1.852vh;
         left: 2.76vw;
-        font-family: font757;
+        font-family: "小米兰亭";
         font-size: 2.222vh;
         color: #f1f1f1;
         text-shadow: 0 0 0.278vh #000000; 

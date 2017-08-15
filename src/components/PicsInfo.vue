@@ -1,7 +1,7 @@
 <template>
-    <div class="info-container" v-on:click="showSize">
-        <p :style="{fontSize:bigsize+'vh'}">{{photoName}}</p>
-        <p :style="{fontSize:smallsize+'vh'}">{{createTime}}&nbsp&nbsp&nbsp@{{userName}} </p>
+    <div class="pics-info-container" v-on:click="showSize">
+        <p :style="{fontSize:bigsize+'vh'}" class="photo-name">{{photoName}}</p>
+        <p :style="{fontSize:smallsize+'vh'}" class="time-and-user">{{createTime}}&nbsp&nbsp&nbsp@{{userName}} </p>
     </div>
 </template>
 
@@ -32,22 +32,22 @@
 </script>
 
 <style>
-    .info-container {
+    .pics-info-container {
         background-color: rgba(49, 71, 127, 1);
         color: #f1f1f1;
-        font-family: font757;
+        font-family: "小米兰亭";
     }
     
     
     
-    .info-container>p {
-        /* font-size: 40px;   */
-        margin: 0.3vw 0.3vw;
+    .pics-info-container>.photo-name {
+        
+        margin: 0.3vw 0.2vh;
     }
     
-    .info-container>p {
+    .info-container>.time-and-user {
         /* font-size: 23px; */
         margin-left: 0.3vw;
-        margin-bottom: 0.3vw;
+        margin-bottom: 0.2vh;
     }
 </style>

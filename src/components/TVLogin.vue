@@ -1,12 +1,12 @@
 <template>
     <div id="tvlogin">
-        <img :src="loginBg" id="login-img"> 
-        <h2 class="login-title">{{title}}</h2>
+        <img :src="loginBg"> 
+        <p class="login-title">{{title}}</p>
         <date class="time"></date>
-        <div class="qr-container">
+        <div>
             <p>手机扫描二维码登录</p>
-            <img :src="qrPic" id="qr">
-            <button id="login-bt" @click="loginClick">登&nbsp&nbsp&nbsp&nbsp录</button>
+            <img :src="qrPic">
+            <button @click="loginClick">登&nbsp&nbsp&nbsp&nbsp录</button>
         </div>
         <p class="website">PC端登录网址：www.baidu.com</p>
     </div>
@@ -81,15 +81,15 @@ export default {
         left: 0;
         overflow: hidden;
     } 
-    #login-img {
+    #tvlogin>img {
         width: 100vw;
         height: 100vh;
         position: absolute;
         top: 0;
         left: 0;
     } 
-    #tvlogin .login-title{
-        font-family: font757;
+    #tvlogin>.login-title{
+        font-family: "小米兰亭";
         font-size: 5.556vh;
         color: #f1f1f1;
         letter-spacing: 2px;
@@ -97,28 +97,28 @@ export default {
         top: 6.481vh;
         left: 6.25vw;
     }
-    .qr-container {
+    #tvlogin>div {
         width: 21.875vw;
         height: 53.703vh;
         position: absolute;
         top: 23.148vh;
         left: 39.0625vw;
     }
-    .qr-container p {
-        font-family: font757;
+    #tvlogin>div>p {
+        font-family: "小米兰亭";
         font-size: 3.333vh;
         text-align: center;
         margin: 0 auto;
         color: #f1f1f1;
     }
-    #qr {
+    #tvlogin>div>img {
         width: 21.875vw;
         height: 38.889vh;
         position: absolute;
         left: 0;
         bottom: 7.407vh;
     } 
-    #login-bt {
+    #tvlogin>div>button {
         text-align: center;
         position: absolute;
         left: 8vw;
@@ -127,8 +127,8 @@ export default {
         background: none;
         color: #f1f1f1;
     }
-    .website {
-        font-family: font757;
+    #tvlogin>.website {
+        font-family: "小米兰亭";
         color: #f1f1f1;
         font-size: 2.963vh;
         position: absolute;

@@ -23,6 +23,7 @@ export default {
         top: 30vh;
         left: 30vw;
         background-color: #7d7d7d;
+        font-family: "小米兰亭";
         opacity: 0.6;
         z-index: 50;
         color: #f1f1f1;

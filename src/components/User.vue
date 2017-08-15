@@ -316,7 +316,7 @@
         height: 9.259vh;
         border: none;
         background: none;
-        font-family: font757;
+        font-family: "小米兰亭";
         font-size: 4.444vh;
         color: #f1f1f1;
         text-align: center;
@@ -324,46 +324,46 @@
         padding-top: 2vh;
         letter-spacing: 4px;        
     }
-    .menu-container {
+    #User>.menu-container {
         width: 15.625vw;
         height: 55.556vh;
         position: absolute;
         top: 22.222vh; 
         transition: all 0.7s ease;
     }
-    .menu-container>img {
+    #User>.menu-container>img {
         width: 100%;
         height: 100%;
         position: absolute;
         top: 0;
         left: 0;
     }
-    .icon-container {
+    #User>.menu-container>.icon-container {
         width: 100%;
         height: 70%; 
         position: absolute;
         top: 0;
         left: 0;
     }
-    .icon-container>div{
+    #User>.menu-container>.icon-container>div{
         width: 40%;
         text-align: center;
         margin: 12vh auto;
     }
-    .icon-container>div>img {
+    #User>.menu-container>.icon-container>div>img {
         width: 100%;
     }
-    .item-title-container {
+    #User>.menu-container>.item-title-container {
         width: 100%;
         height: 30%;
         position: absolute;
         top: 70%;
         left: 0;
     }
-    .item-title-container>p {
+    #User>.menu-container>.item-title-container>p {
         border: none;
         background: none;
-        font-family: font757;
+        font-family: "小米兰亭";
         font-size: 4.444vh;
         color: #f1f1f1;
         text-align: center;
@@ -385,7 +385,7 @@
         opacity: 0
     }   
     #login-website {
-        font-family: '小米兰亭';
+        font-family: "小米兰亭";
         color: #f1f1f1;
         font-size: 2.963vh;
         position: absolute;

@@ -1,7 +1,7 @@
 <template>
   <div class="first-pic" :style="{transform:'scale('+size+')',boxShadow:shadow}"
   :size="change" :shadow="change">
-    <img :src="url" alt="1"  class="image"> 
+    <img :src="url" alt="1"> 
     <pics-info class="pics-information"
     :bigsize="bigsize"
     :smallsize="smallsize" 
@@ -64,11 +64,11 @@ export default {
         position: absolute;
         box-shadow: 0 30px 80px #303030;
     } */
-    .image {
+    .first-pic>img {
         width: 100%;
         height: 100%;
     }
-    .first-pic .pics-information {
+    .first-pic>.pics-information {
         width: 100%;
         height: 9.259vh;
         font-family: '小米兰亭';

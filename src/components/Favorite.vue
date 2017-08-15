@@ -1,7 +1,7 @@
 <template>
   <div id="favorite">
-    <div id="favorite-container">
-      <img :src="bgs[0]" class="favorite-bg">
+    <div>
+      <img :src="bgs[0]">
       <p class="title">{{title}}</p>
       <p class="photo-amount">{{amount}} Photos</p>
       <date class="time"></date>
@@ -15,8 +15,7 @@
        :counter="counter">
       </first-image>
       <div id="slide-img-container">
-        <div id="slide-img"
-        :style="{left:oLeft+'vw'}">
+        <div :style="{left:oLeft+'vw'}">
           <ul>
             <li v-for="(item,index) in images" :key="item.photoId">
               <small-images class="small-img"
@@ -373,14 +372,14 @@
     height: 100vh;
     overflow: hidden;
   }
-  .favorite-bg {
+  #favorite>div>img {
     width: 100vw;
     height: 100vh;
     position: absolute;
     top: 0;
     left: 0;
   }
-  .title {
+  #favorite>div>.title {
     font-family: "小米兰亭";
     font-size: 5.556vh;
     color: #f1f1f1;
@@ -389,7 +388,7 @@
     top: 6.481vh;
     left: 6.25vw;
   }
-  .photo-amount {
+  #favorite>div>.photo-amount {
     font-family: "小米兰亭";
     font-size: 2.222vh;
     color: #f1f1f1;
@@ -399,35 +398,35 @@
     left: 6.25vw;
   }
 
-  #favorite-container {
+  #favorite>div {
     width: 100vw;
     height: 100vh;
     position: absolute;
     top: 0;
     left: 0;
     overflow: hidden;
-     /* border: 1px solid red;  */
+      /* border: 1px solid red;   */
   }
   
   #slide-img-container {
     width: 68.75vw;
     height: 100vh;
-     /* border: 1px solid red;      */
+      /* border: 1px solid red;       */
     position: absolute;
     top: 0vh;
     left: 39.586vw;
     overflow: hidden;
   }
-  #slide-img {
+  #slide-img-container>div {
     width: 68.75vw;
     height: 59.26vh;
     position: absolute;
-    /* border: 1px solid yellow;     */
+     /* border: 1px solid yellow;      */
     top: 20.37vh;
     transition: all 1s ease;
   }
   
-  .small-img {
+  #slide-img-container>div>.small-img {
     width: 15.625vw;
     height: 27.78vh;
     /* margin-right: 2.083vw;
