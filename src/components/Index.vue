@@ -35,8 +35,6 @@
       <div class="text_bg"></div>
       <span>{{label.title}}</span>
     </div>
-
-    {{setKey}}
   </div>
 </template>
 
@@ -146,37 +144,6 @@
       }
     },
     computed: {
-      setKey:function(){
-        let self = this;
-        document.onkeydown = function(event){
-          switch(event.which){
-            case 37:
-            //left
-              self.select_re();
-              break;
-            case 38:
-            //up
-              break;
-            case 39:
-            //right
-              self.select_ad();
-              break;
-            case 40:
-            //down
-              break;
-            case 13:
-            //center
-              self.select();
-              break;
-            case 82:
-            //menu
-              break;
-            case 4:
-            //back
-              break;
-          }
-        }
-      },
     },
     methods: {
       getLabels:function(){
@@ -248,7 +215,38 @@
         }
         
       }
-    }
+    },
+    mounted:function(){
+      let self = this;
+      document.onkeydown = function(event){
+        switch(event.which){
+          case 37:
+          //left
+            self.select_re();
+            break;
+          case 38:
+          //up
+            break;
+          case 39:
+          //right
+            self.select_ad();
+            break;
+          case 40:
+          //down
+            break;
+          case 13:
+          //center
+            self.select();
+            break;
+          case 82:
+          //menu
+            break;
+          case 4:
+          //back
+            break;
+        }
+      }
+    },
   }
 </script>
 

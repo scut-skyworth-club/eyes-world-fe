@@ -50,7 +50,6 @@
 
      <div id="button_re" @click="select_re"></div> 
     <div id="button_ad" @click="select_ad"></div>  
-    {{setKey}}
   </div>
 </template>
 
@@ -108,34 +107,6 @@
       },
     },
     computed:{
-      setKey:function(){
-        let self = this;
-        document.onkeydown = function(event){
-          switch(event.which){
-            case 37:
-            //left
-              self.select_re();
-              break;
-            case 38:
-            //up
-              break;
-            case 39:
-            //right
-              self.select_ad();
-              break;
-            case 40:
-            //down
-              break;
-            case 13:
-            //center
-              break;
-            case 82:
-              break;
-            case 4:
-              break;
-          }
-        }
-      },
       getDay:function(){
         var day = ["日","一","二","三","四","五","六"];
         return "星期"+day[new Date().getDay()];
@@ -207,93 +178,145 @@
           backgroundImage:"url("+bg+")",
         },
         spots:[
-          {
-            albumId:0,
-            albumName:"广州塔0",
-            visitAmount:200,
-            likeAmount:200,
-            url:bg1,
-          },
-          {
-            albumId:1,
-            albumName:"海心沙0",
-            visitAmount:200,
-            likeAmount:200,
-            url:bg2,
-          },
-          {
-            albumId:2,
-            albumName:"烈士陵园0",
-            visitAmount:200,
-            likeAmount:200,
-            url:bg3,
-          },
-          {
-            albumId:3,
-            albumName:"华南理工大学0",
-            visitAmount:200,
-            likeAmount:200,
-            url:bg4,
-          },
-          {
-            albumId:0,
-            albumName:"广州塔1",
-            visitAmount:200,
-            likeAmount:200,
-            url:bg4,
-          },
-          {
-            albumId:1,
-            albumName:"海心沙1",
-            visitAmount:200,
-            likeAmount:200,
-            url:bg3,
-          },
-          {
-            albumId:2,
-            albumName:"烈士陵园1",
-            visitAmount:200,
-            likeAmount:200,
-            url:bg2,
-          },
-          {
-            albumId:3,
-            albumName:"华南理工大学1",
-            visitAmount:200,
-            likeAmount:200,
-            url:bg1,
-          },
-          {
-            albumId:0,
-            albumName:"广州塔2",
-            visitAmount:200,
-            likeAmount:200,
-            url:bg1,
-          },
-          {
-            albumId:1,
-            albumName:"海心沙2",
-            visitAmount:200,
-            likeAmount:200,
-            url:bg2,
-          },
-          {
-            albumId:2,
-            albumName:"烈士陵园2",
-            visitAmount:200,
-            likeAmount:200,
-            url:bg3,
-          },
-          {
-            albumId:3,
-            albumName:"华南理工大学2",
-            visitAmount:200,
-            likeAmount:200,
-            url:bg4,
-          },
+          // {
+          //   albumId:0,
+          //   albumName:"广州塔0",
+          //   visitAmount:200,
+          //   likeAmount:200,
+          //   url:bg1,
+          // },
+          // {
+          //   albumId:1,
+          //   albumName:"海心沙0",
+          //   visitAmount:200,
+          //   likeAmount:200,
+          //   url:bg2,
+          // },
+          // {
+          //   albumId:2,
+          //   albumName:"烈士陵园0",
+          //   visitAmount:200,
+          //   likeAmount:200,
+          //   url:bg3,
+          // },
+          // {
+          //   albumId:3,
+          //   albumName:"华南理工大学0",
+          //   visitAmount:200,
+          //   likeAmount:200,
+          //   url:bg4,
+          // },
+          // {
+          //   albumId:0,
+          //   albumName:"广州塔1",
+          //   visitAmount:200,
+          //   likeAmount:200,
+          //   url:bg4,
+          // },
+          // {
+          //   albumId:1,
+          //   albumName:"海心沙1",
+          //   visitAmount:200,
+          //   likeAmount:200,
+          //   url:bg3,
+          // },
+          // {
+          //   albumId:2,
+          //   albumName:"烈士陵园1",
+          //   visitAmount:200,
+          //   likeAmount:200,
+          //   url:bg2,
+          // },
+          // {
+          //   albumId:3,
+          //   albumName:"华南理工大学1",
+          //   visitAmount:200,
+          //   likeAmount:200,
+          //   url:bg1,
+          // },
+          // {
+          //   albumId:0,
+          //   albumName:"广州塔2",
+          //   visitAmount:200,
+          //   likeAmount:200,
+          //   url:bg1,
+          // },
+          // {
+          //   albumId:1,
+          //   albumName:"海心沙2",
+          //   visitAmount:200,
+          //   likeAmount:200,
+          //   url:bg2,
+          // },
+          // {
+          //   albumId:2,
+          //   albumName:"烈士陵园2",
+          //   visitAmount:200,
+          //   likeAmount:200,
+          //   url:bg3,
+          // },
+          // {
+          //   albumId:3,
+          //   albumName:"华南理工大学2",
+          //   visitAmount:200,
+          //   likeAmount:200,
+          //   url:bg4,
+          // },
         ],
       }
     },
+    mounted:function(){
+      let self = this;
+      document.onkeydown = function(event){
+        switch(event.which){
+          case 37:
+          //left
+            self.select_re();
+            break;
+          case 38:
+          //up
+            break;
+          case 39:
+          //right
+            self.select_ad();
+            break;
+          case 40:
+          //down
+            break;
+          case 13:
+          //center
+            break;
+          case 82:
+            break;
+          case 4:
+            break;
+        }
+      }
+
+      var provinceName = encodeURIComponent(this.$route.params.provinceName);
+      var cityName = encodeURIComponent(this.$route.params.cityName);
+
+      var requestUrl = "http://39.108.149.106/api/provinces/cities/"+provinceName+"/"+cityName+"/spots";
+      fetch(requestUrl, {
+          mode: 'cors',
+          method: 'GET',
+          headers: {
+            'Access-Control-Allow-Credentials': true,
+            'Content-Type':'application/x-www-form-urlencoded; charset=UTF-8',
+      },
+        credentials: "include",
+      }).then(function(response) {
+        response.json().then(function(json){
+
+          self.spots = json;
+          
+        },function(err){
+          console.log("json解析失败\n"+err);
+        });
+      },function(err){
+        console.log("网络请求失败\n"+err);
+      })
+    }
   }
 
   function refreshTime(){
