@@ -112,19 +112,20 @@
             router.push(`/provinces/cities/重庆/重庆/spots`)
             break
         }
-
         //点击某个市的时候
         let result = this.adcode % 10000
         console.log(`result:${result}`)
         if (result > 0) {
-          router.push(`/provinces/cities/${province}/${city}/spots`)
+          router.push(`/provinces/cities/${this.province}/${this.city}/spots`)
         }
       },
       back () {
         console.log('返回')
       },
       nextCity () {
-        console.log('下一个市')
+        this.adcode += 100
+        console.log(this.adcode)
+        this.switch2AreaNode(this.adcode)
       },
       lastCity () {
         console.log('上一个市')
@@ -163,15 +164,11 @@
           this.renderAreaPanelNode($('#area-tree'), props)
           $subBox = $('#area-tree').find('ul.sublist')
         }
-
         if ($subBox.attr('data-loaded') === 'rendered') {
           return
         }
-
         $subBox.attr('data-loaded', 'rendered')
-
         let subFeatures = areaNode.getSubFeatures()
-
         //填充子区域
         for (let i = 0, len = subFeatures.length; i < len; i++) {
           this.renderAreaPanelNode($subBox, areaNode.getPropsOfFeature(subFeatures[i]), this.colors[i % this.colors.length])
@@ -186,10 +183,8 @@
           }
         })
       },
-      switch2AreaNode (adcode, province, city, callback) {
+      switch2AreaNode (adcode) {
         this.adcode = Number(adcode)
-        this.province = province
-        this.city = city
         if (this.currentAreaNode && ('' + this.currentAreaNode.getAdcode() === '' + adcode)) {
           return
         }
@@ -198,10 +193,10 @@
           //设置当前使用的定位用节点
           districtExplorer.setAreaNodesForLocating([this.currentAreaNode])
           this.refreshAreaNode(areaNode)
-          if (callback) {
-            callback(null, areaNode)
-          }
+          this.city = $('.lv_city.selected').text()
+          this.province = $('.lv_province.selected').text() || this.province
         })
+
       },
       //切换区域后刷新显示内容
       refreshAreaNode (areaNode) {
