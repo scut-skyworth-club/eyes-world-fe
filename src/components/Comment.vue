@@ -16,5 +16,17 @@
 
 
 <style>
-
+  #comment {
+    width: 20vw;
+    height: 100vh;
+    position: absolute;
+    top: 0;
+    right: 0;  
+    font-family: "小米兰亭";
+    color: #f1f1f1;
+    background: #453627;
+    z-index: 10;
+     opacity: 0.6;  
+    /* display: block; */
+  }
 </style>
