@@ -39,6 +39,8 @@
     },
     methods: {
       nextProvince () {
+        this.adcode = Math.floor(this.adcode / 10000) * 10000
+        console.log(this.adcode)
         switch (this.adcode) {
           case 150000:
             this.adcode = 210000
@@ -65,9 +67,12 @@
             this.adcode = Number(this.adcode) + Number(10000)
             break
         }
-        this.switch2AreaNode(this.adcode)
+        let $nodeEles = $('#area-tree').find('h2')
+        $nodeEles.removeClass('selected')
+        $nodeEles.filter('h2[data-adcode=' + this.adcode + ']').addClass('selected')
       },
       lastProvince () {
+        this.adcode = Math.floor(this.adcode / 10000) * 10000
         switch (this.adcode) {
           case 100000:
             this.adcode = 820000
@@ -94,7 +99,9 @@
             this.adcode = Number(this.adcode) - Number(10000)
             break
         }
-        this.switch2AreaNode(this.adcode)
+        let $nodeEles = $('#area-tree').find('h2')
+        $nodeEles.removeClass('selected')
+        $nodeEles.filter('h2[data-adcode=' + this.adcode + ']').addClass('selected')
       },
       select () {
         //切换区域s
@@ -118,6 +125,7 @@
         if (result > 0) {
           router.push(`/provinces/cities/${this.province}/${this.city}/spots`)
         }
+        this.switch2AreaNode(this.adcode)
       },
       back () {
         console.log('返回')
@@ -196,7 +204,6 @@
           this.city = $('.lv_city.selected').text()
           this.province = $('.lv_province.selected').text() || this.province
         })
-
       },
       //切换区域后刷新显示内容
       refreshAreaNode (areaNode) {
@@ -298,9 +305,10 @@
     cursor: pointer;
   }
 
-  #area-tree h2:hover {
-    background: #3366cc;
+  #area-tree h2.selected {
+    background: #ddd;
     color: #fff;
+    /*background: #fff;*/
   }
 
   #area-tree ul {
