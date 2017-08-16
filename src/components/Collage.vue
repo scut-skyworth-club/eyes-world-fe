@@ -15,14 +15,14 @@
         name:'Collage',
         data(){
             return {
-                date:'2017/07/21',
+                date:1503000090023,
                 author:'XXX',
                 msg:'高校景观组件',
                 title:"海心沙",
                 like:100,
                 visited:100,
                 bg2:bg2,
-                type:2,
+                type:4,
                 width:20,
                 height:60,
                 // width:75,
