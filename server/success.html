@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.0.js"></script>
+<script type="text/javascript">
+function getCookie(name) 
+{ 
+    var arr,reg=new RegExp("(^| )"+name+"=([^;]*)(;|$)");
+ 
+    if(arr=document.cookie.match(reg))
+ 
+        return unescape(arr[2]); 
+    else 
+        return null; 
+} 
+
+$(document).ready(function(){
+	function aCallBack(data,status){
+		
+
+			//alert(getCookie("marker"));
+			//alert(getCookie("sfnfncfs"));
+	}
+
+	$.post("http://192.168.0.106:8080/login/phone/sendmarker",
+		"marker="+getCookie("marker")+"&"+
+		"token="+getCookie("sfnfncfs")
+		,aCallBack);
+	
+})
+</script>
+</head>
+<body>
+	<h1>success</h1>
+	<a href="/p_logout">logout</a>
+</body>
+</html>
