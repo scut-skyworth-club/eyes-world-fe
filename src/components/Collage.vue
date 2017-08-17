@@ -64,6 +64,7 @@
         name:'Collage',
         data(){
             return {
+ 
                 coord_x:0,
                 coord_y:0,
                 flag:0,
@@ -521,6 +522,8 @@
                         }
                     ]
                 ],  
+
+
             }
         },
 
