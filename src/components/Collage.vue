@@ -49,6 +49,7 @@
 </template>
 
 <script>
+    import router from '../router/index'
 
     import bg1 from '../assets/bg1.jpg'
     import bg2 from '../assets/bg2.jpg'
@@ -525,13 +526,13 @@
         },
 
         created:function(){
-            var url = 'http://39.108.149.106/api/user/works';
+            var url = 'http://39.108.149.106/api/provinces/college/广东';
             fetch(url, {
                 mode:'cors',
                 method:'GET',
                 headers:{
                     'Access-Control-Allow-Credentials': true,
-                    'Content-Type':'application/json',
+                    'Content-Type':'text/plain',
                 },
                 credentials:"include",
             }).then(function(response){
@@ -567,6 +568,9 @@
                     break;
                 case 13:
                 //center
+                if(self.flag >= 0){
+                    router.push();
+                }
                     break;
                 case 82:
                     break;
@@ -577,7 +581,7 @@
         },
 
         methods:{
-
+            //选中下一行，即另一个大学
             selectItem_ad:function(){
                 this.collages[this.coord_y][this.offset[this.coord_y]*4 + this.coord_x].type = 2;
                 this.coord_y++;
@@ -592,6 +596,7 @@
                 
                 this.collages[this.coord_y][this.offset[this.coord_y]*4 + this.coord_x].type = 5;
             },
+            //选中上一行
             selectItem_re:function(){
                 this.collages[this.coord_y][this.offset[this.coord_y]*4 + this.coord_x].type = 2;
                 this.coord_y--;
@@ -605,6 +610,7 @@
                 }
                 this.collages[this.coord_y][this.offset[this.coord_y]*4 + this.coord_x].type = 5;
             },
+            //右移选中下一个相册
             select_ad:function(){
                 var tempFlag = true;
                 if(this.flag < 0){
@@ -633,6 +639,7 @@
                 }
                 
             },
+            //左移选中上一个相册
             select_re:function(){
                 this.collages[this.coord_y][this.offset[this.coord_y]*4 + this.coord_x].type = 2;
                 this.coord_x--;
@@ -668,7 +675,7 @@
 
                 return collages_part;
             },
-
+            //判断是否是最后一个相册和第一个相册
             addDialog:function(showText){
                 var layer = document.createElement("div");
                 layer.id = "layer";
