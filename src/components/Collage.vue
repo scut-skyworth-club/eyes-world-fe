@@ -1,13 +1,13 @@
 <template>
   <div id="Collage">
     <!-- {{msg}} -->
-     <search id="searchBox"></search>
-         <span class="btn">
+     <search id="searchBox" :flag="flag"></search>
+         <!-- <span class="btn">
             <input type="button" value="往下" @click="selectItem_ad">
             <input type="button" value="往上" @click="selectItem_re">
             <input type="button" value="往右" @click="select_ad">
             <input type="button" value="往左" @click="select_re">
-        </span> 
+        </span>  -->
         <div class="picDialog" v-for="(item,index) in collagesName" :key="index">
             <ul class="collageUl">
                 <p class="collageName">{{item}}</p> 
@@ -49,7 +49,6 @@
 </template>
 
 <script>
-    import $ from 'jquery'
 
     import bg1 from '../assets/bg1.jpg'
     import bg2 from '../assets/bg2.jpg'
@@ -67,9 +66,10 @@
             return {
                 coord_x:0,
                 coord_y:0,
-                toggle:[true,true,true,true,true],
-                offset:[0,0,0,0,0],
-                collagesName:["华南理工大学","中山大学","华南师范大学","华南农业大学","广州大学"],
+                flag:0,
+                toggle:[true,true,true,true,true,true,true],
+                offset:[0,0,0,0,0,0,0],
+                collagesName:["华南理工大学","中山大学","华南师范大学","华南农业大学","广州大学","广东工业大学","广东外语外贸大学"],
                 collages : 
                 [
                     [
@@ -437,28 +437,144 @@
                             url:bg3,
                             type:2,
                         }
+                    ],[
+                        {
+                            date:"2017/05/21",
+                            author:"东",
+                            albumId:0,
+                            name:"东一",
+                            visited:100,
+                            likeNum:100,
+                            url:bg1,
+                            type:2,
+                        },
+                        {
+                            date:"2017/05/21",
+                            author:"东",
+                            albumId:1,
+                            name:"东二",
+                            visited:100,
+                            likeNum:100,
+                            url:bg2,
+                            type:2,
+                        },
+                        {
+                            date:"2017/05/21",
+                            author:"东",
+                            albumId:2,
+                            name:"东三",
+                            visited:100,
+                            likeNum:100,
+                            url:bg3,
+                            type:2,
+                        },
+                        {
+                            date:"2017/05/21",
+                            author:"东",
+                            albumId:0,
+                            name:"东四",
+                            visited:100,
+                            likeNum:100,
+                            url:bg4,
+                            type:2,
+                        },
+                        {
+                            date:"2017/05/21",
+                            author:"东",
+                            albumId:1,
+                            name:"东五",
+                            visited:100,
+                            likeNum:100,
+                            url:bg3,
+                            type:2,
+                        }
+                    ],[
+                        {
+                            date:"2017/06/21",
+                            author:"西",
+                            albumId:0,
+                            name:"西一",
+                            visited:200,
+                            likeNum:200,
+                            url:bg5,
+                            type:2,
+                        },
+                        {
+                            date:"2017/06/21",
+                            author:"西",
+                            albumId:1,
+                            name:"西二",
+                            visited:200,
+                            likeNum:200,
+                            url:bg6,
+                            type:2,
+                        },
+                        {
+                            date:"2017/07/21",
+                            author:"西",
+                            albumId:2,
+                            name:"西三",
+                            visited:200,
+                            likeNum:200,
+                            url:bg7,
+                            type:2,
+                        }
                     ]
                 ],  
             }
         },
 
-        beforeCreate:function(){
-            var url = "";
+        created:function(){
+            var url = 'http://39.108.149.106/api/user/works';
             fetch(url, {
                 mode:'cors',
                 method:'GET',
                 headers:{
                     'Access-Control-Allow-Credentials': true,
-                    'Content-Type':'application/x-www-form-urlencoded; charset=UTF-8',
+                    'Content-Type':'application/json',
                 },
                 credentials:"include",
-                body:'marker=' + this.marker
             }).then(function(response){
                 return response.json();
             }).then(function(data){
                 console.log(data);
+            }).catch(function(error){
+                console.log("fetch错误: " + error);
             })
         }, 
+
+        mounted:function(){
+            let self = this;
+            document.onkeydown = function(event){
+                switch(event.which){
+                case 37:
+                //left
+                self.select_re(); 
+                    break;
+                case 38:
+                //up
+                if(self.flag >= 0)
+                    self.selectItem_re();
+                    break;
+                case 39:
+                //right
+                self.select_ad();
+                    break;
+                case 40:
+                //down
+                if(self.flag >= 0)
+                    self.selectItem_ad();
+                    break;
+                case 13:
+                //center
+                    break;
+                case 82:
+                    break;
+                case 4:
+                    break;
+                }
+            }
+        },
 
         methods:{
 
@@ -466,6 +582,7 @@
                 this.collages[this.coord_y][this.offset[this.coord_y]*4 + this.coord_x].type = 2;
                 this.coord_y++;
                 if(this.coord_y >= this.collagesName.length){
+                    this.addDialog("已经是最后一张啦！");
                     this.coord_y--;
                 }else{
                     if(this.coord_x>this.collages[this.coord_y].length-this.offset[this.coord_y]*4-1){
@@ -479,6 +596,7 @@
                 this.collages[this.coord_y][this.offset[this.coord_y]*4 + this.coord_x].type = 2;
                 this.coord_y--;
                 if(this.coord_y < 0){
+                    this.addDialog("这是第一张啦！");
                     this.coord_y++;
                 }else{
                     if(this.coord_x>this.collages[this.coord_y].length-this.offset[this.coord_y]*4-1){
@@ -488,26 +606,43 @@
                 this.collages[this.coord_y][this.offset[this.coord_y]*4 + this.coord_x].type = 5;
             },
             select_ad:function(){
-                this.collages[this.coord_y][this.offset[this.coord_y]*4 + this.coord_x].type = 2;
-                this.coord_x++;
-                if(this.coord_x>3||this.offset[this.coord_y]*4 + this.coord_x>=this.collages[this.coord_y].length){
-                    if(this.offset[this.coord_y]*4 + this.coord_x>=this.collages[this.coord_y].length){
-                        this.coord_x--;
-                    }
-                    else{
-                        this.offset[this.coord_y] += 1;  
-                        this.coord_x = 0;
-                        this.toggle[this.coord_y] = !this.toggle[this.coord_y];
+                var tempFlag = true;
+                if(this.flag < 0){
+                    this.flag++;
+                    if(this.flag == 0){
+                        tempFlag = false;
                     }
                 }
+                if(this.flag >= 0){
+                    this.collages[this.coord_y][this.offset[this.coord_y]*4 + this.coord_x].type = 2;
+                    if(tempFlag)
+                        this.coord_x++;
+                    if(this.coord_x>3||this.offset[this.coord_y]*4 + this.coord_x>=this.collages[this.coord_y].length){
+                        if(this.offset[this.coord_y]*4 + this.coord_x>=this.collages[this.coord_y].length){
+                            this.addDialog("已经是最后一张啦！");
+                            this.coord_x--;
+                        }
+                        else{
+                            this.offset[this.coord_y] += 1;  
+                            this.coord_x = 0;
+                            this.toggle[this.coord_y] = !this.toggle[this.coord_y];
+                        }
+                    }
+                    
+                    this.collages[this.coord_y][this.offset[this.coord_y]*4 + this.coord_x].type = 5;
+                }
                 
-                this.collages[this.coord_y][this.offset[this.coord_y]*4 + this.coord_x].type = 5;
             },
             select_re:function(){
                 this.collages[this.coord_y][this.offset[this.coord_y]*4 + this.coord_x].type = 2;
                 this.coord_x--;
                 if(this.coord_x<0){
                     if(this.offset[this.coord_y]-1<0){
+                        //this.addDialog("这是第一张啦！");
+                        this.flag--;
+                        if(this.flag < -2){
+                            this.flag++;
+                        }
                         this.coord_x++;
                     }else{
                         this.offset[this.coord_y] -= 1;
@@ -515,27 +650,60 @@
                         this.toggle[this.coord_y] = !this.toggle[this.coord_y];
                     }
                 }
-
-                this.collages[this.coord_y][this.offset[this.coord_y]*4 + this.coord_x].type = 5;
+                if(this.flag >= 0)
+                    this.collages[this.coord_y][this.offset[this.coord_y]*4 + this.coord_x].type = 5;
             },
             getCollage:function(index){
                 let len = this.collages[index].length - this.offset[index]*4;
                 if(len >=4){
-                len = 4;
+                    len = 4;
                 }else if(len<=0){
-                return [];
+                    return [];
                 }
 
                 let collages_part = Array(len);
                 for(let i=0;i<len;i++){
-                collages_part[i] = this.collages[index][this.offset[index]*4+i];
+                    collages_part[i] = this.collages[index][this.offset[index]*4+i];
                 }
 
                 return collages_part;
             },
+
+            addDialog:function(showText){
+                var layer = document.createElement("div");
+                layer.id = "layer";
+                layer.style.width = "200px";
+                layer.style.height = "50px";
+                layer.innerText = showText;
+                layer.style.position = "absolute";
+                layer.style.background = "rebeccapurple";
+                layer.style.textAlign = "center";
+                layer.style.fontSize = "20px";
+                layer.style.top = "500px";
+                layer.style.left = "600px";
+                layer.style.opacity = "0.3";
+                    
+                var alpha = 0.5;
+                var value = 0.05;
+                var timer;
+                document.body.appendChild(layer);
+                clearInterval(timer);
+                timer = setInterval(
+                    function(){
+                        alpha += value;
+                        layer.style.opacity = alpha;
+                        if(alpha >= 1){
+                            value = -0.01;
+                        }else if(alpha < 0.1){
+                            document.body.removeChild(layer);
+                            clearInterval(timer);
+                        }
+                    },30);
+                //setTimeout("document.body.removeChild(layer)",1000);
+                //clearTimeout();
+            },
         },
         computed:{
-             
         },
     }
 </script>
@@ -548,7 +716,7 @@
         background: url('../assets/collage/bg0.png');
     }
     #Collage{
-        height: 1390px;
+        height: 1416px;
         overflow-x: hidden;
         overflow-y: scroll;
     } 
@@ -565,10 +733,10 @@
         position: absolute;
         left: 0;
     }
-    .btn{
+    /* .btn{
         position: relative;
         left:160px;
-    }
+    } */
 
     .picDialog{
         position: relative;
