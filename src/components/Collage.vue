@@ -1,805 +1,469 @@
 <template>
-  <div id="Collage">
+  <div id="College">
     <!-- {{msg}} -->
-     <search id="searchBox" :flag="flag"></search>
-         <!-- <span class="btn">
-            <input type="button" value="往下" @click="selectItem_ad">
-            <input type="button" value="往上" @click="selectItem_re">
-            <input type="button" value="往右" @click="select_ad">
-            <input type="button" value="往左" @click="select_re">
-        </span>  -->
-        <div class="picDialog" v-for="(item,index) in collagesName" :key="index">
-            <ul class="collageUl">
-                <p class="collageName">{{item}}</p> 
-                 
-                <li v-for="(item,itemIndex) in getCollage(index)" :class="item.type==5?'select':'noSelect'" :key="itemIndex"> 
-                    <transition name="fade" mode="out-in">
-                        <picture-dialog
-                            v-if="toggle[index]"
-                            key="first"
-                            class="picture"
-                            :date="item.date"
-                            :author="item.author"
-                            :title="item.name"
-                            :like="item.likeNum"
-                            :visited="item.visited"
-                            :pic_url="item.url"
-                            :type="item.type">
-                        </picture-dialog>
+     <search id="searchBox" :flag="flag" :searchSelect="searchSelect" :toggleSearch="toggleSearch">
+     </search>
 
-                        <picture-dialog
-                            v-else
-                            key="second"
-                            class="picture"
-                            :date="item.date"
-                            :author="item.author"
-                            :title="item.name"
-                            :like="item.likeNum"
-                            :visited="item.visited"
-                            :pic_url="item.url"
-                            :type="item.type"> 
-                        </picture-dialog>
-                    </transition>
-                </li>
-            </ul>
-        
+    <div id="collegeDiv">
+        <div id="date">
+        {{getDay}}&nbsp&nbsp&nbsp&nbsp|&nbsp&nbsp&nbsp&nbsp{{time}}
         </div>
-        
+
+        <ul id="collegeList">
+        <li v-for="(item,index) in getColleges" :class="select==index?'select':'noSelect'" :key="index"> 
+            <transition name="fade" mode="out-in">
+            <picture-dialog
+                v-if="toggle"
+                :title="item.albumName"
+                :like="item.likeAmount"
+                :visited="item.visitAmount"
+                :pic_url="item.url"
+                :type="select==index?3:2"
+                class="pic"
+                key="first">
+            </picture-dialog>
+
+            <picture-dialog
+                v-else 
+                :title="item.albumName"
+                :like="item.likeAmount"
+                :visited="item.visitAmount"
+                :pic_url="item.url"
+                :type="select==index?3:2"
+                class="pic"
+                key="second"
+                > 
+            </picture-dialog>
+            </transition> 
+        </li>
+        </ul>
+    
+        <ul id="pageIndex">
+        <li v-for="index in getPageIndex"> 
+            <transition name="indexFade" mode="out-in">
+            <img v-if="index" key="foucs" :src="ico_index_foucs" /> 
+            <img v-else key="unfoucs" :src="ico_index" /> 
+            </transition>
+        </li>
+        </ul> 
+    </div> 
   </div>
 </template>
 
 <script>
-    import router from '../router/index'
+  import bg from '../assets/spot_bg.png'
+  import ico_index from '../assets/spot_index.png'
+  import ico_index_foucs from '../assets/spot_index_foucs.png'
 
-    import bg1 from '../assets/bg1.jpg'
-    import bg2 from '../assets/bg2.jpg'
-    import bg3 from '../assets/bg3.jpg'
-    import bg4 from '../assets/bg4.jpg'
+  import bg1 from '../assets/bg1.jpg'
+  import bg2 from '../assets/bg2.jpg'
+  import bg3 from '../assets/bg3.jpg'
+  import bg4 from '../assets/bg4.jpg'
 
-    import bg5 from '../assets/favorite/bg5.jpg'
-    import bg6 from '../assets/favorite/bg6.jpg'
-    import bg7 from '../assets/favorite/bg7.jpg'
-    import bg8 from '../assets/favorite/bg8.jpg'
-
-    export default {
-        name:'Collage',
-        data(){
-            return {
-                coord_x:0,
-                coord_y:0,
-                flag:0,
-                toggle:[true,true,true,true,true,true,true],
-                offset:[0,0,0,0,0,0,0],
-                collagesName:["华南理工大学","中山大学","华南师范大学","华南农业大学","广州大学","广东工业大学","广东外语外贸大学"],
-                collages : 
-                [
-                    [
-                        {
-                            date:"2017/05/21",
-                            author:"东",
-                            albumId:0,
-                            name:"东一",
-                            visited:100,
-                            likeNum:100,
-                            url:bg1,
-                            type:5,
-                        },
-                        {
-                            date:"2017/05/21",
-                            author:"东",
-                            albumId:1,
-                            name:"东二",
-                            visited:100,
-                            likeNum:100,
-                            url:bg2,
-                            type:2,
-                        },
-                        {
-                            date:"2017/05/21",
-                            author:"东",
-                            albumId:2,
-                            name:"东三",
-                            visited:100,
-                            likeNum:100,
-                            url:bg3,
-                            type:2,
-                        },
-                        {
-                            date:"2017/05/21",
-                            author:"东",
-                            albumId:0,
-                            name:"东四",
-                            visited:100,
-                            likeNum:100,
-                            url:bg4,
-                            type:2,
-                        },
-                        {
-                            date:"2017/05/21",
-                            author:"东",
-                            albumId:1,
-                            name:"东五",
-                            visited:100,
-                            likeNum:100,
-                            url:bg3,
-                            type:2,
-                        },
-                        {
-                            date:"2017/05/21",
-                            author:"东",
-                            albumId:3,
-                            name:"东六",
-                            visited:100,
-                            likeNum:100,
-                            url:bg4,
-                            type:2,
-                        }
-                    ],[
-                        {
-                            date:"2017/06/21",
-                            author:"西",
-                            albumId:0,
-                            name:"西一",
-                            visited:200,
-                            likeNum:200,
-                            url:bg5,
-                            type:2,
-                        },
-                        {
-                            date:"2017/06/21",
-                            author:"西",
-                            albumId:1,
-                            name:"西二",
-                            visited:200,
-                            likeNum:200,
-                            url:bg6,
-                            type:2,
-                        },
-                        {
-                            date:"2017/07/21",
-                            author:"西",
-                            albumId:2,
-                            name:"西三",
-                            visited:200,
-                            likeNum:200,
-                            url:bg7,
-                            type:2,
-                        },
-                        {
-                            date:"2017/06/21",
-                            author:"西",
-                            albumId:0,
-                            name:"西四",
-                            visited:200,
-                            likeNum:200,
-                            url:bg8,
-                            type:2,
-                        },
-                        {
-                            date:"2017/06/21",
-                            author:"西",
-                            albumId:1,
-                            name:"西五",
-                            visited:200,
-                            likeNum:200,
-                            url:bg8,
-                            type:2,
-                        },
-                        {
-                            date:"2017/06/21",
-                            author:"西",
-                            albumId:3,
-                            name:"西六",
-                            visited:200,
-                            likeNum:200,
-                            url:bg7,
-                            type:2,
-                        },
-                        {
-                            date:"2017/06/21",
-                            author:"西",
-                            albumId:1,
-                            name:"西七",
-                            visited:200,
-                            likeNum:200,
-                            url:bg6,
-                            type:2,
-                        },
-                        {
-                            date:"2017/06/21",
-                            author:"西",
-                            albumId:3,
-                            name:"西八",
-                            visited:200,
-                            likeNum:200,
-                            url:bg5,
-                            type:2,
-                        }
-                    ],[
-                        {
-                            date:"2017/07/21",
-                            author:"南",
-                            albumId:0,
-                            name:"南一",
-                            visited:300,
-                            likeNum:300,
-                            url:bg1,
-                            type:2,
-                        },
-                        {
-                            date:"2017/07/21",
-                            author:"南",
-                            albumId:1,
-                            name:"南二",
-                            visited:300,
-                            likeNum:300,
-                            url:bg2,
-                            type:2,
-                        },
-                        {
-                            date:"2017/07/21",
-                            author:"南",
-                            albumId:2,
-                            name:"南三",
-                            visited:300,
-                            likeNum:300,
-                            url:bg3,
-                            type:2,
-                        },
-                        {
-                            date:"2017/07/21",
-                            author:"南",
-                            albumId:0,
-                            name:"南四",
-                            visited:300,
-                            likeNum:300,
-                            url:bg4,
-                            type:2,
-                        },
-                        {
-                            date:"2017/07/21",
-                            author:"南",
-                            albumId:1,
-                            name:"南五",
-                            visited:300,
-                            likeNum:300,
-                            url:bg4,
-                            type:2,
-                        },
-                        {
-                            date:"2017/07/21",
-                            author:"南",
-                            albumId:3,
-                            name:"南六",
-                            visited:300,
-                            likeNum:300,
-                            url:bg3,
-                            type:2,
-                        },
-                        {
-                            date:"2017/07/21",
-                            author:"南",
-                            albumId:1,
-                            name:"南七",
-                            visited:300,
-                            likeNum:300,
-                            url:bg2,
-                            type:2,
-                        }
-                    ],[
-                        {
-                            date:"2017/08/21",
-                            author:"北",
-                            albumId:0,
-                            name:"北一",
-                            visited:400,
-                            likeNum:400,
-                            url:bg5,
-                            type:2,
-                        },
-                        {
-                            date:"2017/08/21",
-                            author:"北",
-                            albumId:1,
-                            name:"北二",
-                            visited:400,
-                            likeNum:400,
-                            url:bg6,
-                            type:2,
-                        },
-                        {
-                            date:"2017/08/21",
-                            author:"北",
-                            albumId:2,
-                            name:"北三",
-                            visited:400,
-                            likeNum:400,
-                            url:bg7,
-                            type:2,
-                        },
-                        {
-                            date:"2017/08/21",
-                            author:"北",
-                            albumId:0,
-                            name:"北四",
-                            visited:400,
-                            likeNum:400,
-                            url:bg8,
-                            type:2,
-                        },
-                        {
-                            date:"2017/08/21",
-                            author:"北",
-                            albumId:1,
-                            name:"北五",
-                            visited:400,
-                            likeNum:400,
-                            url:bg8,
-                            type:2,
-                        },
-                        {
-                            date:"2017/08/21",
-                            author:"北",
-                            albumId:3,
-                            name:"北六",
-                            visited:400,
-                            likeNum:400,
-                            url:bg7,
-                            type:2,
-                        },
-                        {
-                            date:"2017/08/21",
-                            author:"北",
-                            albumId:1,
-                            name:"北七",
-                            visited:400,
-                            likeNum:400,
-                            url:bg6,
-                            type:2,
-                        },
-                        {
-                            date:"2017/08/21",
-                            author:"北",
-                            albumId:3,
-                            name:"北八",
-                            visited:400,
-                            likeNum:400,
-                            url:bg5,
-                            type:2,
-                        }
-                    ],[
-                        {
-                            date:"2017/05/21",
-                            author:"东",
-                            albumId:0,
-                            name:"东一",
-                            visited:100,
-                            likeNum:100,
-                            url:bg1,
-                            type:2,
-                        },
-                        {
-                            date:"2017/05/21",
-                            author:"东",
-                            albumId:1,
-                            name:"东二",
-                            visited:100,
-                            likeNum:100,
-                            url:bg2,
-                            type:2,
-                        },
-                        {
-                            date:"2017/05/21",
-                            author:"东",
-                            albumId:2,
-                            name:"东三",
-                            visited:100,
-                            likeNum:100,
-                            url:bg3,
-                            type:2,
-                        },
-                        {
-                            date:"2017/05/21",
-                            author:"东",
-                            albumId:0,
-                            name:"东四",
-                            visited:100,
-                            likeNum:100,
-                            url:bg4,
-                            type:2,
-                        },
-                        {
-                            date:"2017/05/21",
-                            author:"东",
-                            albumId:1,
-                            name:"东五",
-                            visited:100,
-                            likeNum:100,
-                            url:bg3,
-                            type:2,
-                        },
-                        {
-                            date:"2017/05/21",
-                            author:"东",
-                            albumId:3,
-                            name:"东六",
-                            visited:100,
-                            likeNum:100,
-                            url:bg4,
-                            type:2,
-                        },
-                        {
-                            date:"2017/07/21",
-                            author:"南",
-                            albumId:1,
-                            name:"南七",
-                            visited:300,
-                            likeNum:300,
-                            url:bg3,
-                            type:2,
-                        }
-                    ],[
-                        {
-                            date:"2017/05/21",
-                            author:"东",
-                            albumId:0,
-                            name:"东一",
-                            visited:100,
-                            likeNum:100,
-                            url:bg1,
-                            type:2,
-                        },
-                        {
-                            date:"2017/05/21",
-                            author:"东",
-                            albumId:1,
-                            name:"东二",
-                            visited:100,
-                            likeNum:100,
-                            url:bg2,
-                            type:2,
-                        },
-                        {
-                            date:"2017/05/21",
-                            author:"东",
-                            albumId:2,
-                            name:"东三",
-                            visited:100,
-                            likeNum:100,
-                            url:bg3,
-                            type:2,
-                        },
-                        {
-                            date:"2017/05/21",
-                            author:"东",
-                            albumId:0,
-                            name:"东四",
-                            visited:100,
-                            likeNum:100,
-                            url:bg4,
-                            type:2,
-                        },
-                        {
-                            date:"2017/05/21",
-                            author:"东",
-                            albumId:1,
-                            name:"东五",
-                            visited:100,
-                            likeNum:100,
-                            url:bg3,
-                            type:2,
-                        }
-                    ],[
-                        {
-                            date:"2017/06/21",
-                            author:"西",
-                            albumId:0,
-                            name:"西一",
-                            visited:200,
-                            likeNum:200,
-                            url:bg5,
-                            type:2,
-                        },
-                        {
-                            date:"2017/06/21",
-                            author:"西",
-                            albumId:1,
-                            name:"西二",
-                            visited:200,
-                            likeNum:200,
-                            url:bg6,
-                            type:2,
-                        },
-                        {
-                            date:"2017/07/21",
-                            author:"西",
-                            albumId:2,
-                            name:"西三",
-                            visited:200,
-                            likeNum:200,
-                            url:bg7,
-                            type:2,
-                        }
-                    ]
-                ],  
+  export default {
+    name: 'spots',
+    methods:{
+      toggleSlide:function(){
+        this.canSlide = !this.canSlide;
+      },
+      select_ad:function(){
+        if(this.canSlide){
+          (this.getColleges[this.select]).type = 2;
+          if(!this.searchSelect)    //从搜索框右移回到图片框
+            this.select++;
+          if(this.select>3||this.offset*4+this.select>this.spots.length){
+            if(this.offset+1>=this.getPageIndex.length){
+              this.select--;
+            }else{
+              this.offset++;
+              this.select = 0;
+              this.toggle = !this.toggle;
             }
-        },
-
-        created:function(){
-            var url = 'http://39.108.149.106/api/provinces/college/广东';
-            fetch(url, {
-                mode:'cors',
-                method:'GET',
-                headers:{
-                    'Access-Control-Allow-Credentials': true,
-                    'Content-Type':'text/plain',
-                },
-                credentials:"include",
-            }).then(function(response){
-                return response.json();
-            }).then(function(data){
-                console.log(data);
-            }).catch(function(error){
-                console.log("fetch错误: " + error);
-            })
-        }, 
-
-        mounted:function(){
-            let self = this;
-            document.onkeydown = function(event){
-                switch(event.which){
-                case 37:
-                //left
-                self.select_re(); 
-                    break;
-                case 38:
-                //up
-                if(self.flag >= 0)
-                    self.selectItem_re();
-                    break;
-                case 39:
-                //right
-                self.select_ad();
-                    break;
-                case 40:
-                //down
-                if(self.flag >= 0)
-                    self.selectItem_ad();
-                    break;
-                case 13:
-                //center
-                if(self.flag >= 0){
-                    router.push();
-                }
-                    break;
-                case 82:
-                    break;
-                case 4:
-                    break;
-                }
+          }
+          this.toggleSlide();
+          setTimeout(this.toggleSlide,600);
+          (this.getColleges[this.select]).type = 3;
+        }
+      },
+      select_re:function(){
+        if(this.canSlide){
+          (this.getColleges[this.select]).type = 2;
+          this.select--;
+          if(this.select<0){
+            if(this.offset-1<0){
+              this.select++;
+              this.changeFlag = true;//可左移
+            }else{
+              this.offset--;
+              this.select = 3;
+              this.toggle = !this.toggle;
             }
-        },
+          }
+          this.toggleSlide();
+          setTimeout(this.toggleSlide,600);
+          (this.getColleges[this.select]).type = 3;
+        }
+      },
+    },
+    computed:{
+      getDay:function(){
+        var day = ["日","一","二","三","四","五","六"];
+        return "星期"+day[new Date().getDay()];
+      },
+      getColleges:function(){
+        let len = this.spots.length - this.offset*4;
+        if(len >=4){
+          len = 4;
+        }else if(len<=0){
+          return [];
+        }
 
-        methods:{
-            //选中下一行，即另一个大学
-            selectItem_ad:function(){
-                this.collages[this.coord_y][this.offset[this.coord_y]*4 + this.coord_x].type = 2;
-                this.coord_y++;
-                if(this.coord_y >= this.collagesName.length){
-                    this.addDialog("已经是最后一张啦！");
-                    this.coord_y--;
-                }else{
-                    if(this.coord_x>this.collages[this.coord_y].length-this.offset[this.coord_y]*4-1){
-                        this.coord_x = this.collages[this.coord_y].length-this.offset[this.coord_y]*4-1;
-                    }
-                }
-                
-                this.collages[this.coord_y][this.offset[this.coord_y]*4 + this.coord_x].type = 5;
-            },
-            //选中上一行
-            selectItem_re:function(){
-                this.collages[this.coord_y][this.offset[this.coord_y]*4 + this.coord_x].type = 2;
-                this.coord_y--;
-                if(this.coord_y < 0){
-                    this.addDialog("这是第一张啦！");
-                    this.coord_y++;
-                }else{
-                    if(this.coord_x>this.collages[this.coord_y].length-this.offset[this.coord_y]*4-1){
-                        this.coord_x = this.collages[this.coord_y].length-this.offset[this.coord_y]*4-1;
-                    }
-                }
-                this.collages[this.coord_y][this.offset[this.coord_y]*4 + this.coord_x].type = 5;
-            },
-            //右移选中下一个相册
-            select_ad:function(){
-                var tempFlag = true;
-                if(this.flag < 0){
-                    this.flag++;
-                    if(this.flag == 0){
-                        tempFlag = false;
-                    }
-                }
-                if(this.flag >= 0){
-                    this.collages[this.coord_y][this.offset[this.coord_y]*4 + this.coord_x].type = 2;
-                    if(tempFlag)
-                        this.coord_x++;
-                    if(this.coord_x>3||this.offset[this.coord_y]*4 + this.coord_x>=this.collages[this.coord_y].length){
-                        if(this.offset[this.coord_y]*4 + this.coord_x>=this.collages[this.coord_y].length){
-                            this.addDialog("已经是最后一张啦！");
-                            this.coord_x--;
-                        }
-                        else{
-                            this.offset[this.coord_y] += 1;  
-                            this.coord_x = 0;
-                            this.toggle[this.coord_y] = !this.toggle[this.coord_y];
-                        }
-                    }
-                    
-                    this.collages[this.coord_y][this.offset[this.coord_y]*4 + this.coord_x].type = 5;
-                }
-                
-            },
-            //左移选中上一个相册
-            select_re:function(){
-                this.collages[this.coord_y][this.offset[this.coord_y]*4 + this.coord_x].type = 2;
-                this.coord_x--;
-                if(this.coord_x<0){
-                    if(this.offset[this.coord_y]-1<0){
-                        //this.addDialog("这是第一张啦！");
-                        this.flag--;
-                        if(this.flag < -2){
-                            this.flag++;
-                        }
-                        this.coord_x++;
-                    }else{
-                        this.offset[this.coord_y] -= 1;
-                        this.coord_x = 3;
-                        this.toggle[this.coord_y] = !this.toggle[this.coord_y];
-                    }
-                }
-                if(this.flag >= 0)
-                    this.collages[this.coord_y][this.offset[this.coord_y]*4 + this.coord_x].type = 5;
-            },
-            getCollage:function(index){
-                let len = this.collages[index].length - this.offset[index]*4;
-                if(len >=4){
-                    len = 4;
-                }else if(len<=0){
-                    return [];
-                }
+        let spot_part = Array(len);
+        for(let i=0;i<len;i++){
+          spot_part[i] = this.spots[this.offset*4+i];
+        }
 
-                let collages_part = Array(len);
-                for(let i=0;i<len;i++){
-                    collages_part[i] = this.collages[index][this.offset[index]*4+i];
-                }
+        return spot_part;
+      },
+      getPageIndex:function(){
+        if(this.spots.length % 4 == 0){
+          var index = Array(parseInt(this.spots.length/4));
+        }else{
+          var index = Array(parseInt(this.spots.length/4+1));
+        }
+        for(let i=0;i<index.length;i++){
+          index[i] = i==this.offset?true:false;
+        }
+        return index;
+      }
+    },
+    data() {
+      return {
+        flag:0,
+        searchSelect:false,
+        toggleSearch:0,//用于淡入淡出
+        toggleFlag:false,//用于判断二次淡入淡出
+        changeFlag:false,//用于判断是否可以从图片框切换到输入框
+        time:"10:00",
+        toggle:true,
+        select:0,
+        offset:0,
+        ico_index:ico_index,
+        ico_index_foucs:ico_index_foucs,
+        canSlide:true,
+        // bg:{
+        //   backgroundImage:"url("+bg+")",
+        // },
+        spots:[
+          {
+            albumId:0,
+            albumName:"广州塔0",
+            visitAmount:200,
+            likeAmount:200,
+            url:bg1,
+          },
+          {
+            albumId:1,
+            albumName:"海心沙0",
+            visitAmount:200,
+            likeAmount:200,
+            url:bg2,
+          },
+          {
+            albumId:2,
+            albumName:"烈士陵园0",
+            visitAmount:200,
+            likeAmount:200,
+            url:bg3,
+          },
+          {
+            albumId:3,
+            albumName:"华南理工大学0",
+            visitAmount:200,
+            likeAmount:200,
+            url:bg4,
+          },
+          {
+            albumId:0,
+            albumName:"广州塔1",
+            visitAmount:200,
+            likeAmount:200,
+            url:bg4,
+          },
+          {
+            albumId:1,
+            albumName:"海心沙1",
+            visitAmount:200,
+            likeAmount:200,
+            url:bg3,
+          },
+          {
+            albumId:2,
+            albumName:"烈士陵园1",
+            visitAmount:200,
+            likeAmount:200,
+            url:bg2,
+          },
+          {
+            albumId:3,
+            albumName:"华南理工大学1",
+            visitAmount:200,
+            likeAmount:200,
+            url:bg1,
+          },
+          {
+            albumId:0,
+            albumName:"广州塔2",
+            visitAmount:200,
+            likeAmount:200,
+            url:bg1,
+          },
+          {
+            albumId:1,
+            albumName:"海心沙2",
+            visitAmount:200,
+            likeAmount:200,
+            url:bg2,
+          },
+          {
+            albumId:2,
+            albumName:"烈士陵园2",
+            visitAmount:200,
+            likeAmount:200,
+            url:bg3,
+          },
+          {
+            albumId:3,
+            albumName:"华南理工大学2",
+            visitAmount:200,
+            likeAmount:200,
+            url:bg4,
+          },
+        ],
+      }
+    },
+    mounted:function(){
+      let self = this;
+      document.onkeydown = function(event){
+        
+        switch(event.which){
+          case 37:
+          //left
+            self.select_re();
+            if(self.changeFlag && (self.offset + self.select == 0)){
+              self.searchSelect = true;
+              self.select = -1;//切换到输入框，图片框没有内容被选中
+              // console.log(self.searchSelect);
+            }
+            break;
+          case 38:
+          //up
+          if(self.searchSelect){
+            self.flag++;
+          }
+          
+            break;
+          case 39:
+          //right
+          //从搜索框切换到图片框
+            if(self.searchSelect){
+              self.select = 0;//切换到图片框之前先把selece归零，表示选中第0个
+              self.changeFlag = false;
+            }
+            self.select_ad();
+            if(self.searchSelect){
+              self.searchSelect = false;//从搜索框切换到图片框,不再选中搜索框
+            }
+            break;
+          case 40:
+          //down
+          // self.$refs.Search.select(1);
+          if(self.searchSelect){
+            self.flag --;
+          }
+            break;
+          case 13:
+          //center
+          if(self.searchSelect){
+            if(!self.toggleFlag)
+              self.toggleSearch = 1;
+            else
+              self.toggleSearch = 0;
+            self.toggleFlag = !self.toggleFlag;
+          }
+            break;
+          case 82:
+            break;
+          case 4:
+            break;
+        }
+      }
 
-                return collages_part;
-            },
-            //判断是否是最后一个相册和第一个相册
-            addDialog:function(showText){
-                var layer = document.createElement("div");
-                layer.id = "layer";
-                layer.style.width = "200px";
-                layer.style.height = "50px";
-                layer.innerText = showText;
-                layer.style.position = "absolute";
-                layer.style.background = "rebeccapurple";
-                layer.style.textAlign = "center";
-                layer.style.fontSize = "20px";
-                layer.style.top = "500px";
-                layer.style.left = "600px";
-                layer.style.opacity = "0.3";
-                    
-                var alpha = 0.5;
-                var value = 0.05;
-                var timer;
-                document.body.appendChild(layer);
-                clearInterval(timer);
-                timer = setInterval(
-                    function(){
-                        alpha += value;
-                        layer.style.opacity = alpha;
-                        if(alpha >= 1){
-                            value = -0.01;
-                        }else if(alpha < 0.1){
-                            document.body.removeChild(layer);
-                            clearInterval(timer);
-                        }
-                    },30);
-                //setTimeout("document.body.removeChild(layer)",1000);
-                //clearTimeout();
-            },
-        },
-        computed:{
-        },
+    //   var provinceName = encodeURIComponent(this.$route.params.provinceName);
+    //   var cityName = encodeURIComponent(this.$route.params.cityName);
+
+    //   var requestUrl = "http://39.108.149.106/api/provinces/cities/"+provinceName+"/"+cityName+"/spots";
+    //   fetch(requestUrl, {
+    //       mode: 'cors',
+    //       method: 'GET',
+    //       headers: {
+    //         'Access-Control-Allow-Credentials': true,
+    //         'Content-Type':'application/x-www-form-urlencoded; charset=UTF-8',
+    //   },
+    //     credentials: "include",
+    //   }).then(function(response) {
+    //     response.json().then(function(json){
+
+    //       self.spots = json;
+          
+    //     },function(err){
+    //       console.log("json解析失败\n"+err);
+    //     });
+    //   },function(err){
+    //     console.log("网络请求失败\n"+err);
+    //   })
     }
+  }
+
+  function refreshTime(){
+    if(document.getElementById("College") != undefined){
+      var sp = College.__vue__;
+      var hour = new Date().getHours();
+      var minute = new Date().getMinutes();
+      if(hour<10){
+        hour = "0"+hour;
+      }
+
+      if(minute<10){
+        minute = "0"+minute;
+      }
+      sp.time = hour+":"+minute;
+    }
+  }
+  setInterval(refreshTime,1000);
 </script>
 
 
+
 <style>
-    body{
-        font-family: "小米兰亭";
-        color: #f1f1f1;
-        background: url('../assets/collage/bg0.png');
-    }
-    #Collage{
-        height: 1416px;
-        overflow-x: hidden;
-        overflow-y: scroll;
-    } 
-    #Collage::-webkit-scrollbar {
-        display: none;
-    }
-    #Collage::-moz-scrollbar{
-        display: none;
-    }
-    #Collage::-ms-scrollbar{
-        display: none;
-    }
-    #searchBox{
-        position: absolute;
-        left: 0;
-    }
-    /* .btn{
-        position: relative;
-        left:160px;
-    } */
+@font-face {
+  font-family: font757;
+  src: url("../assets/font/小米兰亭.ttf");
+}
+#College{
+    position: relative;
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden; 
+    font-family: font757;
+    background: url('../assets/collage/bg0.png');
+    color: #f1f1f1;
+    background-size: cover;
+    
+} 
 
-    .picDialog{
-        position: relative;
-        left:160px;
-        height: 36vh;
-        /* width: 87.05vw; */
-        font-size: 2.96vh;
-        overflow: hidden; 
-        border-bottom: 3px solid rebeccapurple;    
-    }
-    .collageUl{
-        position: relative;
-        height: 36vh;
-        /* background: rebeccapurple;             */
-    }
-    .collageName{
-        position: absolute;
-        top: 5px;
-    }
-    .collageUl li{
-       margin-top: 40px; 
-       display: inline-block;  
-       position: relative; 
-    }
-    .collageUl > .noSelect{
-        box-shadow: 0 0 0 rgba(0,0,0,0.7);
-        width:19.5vw;
-        height: 24vh;
-        margin-right:1.7vw;
-        vertical-align: top; 
-        top:1.7vh;
-        transition: all 0.4s
-    }
-    .collageUl > .select{
-        box-shadow: 0 0 5vw rgba(0,0,0,0.7);
-        width:21.5vw;
-        height: 27.5vh;
-        margin-right: 1vw;
-        top:0;
-        vertical-align: top; 
-        transition: all 0.4s
-    }
-    .collageUl > .noSelect > .picture{
-        width:19.5vw;
-        height: 24vh;
-    }
-    .collageUl > .select > .picture{
-        width:21.5vw;
-        height: 27.5vh;
-    }
 
-    .fade-enter-active, .fade-leave-active {
-        transition: all 0.4s
-    }
-    .fade-enter, .fade-leave-to {
-        opacity: 0
-    } 
+#searchBox{
+    position: absolute;
+    width: 10.42vw;
+    height: 100vh;
+    overflow: hidden;
+    overflow-y: scroll;  
+    left: 0; 
+}
+ #searchBox::-webkit-scrollbar {
+    display: none;
+}
+#searchBox::-moz-scrollbar{
+    display: none;
+}
+#searchBox::-ms-scrollbar{
+    display: none;
+}  
+
+#collegeDiv{
+    position: relative;
+    width: 89.58vw;
+    left: 10.42vw;
+}
+
+#date{
+  position: absolute;
+  top:6.48vh;
+  right:10vw;
+}    
+
+#collegeList{
+  position: absolute;
+  top:18.33vh;
+  left:1vw; 
+  width: 100vw;
+  height: 59.9vh;
+}
+
+#collegeList li{
+  display: inline-block; 
+   position: relative; 
+}
+
+#collegeList > .noSelect{
+  box-shadow: 0 0 0 rgba(0,0,0,0.7);
+  width:18.75vw;
+  height: 53.89vh;
+  margin-right:4vw;
+  vertical-align: top; 
+  top:3vh;
+  transition: all 0.4s
+}
+
+#collegeList > .noSelect > .pic{
+  width:18.75vw;
+  height: 53.89vh;
+}
+
+#collegeList > .select{
+  box-shadow: 0 0 5vw rgba(0,0,0,0.7);
+  width:20.83vw;
+  height: 59.9vh;
+  margin-right: 3.125vw;
+  top:0;
+  vertical-align: top; 
+  transition: all 0.4s
+}
+
+#collegeList > .select > .pic{
+  width:20.83vw;
+  height: 59.9vh;
+}
+
+#pageIndex{
+  width: 100%;
+  text-align: center;
+  position: absolute;
+  /* bottom:8.52vh; */
+  top:90vh;
+}
+
+#pageIndex > li{
+  display: inline;
+  vertical-align: middle;
+  margin-left:1.3vw;
+  margin-right: 1.3vw;
+}
+
+.indexFade-enter-active, .indexFade-leave-active {
+  transition: all 0.2s
+}
+.indexFade-enter, .indexFade-leave-to  {
+  opacity: 0.5
+}  
+
+.fade-enter-active, .fade-leave-active {
+  transition: all 0.4s
+}
+.fade-enter, .fade-leave-to {
+  opacity: 0
+}     
+
 
 </style>

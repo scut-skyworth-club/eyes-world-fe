@@ -1,16 +1,15 @@
 <template>
 <!-- 说明：当search获得焦点时方可搜索
       当searchText获得焦点时方可回车打印所选中的省份 -->
-  <div class="box" :flag="changeFlag" >
-      <div class="input" @keydown.down.prevent="select(1)" @keydown.up.prevent="select(0)">
-        <input id="searchText" type="text" placeholder="搜索内容" @keydown.enter="nextPage">
-        <input id="search" type="submit" value="搜索" @keydown.enter="change" >
-        
-         <!-- <input id="goUp" type="button" value="往上" @click="select(0)">
-        <input id="goDown" type="button" value="往下" @click="select(1)">  -->
+  <div id="box" :style="pic1" :flag="changeFlag" :searchSelect="changeFlag" :toggleSearch="inOrOut">
+      <div id="searchContent">
+        <input id="searchText" type="text" placeholder="搜索内容" @keydown.down.enter="change">
+        <!-- <input id="search" type="submit" value="搜索" style="display:none"> -->
+        <img id="searchPic" :src="pic2" /> 
       </div>
-      <input id="mmp" type="submit">
-        <ul id="contentList" >
+      
+      <!-- <input id="mmp" type="submit"> -->
+        <ul id="contentList">
           <li v-for="(item,index) in provinceList" :id="'id'+index" :key="index">
             {{item.province}}
              <span style="display:none">{{item.initial}}</span> 
@@ -21,6 +20,8 @@
 
 <script>
 import area from '../assets/search/search.js'
+import pic1 from '../assets/search/pic1.png'
+import pic2 from '../assets/search/pic2.png'
 import $ from 'jquery'
 
 export default {
@@ -29,14 +30,24 @@ export default {
     return{
       provinceList:area[0],
       currentLine:-1,
-      tempFlag:false,
+      tempFlag:0,//用于判断up or down
+      tempNum:0,//用于判断淡入淡出
+      toggleNum:0,//用于记录动画执行的次数
+      toggle:true,
+      pic1:{
+          backgroundImage:"url("+pic1+")",
+        },
+      pic2:pic2,
       provinceName:"",
+      searchContent:"",
+      searchTimer:'',
     }
   },
 
-  props:["flag"],
+  props:["flag","searchSelect","toggleSearch"],
 
   mounted:function(){
+    setInterval(this.change(),1000);
       // let self = this;
       // document.onkeydown = function(event){
       //   switch(event.which){
@@ -67,20 +78,20 @@ export default {
   },
 
   methods:{
-
     change:function(){
+      var searchText = $.trim($("#searchText").val().toString()); //去掉两头的空格      
+      if (searchText == this.searchContent) {
+           return false;
+      }
+      this.searchContent = searchText;
       $("#contentList li").eq(this.currentLine).removeClass("hightLight");
       this.currentLine = -1;
-       var searchText = $.trim($("#searchText").val().toString()); //去掉两头的空格      
-       if (searchText == '') {
-           return false;
-       }
       //  var parent = $("ul");
       //  $('li:contains(' + searchText + ')').prependTo(parent);
       var ul_list = document.getElementById("contentList");
-      var li_list = document.getElementById("contentList").getElementsByTagName("li");
-      var span_list = document.getElementById("contentList").getElementsByTagName("span");
-      
+      var li_list = document.getElementsByTagName("li");
+      var span_list = document.getElementsByTagName("span");
+      // document.querySelector('#contentList span')
       var temp1 = [];
       var temp2 = [];
       for (var i = 0; i < li_list.length; i++) {
@@ -106,12 +117,12 @@ export default {
       }else if(num==0){
         this.currentLine--;
       }
-      var temp = document.getElementById("contentList").getElementsByTagName("li");
+      var temp = document.getElementsByTagName("li");
       for (var i = 0; i < temp.length; i++) {
           $("#contentList li").eq(i).removeClass("hightLight");
       }
       if (this.currentLine < 0)
-          this.currentLine = temp.length - 1;
+          this.currentLine = -1;
       if (this.currentLine >= temp.length)
           this.currentLine = 0;
       $("#contentList li").eq(this.currentLine).addClass("hightLight");
@@ -119,7 +130,6 @@ export default {
       this.provinceName = document.getElementById(id).innerText;
       //alert(this.provinceName);
       //$(currentId).click();
-      //document.getElementById("mmp").focus();
     },
 
     nextPage:function () {
@@ -144,90 +154,162 @@ export default {
       // })
     
     },
+
+    fadeInOut:function(value){
+      var timer;
+      var alpha1 = 0;
+      var alpha2 = 1;
+      var searchText = document.getElementById("searchText");
+      var searchPic = document.getElementById("searchPic");
+      if(this.toggle){
+        timer = setInterval(function(){
+          alpha1 += value;
+          alpha2 -= value;
+          searchText.style.opacity = alpha1;
+          searchPic.style.opacity = alpha2;
+          if(alpha1 >= 1||alpha2 <= 0){
+            clearInterval(timer);
+          }
+        },30);
+      }else{
+        timer = setInterval(function(){
+          alpha1 += value;
+          alpha2 -= value;
+          searchText.style.opacity = alpha2;
+          searchPic.style.opacity = alpha1;
+          if(alpha1 >= 1||alpha2 <= 0){
+            clearInterval(timer);
+          }
+        },30);
+      }
+      searchText.value = "";//清空文本框
+      this.toggle = !this.toggle;
+    },
   },
+  
   computed:{
     changeFlag:function(){
       let self = this;
-      if(self.flag == -1){
-        document.getElementById("search").focus();
-        $("#search").addClass("searchHeightLight");
-        self.tempFlag = true;
-        //document.getElementById("search").style.fontSize = "18px";
-      }else if(self.flag == -2){
-        document.getElementById("searchText").focus();
-        $("#search").removeClass("searchHeightLight");
-        self.tempFlag = false;
-        // document.getElementById(searchText).style.borderBottomColor = "red";
+      if(self.searchSelect){
+        $("#searchContent").addClass("searchHeightLight");
+      }else{
+        $("#searchContent").removeClass("searchHeightLight");
+        //从输入框右移到图片框，将输入框变为图标
+        if((self.toggleNum != 0)&&(self.toggleNum%2 != 0)){
+          self.fadeInOut(0.02);
+          self.toggleNum = 0;
+        }
       }
-      if(self.tempFlag && self.flag >=0){
-        document.getElementById("mmp").focus();
-        $("#search").removeClass("searchHeightLight");
+      if(self.flag < self.tempFlag){
+        self.select(1);
+      }else if(self.flag > self.tempFlag){
+        self.select(0);
       }
+      self.tempFlag = self.flag;
     },
-  }
+    inOrOut:function(){
+      let self = this;
+      //当选中某个省份时不能在输入框和图标之间切换
+      if(self.currentLine != -1){
+        self.tempNum = self.toggleSearch;
+        return;
+      }
+      if((self.toggleSearch != self.tempNum)&&(self.currentLine == -1)){
+        self.fadeInOut(0.02);
+        document.getElementById("searchText").focus();//输入框获取焦点
+        
+        self.toggleNum++;
+        self.tempNum = self.toggleSearch;
+      }
+    }
+  },
 }
 </script>
 
 <style>
-   body{
+  body{
     src: url("../assets/font/小米兰亭.ttf");
     font-family: "小米兰亭";
   } 
 
-  .box{
-    width: 150px;
-     /* margin-left: 100px;  */
-    background:url('../assets/search/pic1.png'); 
+  #box{
+     position: relative;
+     width: 100vw;
+     height: 100vh; 
+     overflow: hidden;
+     overflow-y: scroll; 
+     left: 0;
+  } 
+  #box::-webkit-scrollbar {
+    display: none;
   }
+  #searchBox::-moz-scrollbar{
+    display: none;
+  }
+  #searchBox::-ms-scrollbar{
+    display: none;
+  } 
+ #searchContent{
+   position: relative;
+   width: 100%;
+   height: 9.26vh;
+ }
 
-    #mmp{
-    margin-top: 6px;
-    background: red;
-    width: 150px;
-    height: 1px;
-  }  
-  
+ #searchPic{
+   position: absolute;
+   width: 27%;
+   height: 5.92vh;
+   left:36.5%;
+   top:1.67vh;
+ }
+  /*以下3个样式高度需要修改  */
   #searchText{
-    width: 100px;
-    height: 30px;
+    position: absolute; 
+    /* width: 70%; */
+    width: 100%;
+    height: 8vh;
+    opacity: 0; 
   }
 
   #search{
-    width: 45px;
-    height: 30px;
+    position: absolute; 
+    right: 0;
+    width: 29%;
+    height: 6vh;
   }
 
-  /* #goUp{
-    width: 40px;
-    height: 30px;
-  }
-
-  #goDown{
-    width: 40px;
-    height: 30px;
-  } */
+  /* #mmp{
+    position: absolute; 
+    top:7vh;
+    background: white;
+    width: 100%; 
+    height: 1px;
+  }  */
 
 
   #contentList{
-    font-size: 20pt;
+    position: relative;  
+    /* margin-top:9.26vh; */
+    font-size: 30px;
     text-align: center;
     cursor: pointer;
     
   }
   #contentList li{
      list-style-type: none;
-     line-height: 40px; 
+     line-height: 8.7vh; 
      color: #f1f1f1
      
   } 
+
+  /*高亮样式暂定  */
   .hightLight {
     background: #4169E1;
     font-weight: bolder;
   }
-
+/*暂定  */
   .searchHeightLight{
-    font-size: 15px; 
-    color: green; 
+    background: #104E8B;
   }
 
 </style>
