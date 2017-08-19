@@ -1,293 +1,289 @@
 <template>
-  <div id="Panorama">
+  <div id="panorama">
+      <transition name="show-photo">
+        <img v-show="showPhoto" :src="bgs[index]" alt="1" class="panorama-pic">
+      </transition>
+      <div class="pic-info">
+        <div>
+            <img :src="profile" class="icon">
+            <p class="title">&nbsp&nbsp@{{author}}&nbsp&nbsp{{date}}&nbsp&nbsp{{spot}}</p>
+        </div>
+        <div>
+            <img :src="visitedIcon" class="visited-icon">
+            <p class="visited-amount">{{visitedAmount}}</p>
+        </div>
+        <div>
+            <img :src="likeIcon" class="like-icon">
+            <p class="like-amount">{{likeAmount}}</p>
+        </div>
+      </div>
+      <div class="navigation" v-if="showBar">
+        <ul>
+            <li><div class="like no-focus" v-if="like" v-show="counter!==1"><img :src="icons[0]"></div>
+                <div class="like no-focus" v-else v-show="counter!==1"><img :src="icons[1]"></div>
+                <div class="like focus" v-if="like" v-show="counter===1"><img :src="icons[0]"></div>
+                <div class="like focus" v-else v-show="counter===1"><img :src="icons[1]"></div> 
+            </li>
+            <li><div class="continute no-focus" v-show="counter!==2"><p>继续欣赏</p></div>
+                <div class="continute focus" v-show="counter===2"><p>继续欣赏</p></div>
+            </li>
+            <li><div class="prev-photo no-focus" v-show="counter!==3"><div><img :src="icons[2]"><p>上一张</p></div></div>
+                <div class="prev-photo focus" v-show="counter===3"><div><img :src="icons[2]"><p>上一张</p></div></div>
+            </li>
+            <li><div class="next-photo no-focus" v-show="counter!==4"><div><img :src="icons[3]"><p>下一张</p></div></div>
+                <div class="next-photo focus" v-show="counter===4"><div><img :src="icons[3]"><p>下一张</p></div></div>
+            </li>
+            <li><div class="comment no-focus" v-show="counter!==5"><div><img :src="icons[4]"><p>评&nbsp&nbsp&nbsp论</p></div></div>
+                <div class="comment focus" v-show="counter===5"><div><img :src="icons[4]"><p>评&nbsp&nbsp&nbsp论</p></div></div>
+            </li>
+            <li><div class="detail no-focus" v-show="counter!==6"><div><img :src="icons[5]"><p>详&nbsp&nbsp&nbsp情</p></div></div>
+                <div class="detail focus" v-show="counter===6"><div><img :src="icons[5]"><p>详&nbsp&nbsp&nbsp情</p></div></div>
+            </li>
+        </ul>
+    </div>
     <transition name="show-comments">
       <comment v-if="showComments"></comment> 
     </transition>
     <transition name="show-details">
       <detail v-if="showDetails"></detail>
-    </transition>
-    <figure>
-      <transition name="show-photo">
-        <img v-show="showPhoto" :src="bgs[index]" alt="#">
-      </transition>
-      <figcaption>
-        <div>
-          <img :src="profile" class="icon">
-          <p class="title">&nbsp&nbsp@{{author}}&nbsp&nbsp{{date}}&nbsp&nbsp{{spot}}</p>
-        </div>
-        <div>
-          <img :src="visitedIcon" class="visited-icon">
-          <p class="visited-amount">{{visitedAmount}}</p>
-        </div>
-        <div>
-          <img :src="likeIcon" class="like-icon">
-          <p class="like-amount">{{likeAmount}}</p>
-        </div>
-      </figcaption>
-    </figure>
-     <div class="navigation" v-if="showBar">
-        <ul>
-            <li><div class="like no-focus" v-if="like" v-show="counter!==1"><figure><img :src="icons[0]"></figure></div>
-                <div class="like no-focus" v-else v-show="counter!==1"><figure><img :src="icons[1]"></figure></div>
-                <div class="like focus" v-if="like" v-show="counter===1"><figure><img :src="icons[0]"></figure></div>
-                <div class="like focus" v-else v-show="counter===1"><figure><img :src="icons[1]"></figure></div> 
-            </li>
-            <li><div class="continute no-focus" v-show="counter!==2"><p>继续欣赏</p></div>
-                <div class="continute focus" v-show="counter===2"><p>继续欣赏</p></div>
-            </li>
-            <li><div class="prev-photo no-focus" v-show="counter!==3"><figure><img :src="icons[2]"><figcaption>上一张</figcaption></figure></div>
-                <div class="prev-photo focus" v-show="counter===3"><figure><img :src="icons[2]"><figcaption>上一张</figcaption></figure></div>
-            </li>
-            <li><div class="next-photo no-focus" v-show="counter!==4"><figure><img :src="icons[3]"><figcaption>下一张</figcaption></figure></div>
-                <div class="next-photo focus" v-show="counter===4"><figure><img :src="icons[3]"><figcaption>下一张</figcaption></figure></div>
-            </li>
-            <li><div class="comment no-focus" v-show="counter!==5"><figure><img :src="icons[4]"><figcaption>评&nbsp&nbsp&nbsp论</figcaption></figure></div>
-                <div class="comment focus" v-show="counter===5"><figure><img :src="icons[4]"><figcaption>评&nbsp&nbsp&nbsp论</figcaption></figure></div>
-            </li>
-            <li><div class="detail no-focus" v-show="counter!==6"><figure><img :src="icons[5]"><figcaption>详&nbsp&nbsp&nbsp情</figcaption></figure></div>
-                <div class="detail focus" v-show="counter===6"><figure><img :src="icons[5]"><figcaption>详&nbsp&nbsp&nbsp情</figcaption></figure></div>
-            </li>
-        </ul>
-    </div> 
+    </transition> 
     {{setKey}}
   </div>
 </template>
-
 <script>
-import bg1 from '../assets/demo2.jpg'
-import bg2 from '../assets/login/demo3.jpg'
-import bg3 from '../assets/login/demo4.jpg'
-import bg4 from '../assets/login/demo5.jpg'
-import bg5 from '../assets/login/demo6.jpg'
-import bg6 from '../assets/login/demo7.jpg'
-import icon from '../assets/panorama/profile_icon.png'
-import visited from '../assets/panorama/visited_icon.png'
-import liked from '../assets/panorama/liked.png'
+    import bg1 from '../assets/demo2.jpg'
+    import bg2 from '../assets/login/demo3.jpg'
+    import bg3 from '../assets/login/demo4.jpg'
+    import bg4 from '../assets/login/demo5.jpg'
+    import bg5 from '../assets/login/demo6.jpg'
+    import bg6 from '../assets/login/demo7.jpg'
+    import icon from '../assets/panorama/profile_icon.png'
+    import visited from '../assets/panorama/visited_icon.png'
+    import liked from '../assets/panorama/liked.png'
 
-import icon1 from '../assets/panorama/liked_big.png'
-import icon2 from '../assets/panorama/no_like_big.png'
-import icon3 from '../assets/panorama/prev_icon.png'
-import icon4 from '../assets/panorama/next_icon.png'
-import icon5 from '../assets/panorama/comment_icon.png'
-import icon6 from '../assets/panorama/detail_icon.png'
+    import icon1 from '../assets/panorama/liked_big.png'
+    import icon2 from '../assets/panorama/no_like_big.png'
+    import icon3 from '../assets/panorama/prev_icon.png'
+    import icon4 from '../assets/panorama/next_icon.png'
+    import icon5 from '../assets/panorama/comment_icon.png'
+    import icon6 from '../assets/panorama/detail_icon.png'
 
-import Comment from './Comment'
-import Detail from './Detail'
+    import Comment from './Comment'
+    import Detail from './Detail'
+    export default {
 
-export default {
-  data() {
-      return {
-          author: 'Mike',
-          date: '2017/4/21',
-          spot: '广州塔',
-          showBar: true,
-          like: true,
-          showComments: false,
-          showDetails: false,
-          showPhoto: true,
-          index: 0, //图片序号，初始为0
-          focus: 1, //focus=1,2,3,  1：主页面；2：评论页；3：详情页
-          profile: icon,
-          likeIcon: liked,
-          visitedIcon: visited,
-          visitedAmount: 100,
-          likeAmount: 60,
-          counter: 0,
-          animated: false,
-          bgs:[
-              bg1,
-              bg2,
-              bg3,
-              bg4,
-              bg5,
-              bg6,
-          ],
-          icons:[
-              icon1,
-              icon2,
-              icon3,
-              icon4,
-              icon5,
-              icon6,
-          ]
-      }
-  },
-  methods: {
-    likeOrCancel: function () { //点赞或者取消，需要完善的是把点赞数统计加入进来
-        this.like = !(this.like);
-    },
-    hideNavBar: function () { //隐藏操作栏
-        this.showBar = false;
-    },
-    askForPrevPic: function () {
-        // alert("请求上一张图片");
-        if (this.index===0) {
-            console.log('没有前一张了');
-            return;
-        }else {
-            if (!this.animated) {
-                this.animated = true;
-                this.showPhoto=false;
-                var _this = this;
-                window.setTimeout(function() { //设置图片切换时延迟，以产生原图片退出和新图片进入时动画
-                    _this.index--;
-                    _this.showPhoto=true;
-                },700);
-                window.setTimeout(function(){   //等待新图片进入后点击左右键才有效
-                    _this.animated = false;
-                },1400);
+        data (){
+            return {
+                author: 'Mike',
+                date: '2017/4/21',
+                spot: '广州塔',
+                showBar: true,
+                like: true,
+                showComments: false,
+                showDetails: false,
+                showPhoto: true,
+                index: 0, //图片序号，初始为0
+                focus: 1, //focus=1,2,3,  1：主页面；2：评论页；3：详情页
+                profile: icon,
+                likeIcon: liked,
+                visitedIcon: visited,
+                visitedAmount: 100,
+                likeAmount: 60,
+                counter: 0,
+                animated: false,
+                bgs:[
+                    bg1,
+                    bg2,
+                    bg3,
+                    bg4,
+                    bg5,
+                    bg6,
+                ],
+                icons:[
+                    icon1,
+                    icon2,
+                    icon3,
+                    icon4,
+                    icon5,
+                    icon6,
+                ]
             }
-        }
-    },
-    askForNextPic: function () {
-        if(this.index===this.bgs.length-1){
-            console.log('没有下一张了');
-            return;
-        }else {
-            if (!this.animated) {
-                this.animated = true;
-                this.showPhoto=false;
-                var _this = this;
-                window.setTimeout(function() { //设置图片切换时延迟，以产生原图片退出和新图片进入时动画
-                    _this.index++;
-                    _this.showPhoto=true;
-                },700);
-                window.setTimeout(function(){   //等待新图片进入后点击左右键才有效
-                    _this.animated = false;
-                },1400);
-            }
-        }
-    },
-    leftMove: function (){
-        if (this.focus===1) {
-            if (this.counter!==1) {
-                this.counter--;
-            }
-        }
-    },
-    rightMove: function (){
-        if (this.focus===1) {
-            if(this.counter!==6) {
-                this.counter++;
-            }
-        }
-    },
-    barReturn: function(){
-        if (this.focus===1) {
-            if (!this.showBar) {
-                this.showBar = true;
-                this.counter = 0;
-            }
-        }
-    },
-    enterItem: function (){
-        if (this.focus===1) {
-            switch (this.counter) {
-                case 1:
-                    this.likeOrCancel();
-                    break;
-                case 2:
-                    this.hideNavBar();
-                    break;
-                case 3: 
-                    this.askForPrevPic();
-                    break;
-                case 4: 
-                    this.askForNextPic();
-                    break;
-                case 5: 
-                    if (!this.showComments) {
-                        this.showComments = true;
+        },
+        methods: {
+            likeOrCancel: function () { //点赞或者取消，需要完善的是把点赞数统计加入进来
+                this.like = !(this.like);
+                //这里向后台发送点赞或者取消
+            },
+            hideNavBar: function () { //隐藏操作栏
+                this.showBar = false;
+            },
+            askForPrevPic: function () {
+                // alert("请求上一张图片");
+                if (this.index===0) {
+                    console.log('没有前一张了');
+                    return;
+                }else {
+                    if (!this.animated) {
+                        this.animated = true;
+                        this.showPhoto=false;
+                        var _this = this;
+                        window.setTimeout(function() { //设置图片切换时延迟，以产生原图片退出和新图片进入时动画
+                            _this.index--;
+                            _this.showPhoto=true;
+                        },700);
+                        window.setTimeout(function(){   //等待新图片进入后点击左右键才有效
+                            _this.animated = false;
+                        },1400);
                     }
-                    this.focus = 2;
-                    break;
-                case 6: 
-                    if (!this.showDetails) {
-                        this.showDetails = true;
+                }
+            },
+            askForNextPic: function () {
+                if(this.index===this.bgs.length-1){
+                    console.log('没有下一张了');
+                    return;
+                }else {
+                    if (!this.animated) {
+                        this.animated = true;
+                        this.showPhoto=false;
+                        var _this = this;
+                        window.setTimeout(function() { //设置图片切换时延迟，以产生原图片退出和新图片进入时动画
+                            _this.index++;
+                            _this.showPhoto=true;
+                        },700);
+                        window.setTimeout(function(){   //等待新图片进入后点击左右键才有效
+                            _this.animated = false;
+                        },1400);
                     }
-                    this.focus = 3;
-                    break;
-                default:
-                    break;
-            }
-        }else if (this.focus===2) {
-            this.showComments = false;
-            this.focus = 1;
-        }else {
-            this.showDetails = false;
-            this.focus = 1;
-        }
-    }
-    //showComment和showPhotoDetails这两个函数用作处理评论和详情信息的接口
-    // showComment: function () {
-    //     // if(this.commentRight===-20){
-    //     //     this.commentRight = 0;
-    //     // }else {
-    //     //     this.commentRight = -20;
-    //     // }
-    //     this.show = !(this.show);
-    // },
-    // showPhotoDetails: function () {
-    //     this.showDetails = !(this.showDetails);
-    // }
-  },
-  computed: {
-    setKey:function(){
-        let self = this;
-        document.onkeydown = function(event){
-            if(self.counter===0&&self.focus===1){
-                self.counter=1;
-            }else{
-                switch(event.which){
-                    case 37:
-                    //left
-                    self.leftMove();
-                    
-                    break;
-                    case 38:
-                    //up
-                
-                    break;
-                    case 39:
-                    //right
-                    self.rightMove();
-                    break;
-                    case 40:
-                    //down
-                    self.barReturn();   //这里先用down键替代返回键
-                    break;
-                    case 13:
-                    //center
-                    self.enterItem();
-                    break;
-                    case 82:
-                    break;
-                    case 4:
-                    break;
+                }
+            },
+            leftMove: function (){
+                if (this.focus===1) {
+                    if (this.counter!==1) {
+                        this.counter--;
+                    }
+                }
+            },
+            rightMove: function (){
+                if (this.focus===1) {
+                    if(this.counter!==6) {
+                        this.counter++;
+                    }
+                }
+            },
+            barReturn: function(){
+                if (this.focus===1) {
+                    if (!this.showBar) {
+                        this.showBar = true;
+                        this.counter = 0;
+                    }
+                }
+            },
+            enterItem: function (){
+                if (this.focus===1) {
+                    switch (this.counter) {
+                        case 1:
+                            this.likeOrCancel();
+                            break;
+                        case 2:
+                            this.hideNavBar();
+                            break;
+                        case 3: 
+                            this.askForPrevPic();
+                            break;
+                        case 4: 
+                            this.askForNextPic();
+                            break;
+                        case 5: 
+                            if (!this.showComments) {
+                                this.showComments = true;
+                            }
+                            this.focus = 2;
+                            break;
+                        case 6: 
+                            if (!this.showDetails) {
+                                this.showDetails = true;
+                            }
+                            this.focus = 3;
+                            break;
+                        default:
+                            break;
+                    }
+                }else if (this.focus===2) {
+                    this.showComments = false;
+                    this.focus = 1;
+                }else {
+                    this.showDetails = false;
+                    this.focus = 1;
                 }
             }
+            //showComment和showPhotoDetails这两个函数用作处理评论和详情信息的接口
+            // showComment: function () {
+            //     // if(this.commentRight===-20){
+            //     //     this.commentRight = 0;
+            //     // }else {
+            //     //     this.commentRight = -20;
+            //     // }
+            //     this.show = !(this.show);
+            // },
+            // showPhotoDetails: function () {
+            //     this.showDetails = !(this.showDetails);
+            // }
+        },
+        computed: {
+            setKey:function(){
+                let self = this;
+                document.onkeydown = function(event){
+                    if(self.counter===0&&self.focus===1){
+                        self.counter=1;
+                    }else{
+                        switch(event.which){
+                            case 37:
+                            //left
+                            self.leftMove();
+                            
+                            break;
+                            case 38:
+                            //up
+                        
+                            break;
+                            case 39:
+                            //right
+                            self.rightMove();
+                            break;
+                            case 40:
+                            //down
+                            self.barReturn();   //这里先用down键替代返回键
+                            break;
+                            case 13:
+                            //center
+                            self.enterItem();
+                            break;
+                            case 82:
+                            break;
+                            case 4:
+                            break;
+                        }
+                    }
+                }
+            },
+        },
+        components: {
+            Comment,
+            Detail
         }
-    },
-  },
-  components: {
-      Comment,
-      Detail
-  }
-}
+    }
 </script>
 <style>
-    #Panorama,#Panorama figure,#Panorama img,#Panorama figcaption,
-    #Panorama ul,#Panorama li,#Panorama div{
-        margin: 0;
-        padding: 0;
-        /* background-color: #666666; */
-    }
-    #Panorama {
+    #panorama {
         width: 100vw;
         height: 100vh;
+        position: absolute;
+        top: 0;
+        left: 0;
+        background: green;
         overflow: hidden;
     }
-    #Panorama figure {
+    #panorama .panorama-pic {
         width: 100vw;
         height: 100vh;
         position: absolute;
@@ -295,71 +291,102 @@ export default {
         left: 0;
         overflow: hidden;
     }
-    #Panorama figure img {
+    #panorama>.pic-info {
+        width: 100vw;
+        height: 20vh;
         position: absolute;
         top: 0;
         left: 0;
-        transition: all 0.7s ease;
+        /* border: 2px solid yellow; */
     }
-     #Panorama figcaption .title{
+    #panorama>.pic-info>div>.icon {
+        width: 1.927vw;
+        height: 3.426vh;
         position: absolute;
-        top: 1vh;
-        left: 1.5vw;
-        color: #f1f1f1;
+        top: 1.481vh;
+        left: 0.833vw;
+    }
+    #panorama>.pic-info>div>.title {
+        position: absolute;
+        top: 1.852vh;
+        left: 2.76vw;
         font-family: "小米兰亭";
         font-size: 2.222vh;
-    } 
-    #Panorama .navigation {
+        color: #f1f1f1;
+        text-shadow: 0 0 0.278vh #000000; 
+    }
+    #panorama>.pic-info>div>.visited-icon {
+        width: 1.458vw;
+        height: 1.667vh;
+        position: absolute;
+        top: 5.185vh;
+        left: 3.646vw;
+    }
+    #panorama>.pic-info>div>.visited-amount {
+        position: absolute;
+        top: 5.185vh;
+        left: 5.365vw;
+        font-family: "小米兰亭";
+        font-size: 1.852vh;
+        color: #f1f1f1;
+        text-shadow: 0 0 0.278vh #000000; 
+    }
+    #panorama>.pic-info>div>.like-icon {
+        width: 1.042vw;
+        height: 1.667vh;
+        position: absolute;
+        top: 5.185vh;
+        left: 8.333vw;
+    }
+    #panorama>.pic-info>div>.like-amount {
+        position: absolute;
+        top: 5.185vh;
+        left: 9.635vw;
+        font-family: "小米兰亭";
+        font-size: 1.852vh;
+        color: #f1f1f1;
+        text-shadow: 0 0 0.278vh #000000; 
+    }
+    #panorama>.navigation {
         width: 60vw;
         height: 12.037vh;
         position: absolute;
         top: 77.315vh;
         left: 24.74vw;
     }
-    #Panorama .navigation ul {
+    #panorama>.navigation>ul {
         position: absolute;
         top: 0;
         left: 0;
+        text-decoration: none;
     }
-    #Panorama .navigation li {
+    #panorama>.navigation li {
         position: relative;
         float: left;
     }
-    #Panorama .navigation li div {
+    #panorama>.navigation li>div {
         width: 6.771vw;
         height: 12.037vh;
         margin-right: 1.979vw;
+        margin-top: 0;
+        padding: 0;
     }
-    #Panorama .no-focus {
+    #panorama .no-focus {
         background-color: #7d7070;
         opacity: 0.5;
     }
-    #Panorama .focus {
+    #panorama .focus {
         background-color: #dddddd;
         opacity: 0.7;
     }
-    /* #Panorama figcaption:hover li div{
-        opacity: 0.5;
-    } */
-    /* #Panorama li div:hover {
-        background-color: #dddddd;
-        opacity: 0.7;
-    } */
-    #Panorama .like figure {
+    #panorama .like>img {
         width: 4.167vw;
         height: 6.481vh;
         position: absolute;
         top: 2.778vh;
         left: 1.302vw;
     }
-    #Panorama .like figure img {
-        width: 4.167vw;
-        height: 6.481vh;
-        position: absolute;
-        top: 0;
-        left: 0;
-    }
-    #Panorama .continute>p {
+    #panorama .continute>p {
         width: 4.167vw;
         height: 7.407vh;
         position: absolute;
@@ -375,63 +402,63 @@ export default {
         text-align: center;
     }
 
-    #Panorama .prev-photo figure{
+    #panorama .prev-photo>div{
         width: 4.167vw;
         height: 9.722vh;
         position: absolute;
         top: 2.315vh;
         left: 1.302vw;
     }
-    #Panorama .next-photo figure{
+    #panorama .next-photo>div{
         width: 4.167vw;
         height: 9.722vh;
         position: absolute;
         top: 2.315vh;
         left: 1.302vw;
     }
-    #Panorama .comment figure{
+    #panorama .comment>div{
         width: 4.167vw;
         height: 9.722vh;
         position: absolute;
         top: 2.315vh;
         left: 1.302vw;
     }
-    #Panorama .detail figure{
+    #panorama .detail>div{
         width: 4.167vw;
         height: 9.722vh;
         position: absolute;
         top: 2.315vh;
         left: 1.302vw;
     }
-    #Panorama .prev-photo figure img{
+    #panorama .prev-photo>div>img{
         width: 3.281vw;
         height: 4.537vh;
         position: absolute;
         top: 0;
         left: 0.468vw;
     }
-    #Panorama .next-photo figure img{
+    #panorama .next-photo>div>img{
         width: 3.281vw;
         height: 4.537vh;
         position: absolute;
         top: 0;
         left: 0.468vw;
     }
-    #Panorama .comment figure img{
+    #panorama .comment>div>img{
         width: 3.021vw;
         height: 4.907vh;
         position: absolute;
         top: 0;
         left: 0.573vw;
     }
-    #Panorama .detail figure img{
+    #panorama .detail>div>img{
         width: 2.917vw;
         height: 1.111vh;
         position: absolute;
         top: 1.296vh;
         left: 0.625vw;
     }
-    #Panorama li figcaption {
+    #panorama li>div>div>p {
         width: 4.167vw;
         height: 2.87vh;
         position: absolute;
@@ -440,53 +467,16 @@ export default {
         font-size: 2.037vh;
         letter-spacing: 0.0556vh;
     }
-    #Panorama figcaption .icon {
-        width: 1.927vw;
-        height: 3.426vh;
-        position: absolute;
-        top: 1.481vh;
-        left: 0.833vw;
+    .show-photo-enter-active,.show-photo-leave-active {
+        transition: all 0.7s ease;
     }
-    #Panorama figcaption .visited-icon {
-        width: 1.458vw;
-        height: 1.667vh;
-        position: absolute;
-        top: 5.185vh;
-        left: 3.646vw;
+    .show-photo-enter {
+        opacity: 0.3; 
+        transform: skew(75deg,75deg);
     }
-    #Panorama figcaption .like-icon {
-        width: 1.042vw;
-        height: 1.667vh;
-        position: absolute;
-        top: 5.185vh;
-        left: 8.333vw;
-    }
-    #Panorama figcaption .visited-amount {
-        position: absolute;
-        top: 5.185vh;
-        left: 5.365vw;
-        font-family: "小米兰亭";
-        font-size: 1.852vh;
-        color: #f1f1f1;
-        text-shadow: 0 0 0.278vh #000000; 
-    }
-    #Panorama figcaption .like-amount {
-        position: absolute;
-        top: 5.185vh;
-        left: 9.635vw;
-        font-family: "小米兰亭";
-        font-size: 1.852vh;
-        color: #f1f1f1;
-        text-shadow: 0 0 0.278vh #000000; 
-    }
-    #Panorama figcaption .title {
-        position: absolute;
-        top: 1.852vh;
-        left: 2.76vw;
-        font-family: "小米兰亭";
-        font-size: 2.222vh;
-        color: #f1f1f1;
-        text-shadow: 0 0 0.278vh #000000; 
+    .show-photo-leave-to {
+        opacity: 0.3; 
+        transform: skew(75deg,75deg);
     }
     .show-comments-enter-active {
         transition: all 0.7s ease;
@@ -511,17 +501,6 @@ export default {
     }
     .show-details-leave-to {
         transform: skewX(90deg); 
-    }
-    .show-photo-enter-active,.show-photo-leave-active {
-        transition: all 0.7s ease;
-    }
-    .show-photo-enter {
-        opacity: 0.3; 
-        transform: skew(75deg,75deg);
-    }
-    .show-photo-leave-to {
-        opacity: 0.3; 
-        transform: skew(75deg,75deg);
     }
 </style>
 
