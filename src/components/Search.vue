@@ -96,11 +96,11 @@ export default {
           this.currentLine = -1;
       if (this.currentLine >= temp.length)
           this.currentLine = 0;
-      $("#contentList li").eq(this.currentLine).addClass("hightLight");
-      var id = $("#contentList li").eq(this.currentLine).attr("id");
+      if(this.currentLine != -1)
+        $("#contentList li").eq(this.currentLine).addClass("hightLight");
+      var id = $("#contentList li").eq(this.currentLine).attr("id");//获取当前省份
       this.provinceName = document.getElementById(id).innerText;
-      //alert(this.provinceName);
-      //$(currentId).click();
+      
     },
 
     nextPage:function (event) {
@@ -108,7 +108,8 @@ export default {
       // var id = event.currentTarget.id;
       if(event.keyCode == 13){
         if(this.currentLine != -1){
-          console.log(this.provinceName);
+          //console.log(this.provinceName);
+          this.$emit('search-province',this.provinceName);
         }
         
       }else{
@@ -240,31 +241,32 @@ export default {
  #searchContent{
    position: relative;
    width: 100%;
-   height: 9.26vh;
+   height: 8.7vh;
  }
 
  #searchPic{
    position: absolute;
-   width: 27%;
-   height: 5.92vh;
-   left:36.5%;
-   top:1.67vh;
+   width: 27.5%;
+   height: 5.09vh;
+   left:37%;
+   top:1.85vh;
  }
-  /*以下3个样式高度需要修改  */
+  /*暂定  */
   #searchText{
     position: absolute; 
     /* width: 70%; */
     width: 100%;
-    height: 8vh;
+    height: 8.4vh;
+    top:0.2vh;
     opacity: 0; 
   }
 
-  #search{
+  /* #search{
     position: absolute; 
     right: 0;
     width: 29%;
     height: 6vh;
-  }
+  } */
 
   /* #mmp{
     position: absolute; 
@@ -278,14 +280,17 @@ export default {
   #contentList{
     position: relative;  
     /* margin-top:9.26vh; */
-    font-size: 30px;
-    text-align: center;
+    font-size: 29px; 
+    text-align: left;
     cursor: pointer;
     
   }
   #contentList li{
      list-style-type: none;
      line-height: 8.7vh; 
+     padding-left: 25%;
+     /* padding-top:3.05vh; */
+    /* padding-bottom: 2.96vh;  */
      color: #f1f1f1
      
   } 

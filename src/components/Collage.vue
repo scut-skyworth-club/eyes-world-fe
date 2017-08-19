@@ -1,7 +1,7 @@
 <template>
   <div id="College">
     <!-- {{msg}} -->
-     <search id="searchBox" :flag="flag" :searchSelect="searchSelect" :toggleSearch="toggleSearch">
+     <search id="searchBox" :flag="flag" :searchSelect="searchSelect" :toggleSearch="toggleSearch" @search-province="listenToSearch">
      </search>
 
     <div id="collegeDiv">
@@ -14,9 +14,9 @@
             <transition name="fade" mode="out-in">
             <picture-dialog
                 v-if="toggle"
-                :title="item.albumName"
-                :like="item.likeAmount"
-                :visited="item.visitAmount"
+                :title="item.college"
+                :like="item.likeNum"
+                :visited="item.visited"
                 :pic_url="item.url"
                 :type="select==index?3:2"
                 class="pic"
@@ -25,9 +25,9 @@
 
             <picture-dialog
                 v-else 
-                :title="item.albumName"
-                :like="item.likeAmount"
-                :visited="item.visitAmount"
+                :title="item.college"
+                :like="item.likeNum"
+                :visited="item.visited"
                 :pic_url="item.url"
                 :type="select==index?3:2"
                 class="pic"
@@ -61,7 +61,7 @@
   import bg4 from '../assets/bg4.jpg'
 
   export default {
-    name: 'spots',
+    name: 'College',
     methods:{
       toggleSlide:function(){
         this.canSlide = !this.canSlide;
@@ -71,7 +71,7 @@
           (this.getColleges[this.select]).type = 2;
           if(!this.searchSelect)    //从搜索框右移回到图片框
             this.select++;
-          if(this.select>3||this.offset*4+this.select>this.spots.length){
+          if(this.select>3||this.offset*4+this.select>this.colleges.length){
             if(this.offset+1>=this.getPageIndex.length){
               this.select--;
             }else{
@@ -104,6 +104,33 @@
           (this.getColleges[this.select]).type = 3;
         }
       },
+      listenToSearch:function(getdate){
+        let self = this;
+        self.colleges = [];//清空原来的colleges数组
+        var provinceName = getdate;
+        console.log(provinceName);
+        var url = "http://39.108.149.106/api/provinces/college/"+provinceName;
+        fetch(url, {
+            mode: 'cors',
+            method: 'GET',
+            headers: {
+              'Access-Control-Allow-Credentials': true,
+              'Content-Type':'application/x-www-form-urlencoded; charset=UTF-8',
+        },
+          credentials: "include",
+        }).then(function(response) {
+          response.json().then(function(json){
+            
+            self.colleges = json;
+            // console.log(json);
+            
+          },function(err){
+            console.log("json解析失败\n"+err);
+          });
+        },function(err){
+          console.log("网络请求失败\n"+err);
+        })
+      }
     },
     computed:{
       getDay:function(){
@@ -111,25 +138,25 @@
         return "星期"+day[new Date().getDay()];
       },
       getColleges:function(){
-        let len = this.spots.length - this.offset*4;
+        let len = this.colleges.length - this.offset*4;
         if(len >=4){
           len = 4;
         }else if(len<=0){
           return [];
         }
 
-        let spot_part = Array(len);
+        let college_part = Array(len);
         for(let i=0;i<len;i++){
-          spot_part[i] = this.spots[this.offset*4+i];
+          college_part[i] = this.colleges[this.offset*4+i];
         }
 
-        return spot_part;
+        return college_part;
       },
       getPageIndex:function(){
-        if(this.spots.length % 4 == 0){
-          var index = Array(parseInt(this.spots.length/4));
+        if(this.colleges.length % 4 == 0){
+          var index = Array(parseInt(this.colleges.length/4));
         }else{
-          var index = Array(parseInt(this.spots.length/4+1));
+          var index = Array(parseInt(this.colleges.length/4+1));
         }
         for(let i=0;i<index.length;i++){
           index[i] = i==this.offset?true:false;
@@ -151,95 +178,93 @@
         ico_index:ico_index,
         ico_index_foucs:ico_index_foucs,
         canSlide:true,
-        // bg:{
-        //   backgroundImage:"url("+bg+")",
-        // },
-        spots:[
-          {
-            albumId:0,
-            albumName:"广州塔0",
-            visitAmount:200,
-            likeAmount:200,
-            url:bg1,
-          },
-          {
-            albumId:1,
-            albumName:"海心沙0",
-            visitAmount:200,
-            likeAmount:200,
-            url:bg2,
-          },
-          {
-            albumId:2,
-            albumName:"烈士陵园0",
-            visitAmount:200,
-            likeAmount:200,
-            url:bg3,
-          },
-          {
-            albumId:3,
-            albumName:"华南理工大学0",
-            visitAmount:200,
-            likeAmount:200,
-            url:bg4,
-          },
-          {
-            albumId:0,
-            albumName:"广州塔1",
-            visitAmount:200,
-            likeAmount:200,
-            url:bg4,
-          },
-          {
-            albumId:1,
-            albumName:"海心沙1",
-            visitAmount:200,
-            likeAmount:200,
-            url:bg3,
-          },
-          {
-            albumId:2,
-            albumName:"烈士陵园1",
-            visitAmount:200,
-            likeAmount:200,
-            url:bg2,
-          },
-          {
-            albumId:3,
-            albumName:"华南理工大学1",
-            visitAmount:200,
-            likeAmount:200,
-            url:bg1,
-          },
-          {
-            albumId:0,
-            albumName:"广州塔2",
-            visitAmount:200,
-            likeAmount:200,
-            url:bg1,
-          },
-          {
-            albumId:1,
-            albumName:"海心沙2",
-            visitAmount:200,
-            likeAmount:200,
-            url:bg2,
-          },
-          {
-            albumId:2,
-            albumName:"烈士陵园2",
-            visitAmount:200,
-            likeAmount:200,
-            url:bg3,
-          },
-          {
-            albumId:3,
-            albumName:"华南理工大学2",
-            visitAmount:200,
-            likeAmount:200,
-            url:bg4,
-          },
-        ],
+        colleges:[],
+        // colleges:[
+        //   {
+        //     albumId:0,
+        //     college:"华南理工大学",
+        //     visited:200,
+        //     likeNum:200,
+        //     url:bg1,
+        //   },
+        //   {
+        //     albumId:1,
+        //     college:"华南农业大学",
+        //     visited:200,
+        //     likeNum:200,
+        //     url:bg2,
+        //   },
+        //   {
+        //     albumId:2,
+        //     college:"华南师范大学",
+        //     visited:200,
+        //     likeNum:200,
+        //     url:bg3,
+        //   },
+        //   {
+        //     albumId:3,
+        //     college:"中山大学",
+        //     visited:200,
+        //     likeNum:200,
+        //     url:bg4,
+        //   },
+        //   {
+        //     albumId:0,
+        //     college:"广东工业大学",
+        //     visited:200,
+        //     likeNum:200,
+        //     url:bg4,
+        //   },
+        //   {
+        //     albumId:1,
+        //     college:"广东外语外贸大学",
+        //     visited:200,
+        //     likeNum:200,
+        //     url:bg3,
+        //   },
+        //   {
+        //     albumId:2,
+        //     college:"广州大学",
+        //     visited:200,
+        //     likeNum:200,
+        //     url:bg2,
+        //   },
+        //   {
+        //     albumId:3,
+        //     college:"广东药科大学",
+        //     visited:200,
+        //     likeNum:200,
+        //     url:bg1,
+        //   },
+        //   {
+        //     albumId:0,
+        //     college:"暨南大学",
+        //     visited:200,
+        //     likeNum:200,
+        //     url:bg1,
+        //   },
+        //   {
+        //     albumId:1,
+        //     college:"广东金融学院",
+        //     visited:200,
+        //     likeNum:200,
+        //     url:bg2,
+        //   },
+        //   {
+        //     albumId:2,
+        //     college:"广东中医药大学",
+        //     visited:200,
+        //     likeNum:200,
+        //     url:bg3,
+        //   },
+        //   {
+        //     albumId:3,
+        //     college:"星海音乐学院",
+        //     visited:200,
+        //     likeNum:200,
+        //     url:bg4,
+        //   },
+        // ],
       }
     },
     mounted:function(){
@@ -290,6 +315,8 @@
             else
               self.toggleSearch = 0;
             self.toggleFlag = !self.toggleFlag;
+          }else{
+            
           }
             break;
           case 82:
@@ -302,26 +329,27 @@
     //   var provinceName = encodeURIComponent(this.$route.params.provinceName);
     //   var cityName = encodeURIComponent(this.$route.params.cityName);
 
-    //   var requestUrl = "http://39.108.149.106/api/provinces/cities/"+provinceName+"/"+cityName+"/spots";
-    //   fetch(requestUrl, {
-    //       mode: 'cors',
-    //       method: 'GET',
-    //       headers: {
-    //         'Access-Control-Allow-Credentials': true,
-    //         'Content-Type':'application/x-www-form-urlencoded; charset=UTF-8',
-    //   },
-    //     credentials: "include",
-    //   }).then(function(response) {
-    //     response.json().then(function(json){
-
-    //       self.spots = json;
+      var url = "http://39.108.149.106/api/provinces/college/广东";
+      fetch(url, {
+          mode: 'cors',
+          method: 'GET',
+          headers: {
+            'Access-Control-Allow-Credentials': true,
+            'Content-Type':'application/x-www-form-urlencoded; charset=UTF-8',
+      },
+        credentials: "include",
+      }).then(function(response) {
+        response.json().then(function(json){
           
-    //     },function(err){
-    //       console.log("json解析失败\n"+err);
-    //     });
-    //   },function(err){
-    //     console.log("网络请求失败\n"+err);
-    //   })
+          self.colleges = json;
+          // console.log(json);
+          
+        },function(err){
+          console.log("json解析失败\n"+err);
+        });
+      },function(err){
+        console.log("网络请求失败\n"+err);
+      })
     }
   }
 
@@ -396,8 +424,8 @@
 #collegeList{
   position: absolute;
   top:18.33vh;
-  left:1vw; 
-  width: 100vw;
+  left:2.30vw; 
+  width: 89.58vw;
   height: 59.9vh;
 }
 
@@ -410,9 +438,9 @@
   box-shadow: 0 0 0 rgba(0,0,0,0.7);
   width:18.75vw;
   height: 53.89vh;
-  margin-right:4vw;
+  margin-right:3.02vw;
   vertical-align: top; 
-  top:3vh;
+  top:2.96vh;
   transition: all 0.4s
 }
 
@@ -425,7 +453,7 @@
   box-shadow: 0 0 5vw rgba(0,0,0,0.7);
   width:20.83vw;
   height: 59.9vh;
-  margin-right: 3.125vw;
+  margin-right: 2.76vw;
   top:0;
   vertical-align: top; 
   transition: all 0.4s
@@ -440,8 +468,8 @@
   width: 100%;
   text-align: center;
   position: absolute;
-  /* bottom:8.52vh; */
-  top:90vh;
+  /* bottom:8.52vh;   */
+   top:90vh; 
 }
 
 #pageIndex > li{
