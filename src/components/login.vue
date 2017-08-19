@@ -27,14 +27,12 @@
                     mode: 'cors',
                     method: 'GET',
                     headers: {
-                        'Access-Control-Allow-Credentials': true,
-                        'Content-Type': 'text/plain'
+                        'Access-Control-Allow-Credentials': true
                     },
                     credentials: "include",
                 }).then(function(response) {
                     return response.json();
                 }).then(function(getres) {
-
                     // 得到数据 getres <----------------------------------- important! --------------------------------->
                     _this.pic = _this.server + getres.qrPath;
                     _this.marker = getres.marker;
@@ -60,7 +58,6 @@
             this.aCallback();
         }
     }
-
 </script>
 <style>
     #login {
