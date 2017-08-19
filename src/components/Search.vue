@@ -33,6 +33,7 @@ export default {
       tempFlag:0,//用于判断up or down
       tempNum:0,//用于判断淡入淡出
       toggleNum:0,//用于记录动画执行的次数
+      canChange:true,//用于设置动画的时间间隔
       toggle:true,
       pic1:{
           backgroundImage:"url("+pic1+")",
@@ -165,6 +166,10 @@ export default {
       searchText.value = "";//清空文本框
       this.toggle = !this.toggle;
     },
+
+    toggleChange:function(){
+      this.canChange = !this.canChange;
+    }
   },
   
   computed:{
@@ -204,8 +209,11 @@ export default {
         return;
       }
       if((self.toggleSearch != self.tempNum)&&(self.currentLine == -1)){
-        self.fadeInOut(0.02);
-        
+        if(self.canChange){
+          self.fadeInOut(0.02);
+        }
+        self.toggleChange();
+        setTimeout(self.toggleChange,1000);
         //self.change();
         self.toggleNum++;
         self.tempNum = self.toggleSearch;
@@ -268,15 +276,6 @@ export default {
     height: 6vh;
   } */
 
-  /* #mmp{
-    position: absolute; 
-    top:7vh;
-    background: white;
-    width: 100%; 
-    height: 1px;
-  }  */
-
-
   #contentList{
     position: relative;  
     /* margin-top:9.26vh; */
@@ -291,13 +290,12 @@ export default {
      padding-left: 25%;
      /* padding-top:3.05vh; */
     /* padding-bottom: 2.96vh;  */
-     color: #f1f1f1
-     
+     color: #f1f1f1;
   } 
 
   /*高亮样式暂定  */
   .hightLight {
-    background: #4169E1;
+    background: #5151A2  ;
     font-weight: bolder;
   }
 /*暂定  */
