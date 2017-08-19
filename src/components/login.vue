@@ -50,8 +50,19 @@
                     credentials: "include",
                     body: 'marker=' + this.marker
                 }).then(function(response) {
-                    console.log('log in!');
+                    return response.text();
                 })
+                // .then(function(text) {
+                //     if(text) {
+                        
+                //         // success
+                //         //router.push()
+                //     } else {
+
+                //         // fail
+
+                //     }
+                // })
             }
         },
         created() {

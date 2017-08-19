@@ -33,8 +33,6 @@
                 left:(Math.floor(index/2))*17.708+'vw',
                 transform:'scale('+(counter===index+2?1.1333:1)+')',
                 boxShadow:counter===index+2?'0 6px 20px #222222':'none'}"
-                :small-pic-size="change"
-                :small-pic-shadow="change"
                 class="small-pic">
               </picture-dialog>
             </li>

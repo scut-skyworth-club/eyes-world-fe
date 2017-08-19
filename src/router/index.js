@@ -18,6 +18,7 @@ import TVLogin from '@/components/TVLogin'
 import Upload from '@/components/Upload'
 import Login from '@/components/login'
 import FavoriteNew from '@/components/FavoriteNew'
+import LatestNew from '@/components/LatestNew'
 
 Vue.use(Router)
 
@@ -118,6 +119,12 @@ export default new Router({
             path: '/user/favoriteNew',
             name: 'FavoriteNew',
             component: FavoriteNew
+        },
+//最新推荐页面轮播图测试
+        {
+            path: '/latestnew',
+            name: 'LatestNew',
+            component: LatestNew
         }
     ]
 })

@@ -1,7 +1,7 @@
 <template>
-  <div id="LogoutConfirm">
+  <div class="MyConfirm">
       <img :src="bgs[0]">
-      <div class="sure"><p>确定要退出吗？</p></div>
+      <div class="sure"><p>{{confirmText}}</p></div>
       <div class="button-group">
           <button class="yes-bt" v-if="isSure" :style="{background:'url('+bgs[1]+') no-repeat center center',border:'1px solid blue'}">是</button>
           <button class="yes-bt" v-else>是</button>
@@ -22,14 +22,14 @@ export default {
           ]
       }
   },
-  props:['isSure'],
+  props:['isSure','confirmText'],
   methods: {
       
   }
 }
 </script>
 <style>
-    #LogoutConfirm {
+    .MyConfirm {
         width: 20vw;
         height: 25vh;
         position: absolute;
@@ -43,33 +43,33 @@ export default {
         color: #f1f1f1;
         overflow: hidden;
     }
-    #LogoutConfirm>img {
+    .MyConfirm>img {
         width: 20vw;
         height: 25vh;
         position: absolute;
         top: 0;
         left: 0;
     }
-    #LogoutConfirm>.sure {
+    .MyConfirm>.sure {
         width: 100%;
         height: 15vh;
         position: absolute;
         top: 0;
         left: 0;
     }
-    #LogoutConfirm>.sure>p {
+    .MyConfirm>.sure>p {
         text-align: center;
         margin: 5vh auto;
-        
+        letter-spacing: 0.08vw;
     }
-    #LogoutConfirm>.button-group {
+    .MyConfirm>.button-group {
         width: 100%;
         height: 10vh;
         position: absolute;
         top: 15vh;
         left: 0;
     }
-    #LogoutConfirm>.button-group>.yes-bt {
+    .MyConfirm>.button-group>.yes-bt {
         width: 3.5vw;
         height: 4vh;
         position: absolute;
@@ -79,7 +79,7 @@ export default {
         font-size: 2.778vh;
         color: #f1f1f1;
     }
-    #LogoutConfirm>.button-group>.no-bt {
+    .MyConfirm>.button-group>.no-bt {
         width: 3.5vw;
         height: 4vh;
         position: absolute;

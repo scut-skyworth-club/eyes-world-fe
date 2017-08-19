@@ -50,7 +50,7 @@
         </div>
     </div>
     <transition name="confirm">
-        <logout-confirm v-if="sure" :is-sure="isSure"></logout-confirm>
+        <my-confirm v-if="sure" :is-sure="isSure" :confirm-text="confirmText"></my-confirm>
     </transition> 
     <transition name="about">
         <about v-if="aboutAlert" :about-return="aboutReturn"></about>  
@@ -68,7 +68,7 @@
     }
     import router from '../router/index'
     import Date from './Date'
-    import LogoutConfirm from './LogoutConfirm'
+    import MyConfirm from './MyConfirm'
     import About from './About'
 
     import bg from '../assets/user/bg.png'
@@ -97,15 +97,41 @@
         index: 0,   //index = 0,1,2,3,4 index=0对应没有按下键时，index=1对应是移到用户框上，
                     //index=2对应是移到作品框,index=3对应移到收藏框,index=4对应移到关于框
         focus: 1,   //focus = 1,2,3 =1对应在整个主页面，=2对应弹出confirm，=3对应弹出关于
-        sure: false,    //sure=true就弹出退出登录对话框，sure=false对话框消失
+        sure: false,    //sure=true就弹出退出登录弹窗，sure=false弹窗消失
         isSure: true,   //isSure控制是否真的退出
+        confirmText: '确定要退出吗？', //退出弹窗信息
         aboutAlert: false,   //isClicked控制关于我们的弹出框是否收回
         aboutReturn: false, //aboutReturn控制关于我们的返回按钮聚焦
       }
     },
+    created: function (){
+        var self = this;
+        fetch('http://39.108.149.106/api/user', {
+            method: 'GET',
+            mode: 'cors',
+            headers: {
+            'Access-Control-Allow-Credentials': true,
+            'Content-Type':'application/x-www-form-urlencoded; charset=UTF-8',
+            },
+            credentials: "include"
+        }).then(function(response) {
+            return response.json();
+        }).then(function(getData) {
+            if (!getData.state) {
+                router.replace({name:'TVLogin'});
+            }else {
+                self.userName = getData.username;
+            }
+        });
+    },
+    // created: function (){
+    //     // if (true) {
+    //     //     router.replace({name:'TVLogin'});
+    //     // }
+    // },
     components: {
       Date,
-      LogoutConfirm,
+      MyConfirm,
       About,
     },
     computed: {
@@ -126,6 +152,7 @@
                         
                         break;
                         case 39:
+
                         //right
                         self.rightMove();
                         break;
