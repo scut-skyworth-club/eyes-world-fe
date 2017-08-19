@@ -3,7 +3,7 @@
       当searchText获得焦点时方可回车打印所选中的省份 -->
   <div id="box" :style="pic1" :flag="changeFlag" :searchSelect="changeFlag" :toggleSearch="inOrOut">
       <div id="searchContent">
-        <input id="searchText" type="text" placeholder="搜索内容" @keydown.down.enter="change">
+        <input id="searchText" type="text" placeholder="搜索内容" @keydown="nextPage($event)">
         <!-- <input id="search" type="submit" value="搜索" style="display:none"> -->
         <img id="searchPic" :src="pic2" /> 
       </div>
@@ -39,46 +39,17 @@ export default {
         },
       pic2:pic2,
       provinceName:"",
-      searchContent:"",
-      searchTimer:'',
+      searchContent:'',
+      timerFlag:true,
+      timer2:'',
     }
   },
 
   props:["flag","searchSelect","toggleSearch"],
 
-  mounted:function(){
-    setInterval(this.change(),1000);
-      // let self = this;
-      // document.onkeydown = function(event){
-      //   switch(event.which){
-      //     case 37:
-      //     //left
-      //       break;
-      //     case 38:
-      //     //up
-      //       break;
-      //     case 39:
-      //     //right
-      //       break;
-      //     case 40:
-      //     //down
-      //       break;
-      //     case 13:
-      //     //center
-      //       if(self.currentLine != -1){
-      //         self.change();
-      //       }
-      //       break;
-      //     case 82:
-      //       break;
-      //     case 4:
-      //       break;
-      //   }
-      // }
-  },
-
   methods:{
     change:function(){
+      console.log("123");
       var searchText = $.trim($("#searchText").val().toString()); //去掉两头的空格      
       if (searchText == this.searchContent) {
            return false;
@@ -89,8 +60,8 @@ export default {
       //  var parent = $("ul");
       //  $('li:contains(' + searchText + ')').prependTo(parent);
       var ul_list = document.getElementById("contentList");
-      var li_list = document.getElementsByTagName("li");
-      var span_list = document.getElementsByTagName("span");
+      var li_list = document.getElementById("contentList").getElementsByTagName("li");
+      var span_list = document.getElementById("contentList").getElementsByTagName("span");
       // document.querySelector('#contentList span')
       var temp1 = [];
       var temp2 = [];
@@ -117,7 +88,7 @@ export default {
       }else if(num==0){
         this.currentLine--;
       }
-      var temp = document.getElementsByTagName("li");
+      var temp = document.getElementById("contentList").getElementsByTagName("li");
       for (var i = 0; i < temp.length; i++) {
           $("#contentList li").eq(i).removeClass("hightLight");
       }
@@ -132,10 +103,18 @@ export default {
       //$(currentId).click();
     },
 
-    nextPage:function () {
+    nextPage:function (event) {
       // var name = event.currentTarget.innerText;
       // var id = event.currentTarget.id;
-      console.log(this.provinceName);
+      if(event.keyCode == 13){
+        if(this.currentLine != -1){
+          console.log(this.provinceName);
+        }
+        
+      }else{
+        return;
+      }
+      
 
       // fetch(url, {
       //     mode:'cors',
@@ -170,7 +149,7 @@ export default {
           if(alpha1 >= 1||alpha2 <= 0){
             clearInterval(timer);
           }
-        },30);
+        },20);
       }else{
         timer = setInterval(function(){
           alpha1 += value;
@@ -180,7 +159,7 @@ export default {
           if(alpha1 >= 1||alpha2 <= 0){
             clearInterval(timer);
           }
-        },30);
+        },20);
       }
       searchText.value = "";//清空文本框
       this.toggle = !this.toggle;
@@ -190,8 +169,15 @@ export default {
   computed:{
     changeFlag:function(){
       let self = this;
+      // var timer;
       if(self.searchSelect){
         $("#searchContent").addClass("searchHeightLight");
+        document.getElementById("searchText").focus();//输入框获取焦点
+        if(self.timerFlag){
+          self.timer2 = setInterval(self.change,1000);//开启定时器（只开启一次）
+          self.timerFlag = false;
+        }
+          
       }else{
         $("#searchContent").removeClass("searchHeightLight");
         //从输入框右移到图片框，将输入框变为图标
@@ -199,6 +185,8 @@ export default {
           self.fadeInOut(0.02);
           self.toggleNum = 0;
         }
+        clearInterval(self.timer2);//清除定时器
+        self.timerFlag = true;
       }
       if(self.flag < self.tempFlag){
         self.select(1);
@@ -216,12 +204,12 @@ export default {
       }
       if((self.toggleSearch != self.tempNum)&&(self.currentLine == -1)){
         self.fadeInOut(0.02);
-        document.getElementById("searchText").focus();//输入框获取焦点
         
+        //self.change();
         self.toggleNum++;
         self.tempNum = self.toggleSearch;
       }
-    }
+    },
   },
 }
 </script>
