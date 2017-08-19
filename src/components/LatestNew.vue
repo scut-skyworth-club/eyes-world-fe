@@ -31,7 +31,7 @@
     <ul>
         <li v-for="(span,inx) in spans" :key="span.id">
             <span :style="{left:inx*3.125+'vw',
-            backgroundColor:counter===inx+2?'#4e72cc':'#999999'}"></span>
+            backgroundColor:(counter===inx+2)||(counter===1&&inx===7)||(counter===10&&inx===0)?'#4e72cc':'#999999'}"></span>
         </li>
     </ul>
     {{setKey}}
@@ -188,28 +188,28 @@
         },
         methods: {
             leftMove: function (){
-                if (!this.animated) {
-                    this.animated = true;
-                    if (this.counter!==2) {
+                if (!this.animated) {   
+                    this.animated = true;   //动画过程中使按键失效
+                    if (this.counter!==2) { //如果不是第一张图片，只是左移一张
                         this.counter--;
                         this.oLeft = this.oLeft+75;
-                        this.setTransition = 'all 1s ease';
                         let self = this;
-                        window.setTimeout(function() {
+                        window.setTimeout(function() { //动画完成后恢复按键功能
                             self.animated = false;
                         }, 1000);
-                    }else {
+                    }else {     //如果是第一张图片，左移一张到达最后一张副本处
                         this.counter--;
                         this.oLeft = this.oLeft+75;
                         let self = this;
-                        this.setTransition = 'all 1s ease';
-                        window.setTimeout(function (){
+                        window.setTimeout(function (){ 
+                            //完成动画后，把副本图拉回最后一张，此阶段setTransition='none'关闭动画效果
                             self.counter = 9;
                             self.oLeft = self.oLeft-75*8;
                             self.setTransition = 'none';
                             self.animated = false;
                         },1000);
                     }
+                    this.setTransition = 'all 1s ease';
                 }
             },
             rightMove: function (){
@@ -218,7 +218,6 @@
                     if (this.counter!==this.amount-3) {
                         this.counter++;
                         this.oLeft = this.oLeft-75;
-                        this.setTransition = 'all 1s ease';
                         let self = this;
                         window.setTimeout(function() {
                             self.animated = false;
@@ -227,7 +226,6 @@
                         this.counter++;
                         this.oLeft = this.oLeft-75;
                         let self = this;
-                        this.setTransition = 'all 1s ease';
                         window.setTimeout(function (){
                             self.counter = 2;
                             self.oLeft = self.oLeft+75*8;
@@ -235,16 +233,15 @@
                             self.animated = false;
                         },1000);
                     }
+                    this.setTransition = 'all 1s ease';
                 }
-                // this.counter++;
-                // this.oLeft = this.oLeft-75;
             }
         },
         // 这部分是实现自动轮播的
-        // mounted: function (){
-        //     let self = this;
-        //     window.setInterval(self.rightMove,4000);  
-        // },       
+        mounted: function (){
+            let self = this;
+            window.setInterval(self.rightMove,4000);  
+        },       
         components: {
             Date,
             PictureDialog,

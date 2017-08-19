@@ -3,9 +3,9 @@
       <img :src="bgs[0]">
       <div class="sure"><p>{{confirmText}}</p></div>
       <div class="button-group">
-          <button class="yes-bt" v-if="isSure" :style="{background:'url('+bgs[1]+') no-repeat center center',border:'1px solid blue'}">是</button>
+          <button class="yes-bt" v-if="isSure" :style="{background:'url('+bgs[1]+') no-repeat center center',border:'1px solid #f1f1f1'}">是</button>
           <button class="yes-bt" v-else>是</button>
-          <button class="no-bt"v-if="!isSure" :style="{background:'url('+bgs[1]+') no-repeat center center',border:'1px solid blue'}">否</button>
+          <button class="no-bt"v-if="!isSure" :style="{background:'url('+bgs[1]+') no-repeat center center',border:'1px solid #f1f1f1'}">否</button>
           <button class="no-bt" v-else>否</button>
       </div>
   </div>

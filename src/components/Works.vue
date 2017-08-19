@@ -20,6 +20,7 @@
     <transition name="confirm">
         <my-confirm v-if="sure" :is-sure="isSure" :confirm-text="confirmText"></my-confirm>
     </transition> 
+    <p id="delete-explain">点击向下按钮可删除图片</p>
     {{setKey}}
   </div>
 </template>
@@ -380,5 +381,12 @@
       transform: translateY(-55vh);
       opacity: 0;
   }
-
+  #delete-explain {
+      font-family: "小米兰亭";
+      color: #f1f1f1;
+      font-size: 2.963vh;
+      position: absolute;
+      right: 6.25vw;
+      bottom: 6.481vh;
+  }
 </style>

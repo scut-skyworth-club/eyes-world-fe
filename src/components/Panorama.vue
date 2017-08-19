@@ -93,6 +93,7 @@ export default {
           visitedAmount: 100,
           likeAmount: 60,
           counter: 0,
+          animated: false,
           bgs:[
               bg1,
               bg2,
@@ -124,12 +125,18 @@ export default {
             console.log('没有前一张了');
             return;
         }else {
-            this.showPhoto=false;
-            var _this = this;
-            window.setTimeout(function() { //设置图片切换时延迟，以产生原图片退出和新图片进入时动画
-                _this.index--;
-                _this.showPhoto=true;
-            },700);
+            if (!this.animated) {
+                this.animated = true;
+                this.showPhoto=false;
+                var _this = this;
+                window.setTimeout(function() { //设置图片切换时延迟，以产生原图片退出和新图片进入时动画
+                    _this.index--;
+                    _this.showPhoto=true;
+                },700);
+                window.setTimeout(function(){   //等待新图片进入后点击左右键才有效
+                    _this.animated = false;
+                },1400);
+            }
         }
     },
     askForNextPic: function () {
@@ -137,12 +144,18 @@ export default {
             console.log('没有下一张了');
             return;
         }else {
-            this.showPhoto=false;
-            var _this = this;
-            window.setTimeout(function() { //设置图片切换时延迟，以产生原图片退出和新图片进入时动画
-                _this.index++;
-                _this.showPhoto=true;
-            },700);
+            if (!this.animated) {
+                this.animated = true;
+                this.showPhoto=false;
+                var _this = this;
+                window.setTimeout(function() { //设置图片切换时延迟，以产生原图片退出和新图片进入时动画
+                    _this.index++;
+                    _this.showPhoto=true;
+                },700);
+                window.setTimeout(function(){   //等待新图片进入后点击左右键才有效
+                    _this.animated = false;
+                },1400);
+            }
         }
     },
     leftMove: function (){
