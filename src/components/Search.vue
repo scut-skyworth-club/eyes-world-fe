@@ -13,6 +13,8 @@
           <li v-for="(item,index) in provinceList" :id="'id'+index" :key="index">
             {{item.province}}
              <span style="display:none">{{item.initial}}</span> 
+             <img v-if="item.initFlag" class="picDivision" :src="pic3"/>
+             <a v-if="item.initFlag" class="initClass">{{item.init}}</a>
           </li>
         </ul>
   </div>
@@ -22,6 +24,7 @@
 import area from '../assets/search/search.js'
 import pic1 from '../assets/search/pic1.png'
 import pic2 from '../assets/search/pic2.png'
+import pic3 from '../assets/search/pic3.png'
 import $ from 'jquery'
 
 export default {
@@ -39,6 +42,7 @@ export default {
           backgroundImage:"url("+pic1+")",
         },
       pic2:pic2,
+      pic3:pic3,
       provinceName:"",
       searchContent:'',
       timerFlag:true,
@@ -47,6 +51,33 @@ export default {
   },
 
   props:["flag","searchSelect","toggleSearch"],
+
+  created:function(){
+    //省份按首字母进行排序
+    function jsonObjSort(o, p) {
+      var a, b;
+      if (typeof o === "object" && typeof p === "object" && o && p) {
+        a = o.initial;
+        b = p.initial;
+        if (a === b) {
+            return 0;
+        }
+        if (typeof a === typeof b) {
+            return a < b ? -1 : 1;
+        }
+        return typeof a < typeof b ? -1 : 1;
+      } else {
+        throw ("error");
+      }
+    }
+    this.provinceList.sort(jsonObjSort);
+    //坐上角首字母显示与否
+    for (var i = 1; i < this.provinceList.length; i++) {
+      if(this.provinceList[i].init == this.provinceList[i-1].init){
+        this.provinceList[i].initFlag = false;
+      }
+    }
+  },
 
   methods:{
     change:function(){
@@ -68,18 +99,32 @@ export default {
       var temp2 = [];
       for (var i = 0; i < li_list.length; i++) {
         if((li_list[i].innerText).search(searchText)!=-1 || (span_list[i].innerText).search(searchText)!=-1){
-          temp1.push(li_list[i]);
+          // temp1.push(li_list[i]);
+          temp1.push(this.provinceList[i]);
         }
         else{
-          temp2.push(li_list[i]);
+          // temp2.push(li_list[i]);
+          temp2.push(this.provinceList[i]);
         }
       }
       for (var i = 0; i < temp2.length; i++) {
           temp1.push(temp2[i]);
       }
+      
       for (var i = 0; i < temp1.length; i++) {
-        ul_list.appendChild(temp1[i]);
-        
+        // ul_list.appendChild(temp1[i]);
+        // this.provinceList[i] = temp1[i];
+        this.$set(this.provinceList, i, temp1[i]);//更新provinceList,重新渲染
+        // this.provinceList.$set(i,temp1[i])
+      }
+      //左上角首字母显示与否
+      this.provinceList[0].initFlag = true;
+      for (var i = 1; i < this.provinceList.length; i++) {
+        if(this.provinceList[i].init == this.provinceList[i-1].init){
+          this.provinceList[i].initFlag = false;
+        }else{
+          this.provinceList[i].initFlag = true;
+        }
       }
     },
 
@@ -97,11 +142,26 @@ export default {
           this.currentLine = -1;
       if (this.currentLine >= temp.length)
           this.currentLine = 0;
-      if(this.currentLine != -1)
+      if(this.currentLine != -1){
         $("#contentList li").eq(this.currentLine).addClass("hightLight");
-      var id = $("#contentList li").eq(this.currentLine).attr("id");//获取当前省份
-      this.provinceName = document.getElementById(id).innerText;
-      
+        var id_li = $("#contentList li").eq(this.currentLine).attr("id");//获取当前省份
+        // var id_a = $("#contentList li a").eq(this.currentLine).attr("id");
+
+        
+        this.provinceName = document.getElementById(id_li).innerText;
+        var reg = /[A-Z]/g;//正则表达式
+        this.provinceName = this.provinceName.replace(reg,"");
+        // var tempName1 = document.getElementById(id_li).innerText;
+        // if(this.provinceList[this.currentLine].initFlag){
+        //   var tempName2 = document.getElementById(id_a).innerText;
+        // this.provinceName = tempName1.replace([A-Z],"");
+        // }else{
+        //   this.provinceName = tempName1;
+        // }
+        
+        // console.log(id_a);
+        console.log(this.provinceName)
+      }
     },
 
     nextPage:function (event) {
@@ -109,30 +169,13 @@ export default {
       // var id = event.currentTarget.id;
       if(event.keyCode == 13){
         if(this.currentLine != -1){
-          //console.log(this.provinceName);
-          this.$emit('search-province',this.provinceName);
+          console.log(this.provinceName);
+          //this.$emit('search-province',this.provinceName);
         }
         
       }else{
         return;
       }
-      
-
-      // fetch(url, {
-      //     mode:'cors',
-      //     method:'POST',
-      //     headers:{
-      //         'Access-Control-Allow-Credentials': true,
-      //         'Content-Type':'application/json',
-      //     },
-      //     credentials:"include",
-      // }).then(function(response){
-      //     return response.json();
-      // }).then(function(data){
-      //     console.log(data);
-      // }).catch(function(error){
-      //     console.log("fetch错误: " + error);
-      // })
     
     },
 
@@ -285,6 +328,7 @@ export default {
     
   }
   #contentList li{
+     position: relative;
      list-style-type: none;
      line-height: 8.7vh; 
      padding-left: 25%;
@@ -292,6 +336,21 @@ export default {
     /* padding-bottom: 2.96vh;  */
      color: #f1f1f1;
   } 
+  .picDivision{
+    position: absolute;
+    width: 15%;
+    height: 1.8px;
+    top: 0;
+    left: 0;
+    opacity: 0.3;
+  }
+  .initClass{
+    position: absolute;
+    font-size: 18.75px;
+    color: #a1d3ff;
+    top:-2vh;
+    left:9.5%;
+  }
 
   /*高亮样式暂定  */
   .hightLight {
