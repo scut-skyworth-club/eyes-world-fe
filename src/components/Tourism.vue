@@ -16,7 +16,7 @@
 
 <script>
 
-  import areaMap from './map'
+  import areaMap from './Map'
   import router from '../router/index'
 
   export default {

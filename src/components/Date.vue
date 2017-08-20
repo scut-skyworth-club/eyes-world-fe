@@ -1,56 +1,42 @@
 <template>
   <div class="date">
-    {{getDay}}&nbsp&nbsp&nbsp|&nbsp&nbsp&nbsp{{getDate}}
+    {{getDay}}&nbsp&nbsp&nbsp|&nbsp&nbsp&nbsp{{time}}
   </div>
 </template>
 
-<<script>
-// var date = "";
-// function getDate() {
-//   var now = new Date();
-//   var seperator1 = "|";
-//   var seperator2 = ":";
-//   var space = "  "
-  
-//   date = dayNames[now.getDay()]+space+seperator1+space+now.getHours()+seperator2+now.getMinutes();
-//   return date;
-// }
-// var time = "10:00";
-function getTime() {
-  return (new Date()).getHours()+':'+(new Date()).getMinutes();
-}
-setTimeout(getTime, 1000);
+<script>
 
-export default {
-
-  methods:{
+  export default {
     
-  },
-  
-  data () {
-    return {
-      time:getTime()
-    }
-  },
-  computed:{
-    getDay: function () {
-      var dayNames = new Array("星期日","星期一","星期二","星期三","星期四","星期五","星期六");
-      return dayNames[(new Date()).getDay()];
+    data () {
+      return {
+        time: '10:00',
+      }
     },
-    getDate: function () {
-      var now = new Date();
-      var hours = now.getHours();
-      var minutes = now.getMinutes();
-      if (hours<10) {
-        hours='0'+hours;
+    created: function (){
+      setInterval(this.getTime,1000);
+    },
+    methods:{
+      getTime: function (){
+        let now = new Date();
+        let hours = now.getHours();
+        let minutes = now.getMinutes();
+        if (hours<10) {
+          hours='0'+hours;
+        }
+        if (minutes<10) {
+          minutes='0'+minutes;
+        }
+        this.time = hours+':'+minutes;
       }
-      if (minutes<10) {
-        minutes='0'+minutes;
-      }
-      return hours+':'+minutes;
+    },
+    computed:{
+      getDay: function () {
+        var dayNames = new Array("星期日","星期一","星期二","星期三","星期四","星期五","星期六");
+        return dayNames[(new Date()).getDay()];
+      },
     }
   }
-}
 </script>
 
 <style>

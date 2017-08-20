@@ -17,6 +17,10 @@
         </li>
       </ul>
     </div> 
+    <transition name="confirm">
+        <my-confirm v-if="sure" :is-sure="isSure" :confirm-text="confirmText"></my-confirm>
+    </transition> 
+    <p id="delete-explain">点击向下按钮可删除图片</p>
     {{setKey}}
   </div>
 </template>
@@ -37,6 +41,7 @@
   import bg8 from '../assets/favorite/bg8.jpg'
   import Date from './Date'
   import SubWork from './SubWork'
+  import MyConfirm from './MyConfirm'
   import router from '../router/index'
   
   // var afterData2 = [{
@@ -73,29 +78,8 @@
   //     photoName: "宋茜"
   //   },
 
-  //   {
-  //     id: 6,
-  //     url: bg6,
-  //     createTime: "2017-08-21 09:08:02",
-  //     photoName: "七朵"
-  //   },
-
-  //   {
-  //     id: 7,
-  //     url: bg7,
-  //     createTime: "2017-09-01 09:08:02",
-  //     photoName: "允儿"
-  //   },
-
-  //   {
-  //     id: 8,
-  //     url: bg8,
-  //     createTime: "2017-10-13 09:08:02",
-  //     photoName: "迪丽热巴"
-  //   },
-  // ];
   export default {
-    name: 'works',
+    name: 'Works',
     data() {
       return {
         left: 0,
@@ -108,8 +92,12 @@
           uploadBg,
           uploadBgHover
         ],
-        focus: 1,  //focus=0聚焦到上传按钮上，focus=1聚焦到图片上，默认起始聚焦在图片上
+        focus: 1,  //focus=0聚焦到上传按钮上，focus=1聚焦到图片上，focus=2聚焦到删除弹窗上，默认起始聚焦在图片上
         counter: 0,
+
+        sure: false,    //sure=true就弹出删除弹窗，sure=false弹窗消失
+        isSure: true,   //isSure控制是否真的删除
+        confirmText: '确定要删除吗？', //删除弹窗信息
       }
     },
     mounted: function (){
@@ -123,17 +111,35 @@
         },
         credentials: "include"
       }).then(function(response) {
-        return response.json();
-      }).then(function(getData) {
-        self.works = getData;
-        self.amount = getData.length;
-        console.log(getData);
-      });
+        if(response.headers.get('Content-Type')==='text/html'){
+          // console.log('登录失败');
+          router.replace({name:'User'});
+        }else {
+          // router.replace({name:'User'});
+          response.json().then(function(data){
+            self.works = data;
+            self.amount = data.length;
+          });
+        }
+        // return response.json();
+      })
+      // .then(function(getData){
+      //   self.works = getData;
+      //   self.amount = getData.length;
+      //   console.log(getData);
+      // });
+      // .catch(function(getData) {
+      //   // console.log(getData);
+      //   // self.works = getData;
+      //   // self.amount = getData.length;
+      //   // console.log(getData);
+      // });
     },
     
     components: {
       Date,
       SubWork,
+      MyConfirm,
     },
     methods: {
       uploadPhoto: function () {
@@ -142,17 +148,28 @@
         router.push({name:'Upload'});
       },
       enterItem: function (){
-        if (!this.focus) {  //如果聚焦在上传按钮上，调用上传图片函数以实现上传功能，并把焦点重置
+        if (this.focus===0) {  //如果聚焦在上传按钮上，调用上传图片函数以实现上传功能，并把焦点重置
           this.uploadPhoto();
           this.focus = 1;
-        }else { //否则进入图片详情页
+        }
+        else if (this.focus===1) { //进入图片详情页
           router.push({name:'Panorama'});
+        }else {
+          if (this.isSure) {
+            this.deletePhoto();   //确定删除调用删除函数
+          }
+          //无论是否删除，点击确定之后都要把confirm框去掉，并把焦点移回主页面
+          this.isSure = true;
+          this.sure = false;
+          this.focus = 1;
         }
       },
       rightMove: function (){
-        if (this.focus) {
+        if (this.focus===1) {
           if (this.counter!==this.amount) {
             this.counter++;
+          }else {
+            return;
           }
           if (this.counter===4) { //焦点在第四张图片上时要触发移动，否则看不到后面图片
             this.oWidth = this.oWidth + 75; this.left = this.left - 75;
@@ -162,11 +179,18 @@
             this.oWidth = this.oWidth + 81.25; this.left = this.left - 81.25;
           }
         }
+        if (this.focus===2) {
+          if (this.isSure) {
+            this.isSure = false;
+          }
+        }
       },
       leftMove: function (){
-        if (this.focus) {
+        if (this.focus===1) {
           if (this.counter!==1) {
             this.counter--;
+          }else {
+            return;
           }
           if (this.counter===3) { //第四张触发右移，所以第三张触发左移
             this.oWidth = this.oWidth - 75; this.left = this.left + 75;
@@ -176,7 +200,44 @@
             this.oWidth = this.oWidth - 81.25; this.left = this.left + 81.25;
           }
         }
+        if (!this.isSure) {
+          this.isSure = true;
+        }
       },
+      deletePhoto: function (){
+        //删除功能
+        var deletePhotoName = this.works[this.counter-1].photoName;
+        // console.log(deletePhotoName);
+        var self = this;
+        fetch('http://39.108.149.106/api/user/works/'+deletePhotoName+'/delete', {
+          method: 'GET',
+          mode: 'cors',
+          headers: {
+            'Access-Control-Allow-Credentials': true,
+            'Content-Type':'application/x-www-form-urlencoded; charset=UTF-8',
+          },
+          credentials: "include"
+        }).then(function(response) {
+            return response.json();
+        }).then(function(data){
+          if(data.delete===null){
+            fetch('http://39.108.149.106/api/user/works', {
+              method: 'GET',
+              mode: 'cors',
+              headers: {
+                'Access-Control-Allow-Credentials': true,
+                'Content-Type':'application/x-www-form-urlencoded; charset=UTF-8',
+              },
+              credentials: "include"
+            }).then(function(response) {
+              return response.json();
+            }).then(function(data){
+              self.works = data;
+              self.amount = data.length;
+            })
+          }
+        });
+      }
     },
     computed: {
       setKey:function(){
@@ -205,7 +266,13 @@
                       //down
                       if (!self.focus) {
                         self.focus = 1;
+                      }else {
+                        self.focus = 2;
+                        self.sure = true;
                       }
+                      // else {
+                      //   self.delete();
+                      // }
                       break;
                       case 13:
                       //center
@@ -307,5 +374,19 @@
     overflow: hidden;
     transition: all 1s ease;
   }
-
+  .confirm-enter-active, .confirm-leave-active {
+      transition: all 0.7s cubic-bezier(0.075, 0.82, 0.165, 1);
+  }
+  .confirm-enter, .confirm-leave-to {
+      transform: translateY(-55vh);
+      opacity: 0;
+  }
+  #delete-explain {
+      font-family: "小米兰亭";
+      color: #f1f1f1;
+      font-size: 2.963vh;
+      position: absolute;
+      right: 6.25vw;
+      bottom: 6.481vh;
+  }
 </style>
