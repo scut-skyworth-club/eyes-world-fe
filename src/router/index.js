@@ -17,8 +17,6 @@ import Panorama from '@/components/Panorama'
 import TVLogin from '@/components/TVLogin'
 import Upload from '@/components/Upload'
 import Login from '@/components/login'
-import FavoriteNew from '@/components/FavoriteNew'
-import LatestNew from '@/components/LatestNew'
 
 Vue.use(Router)
 
@@ -114,17 +112,5 @@ export default new Router({
             name: 'login',
             component: Login
         },
-//我的收藏新页面测试
-        {
-            path: '/user/favoriteNew',
-            name: 'FavoriteNew',
-            component: FavoriteNew
-        },
-//最新推荐页面轮播图测试
-        {
-            path: '/latestnew',
-            name: 'LatestNew',
-            component: LatestNew
-        }
     ]
 })
