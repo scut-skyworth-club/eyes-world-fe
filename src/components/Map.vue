@@ -19,6 +19,78 @@
     </div>
   </div>
 </template>
+<style lang="scss">
+
+
+  .wrapper {
+    background-image: url('../assets/blue.png');
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    #outer-box {
+      height: 100%;
+      padding-right: 300px;
+      #container {
+        position: absolute;
+        right: 0;
+        top: 0;
+        width: 600px;
+        height: 600px;
+      }
+      #panel {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        height: 100vh;
+        overflow: hidden;
+        width: 300px;
+        z-index: 999;
+        color: #ddd;
+      }
+    }
+    .button {
+      position: absolute;
+      right: 0;
+      bottom: 0;
+    }
+  }
+
+  #area-tree {
+    h2 {
+      display: inline-block;
+      font-weight: 500;
+      font-size: 13px;
+      padding: 3px 5px;
+      margin: 0;
+      &.selected {
+        background: #ddd;
+        color: #fff;
+      }
+    }
+    ul {
+      margin-left: 23px;
+      clear: both;
+    }
+    li {
+      float: left;
+      margin: 5px 5px 0 0;
+      font-size: 12px;
+      &.lv_province {
+        margin: 5px 5px 5px 0;
+      }
+    }
+    .sublist {
+      /*display: flex;*/
+      /*flex-direction: column;*/
+    }
+  }
+
+  .hide-sub > ul {
+    display: none;
+  }
+</style>
+
 
 <script>
   import router from '../router/index'
@@ -157,8 +229,6 @@
         }
         //如果存在子节点
         if (props.childrenNum > 0) {
-          //显示隐藏
-          $('<div class="showHideBtn"></div>').appendTo($box)
           //子区域列表
           $('<ul/>').addClass('sublist lv_' + props.level).appendTo($box)
           $('<div class="clear"></div>').appendTo($box)
@@ -264,107 +334,3 @@
     }
   }
 </script>
-
-<style lang="scss">
-  .button {
-    position: absolute;
-    right: 0;
-    bottom: 0;
-  }
-
-  .wrapper {
-    background-image: url('../assets/blue.png');
-    width: 100vw;
-    height: 100vh;
-    overflow: hidden;
-  }
-
-  #container {
-    position: absolute;
-    right: 0;
-    top: 0;
-    width: 600px;
-    height: 600px;
-  }
-
-  #outer-box {
-    height: 100%;
-    padding-right: 300px;
-  }
-
-  #panel {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    height: 100%;
-    overflow: auto;
-    width: 300px;
-    z-index: 999;
-    color: #ddd;
-  }
-
-  .clear {
-    clear: both;
-  }
-
-  #area-tree {
-    h2 {
-      display: inline-block;
-      font-weight: 500;
-      font-size: 13px;
-      padding: 3px 5px;
-      margin: 0;
-    }
-    h2.selected {
-      background: #ddd;
-      color: #fff;
-    }
-    ul {
-      margin-left: 23px;
-      clear: both;
-    }
-    li {
-      float: left;
-      margin: 5px 5px 0 0;
-      font-size: 12px;
-    }
-    li.lv_province {
-      margin: 5px 5px 5px 0;
-    }
-  }
-
-  .showHideBtn {
-    display: inline-block;
-    position: relative;
-    width: 20px;
-    height: 20px;
-    overflow: hidden;
-    vertical-align: middle;
-    margin: 0;
-    cursor: pointer;
-  }
-
-  .showHideBtn:after {
-    content: '';
-    position: absolute;
-    width: 0;
-    height: 0;
-    top: 4px;
-    left: 4px;
-    border: solid rgba(0, 0, 0, 0);
-    border-width: 10px 6px;
-    border-top-color: #aaa;
-    transition-property: all;
-    transition-duration: .2s;
-  }
-
-  .hide-sub .showHideBtn:after {
-    transform-origin: 50% 20%;
-    transform: rotate(-90deg);
-  }
-
-  .hide-sub > ul {
-    display: none;
-  }
-</style>
