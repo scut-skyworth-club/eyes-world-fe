@@ -8,14 +8,6 @@
           </ul>
         </div>
       </div>
-      <div class="button">
-        <button @click="nextProvince">下一个省</button>
-        <button @click="previousProvince">上一个省</button>
-        <button @click="select">确定选择</button>
-        <button @click="back">返回</button>
-        <button @click="nextCity">下一个市</button>
-        <button @click="previousCity">上一个市</button>
-      </div>
     </div>
   </div>
 </template>
@@ -42,6 +34,9 @@
       }
     },
     methods: {
+      test () {
+        alert('test')
+      },
       nextProvince () {
         let selectedElementOffsetTop = document.querySelector('.selected').offsetTop
         let containerHeight = document.querySelector('#area-tree').clientHeight
@@ -93,9 +88,6 @@
           this.panelScrollTop = 1110
         }
         document.querySelector('#panel').scrollTop = this.panelScrollTop
-        console.log(`this.panelScrollTop:${this.panelScrollTop}`)
-        console.log(`selectedElementOffsetTop:${selectedElementOffsetTop}`)
-        console.log(`containerHeight:${containerHeight}`)
 
         this.adcode = Math.floor(this.adcode / 10000) * 10000
         switch (this.adcode) {
@@ -157,10 +149,6 @@
         console.log('返回')
       },
       nextCity () {
-        let scrollTop = $('.selected').offset().top
-        $('#panel').scrollTop(scrollTop)
-        console.log(scrollTop)
-
         let result = this.adcode % 10000
         if (result === 0) {
           this.adcode = this.adcode + 100
@@ -169,11 +157,24 @@
         }
         console.log(this.adcode)
         this.switch2AreaNode(this.adcode)
+
+        let selectedElementOffsetTop = document.querySelector('.selected').offsetTop
+        let containerHeight = document.querySelector('#area-tree').clientHeight
+        if (selectedElementOffsetTop < containerHeight - 30) {
+          this.panelScrollTop += 29
+        } else {
+          this.panelScrollTop = 0
+        }
+        document.querySelector('#panel').scrollTop = this.panelScrollTop
       },
       previousCity () {
-        let scrollTop = $('.selected').offset().top
-        $('#panel').scrollTop(scrollTop)
-        console.log(scrollTop)
+        let selectedElementOffsetTop = document.querySelector('.selected').offsetTop
+        if (selectedElementOffsetTop > 34) {
+          this.panelScrollTop -= 29
+        } else {
+          this.panelScrollTop = 1110
+        }
+        document.querySelector('#panel').scrollTop = this.panelScrollTop
 
         this.adcode = $('.selected').closest('li').prev().children('.lv_city').attr('data-adcode')
         console.log(this.adcode)
@@ -285,16 +286,43 @@
     mounted () {
       //创建地图
       this.map = new AMap.Map('container', {
-        zoom: 4
+        zoom: 4,
+        mapStyle: 'amap://styles/darkblue'//样式URL
       })
       AMapUI.load(['ui/geo/DistrictExplorer', 'lib/$'], (DistrictExplorer, $) => {
         //创建一个实例
         let districtExplorer = window.districtExplorer = new DistrictExplorer({
           eventSupport: true, //打开事件支持
-          map: this.map
+          map: this.map,
+          keyboardEnable: false,
+          dragEnable: false,
+          scrollWheel: false
         })
         //全国
         this.switch2AreaNode(100000)
+
+        $('html').keyup((event) => {
+          console.log(event.keyCode)
+          switch (event.keyCode) {
+//              v-on:keyup.enter="select"   v-on:keyup.4="back"
+            case 37:
+              this.previousCity()
+              break
+            case 38:
+              this.previousProvince()
+              break
+            case 39:
+              this.nextCity()
+              break
+            case 40:
+              this.nextProvince()
+              break
+            case 13:
+              this.select()
+              break
+          }
+          console.log(event.keyCode)
+        })
       })
     }
   }
@@ -311,19 +339,21 @@
       padding-right: 300px;
       #container {
         position: absolute;
-        right: 0;
-        top: 0;
-        width: 600px;
-        height: 600px;
+        z-index: 0;
+        width: 100vw;
+        height: 100vh;
       }
       #panel {
         position: absolute;
         top: 0;
         bottom: 0;
         left: 0;
-        overflow: scroll;
+        overflow: hidden;
         z-index: 999;
         color: #ddd;
+        #panel::-webkit-scrollbar {
+          display: none;
+        }
         #area-tree {
           h2 {
             display: inline-block;
@@ -353,11 +383,6 @@
           }
         }
       }
-    }
-    .button {
-      position: absolute;
-      right: 0;
-      bottom: 0;
     }
   }
 
