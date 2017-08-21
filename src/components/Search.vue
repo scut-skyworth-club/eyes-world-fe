@@ -310,7 +310,7 @@ export default {
   #contentList{
     position: relative;  
     /* margin-top:9.26vh; */
-    font-size: 29px; 
+    font-size: 1.56vw; 
     text-align: left;
     cursor: pointer;
     
@@ -327,14 +327,14 @@ export default {
   .picDivision{
     position: absolute;
     width: 16%;
-    height: 1.8px;
+    height: 0.167vh;
     top: 0;
     left: 0;
     opacity: 0.3;
   }
   .initClass{
     position: absolute;
-    font-size: 18.75px;
+    font-size: 0.977vw;
     color: #a1d3ff;
     top:-2vh;
     left:8.5%;

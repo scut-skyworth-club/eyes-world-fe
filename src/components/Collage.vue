@@ -418,6 +418,7 @@
 
 #date{
   position: absolute;
+  font-size: 1.2vw;
   top:6.48vh;
   right:10vw;
 }    
