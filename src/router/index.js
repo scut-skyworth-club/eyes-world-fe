@@ -17,7 +17,6 @@ import Panorama from '@/components/Panorama'
 import TVLogin from '@/components/TVLogin'
 import Upload from '@/components/Upload'
 import Login from '@/components/login'
-import Search from '@/components/Search'
 
 Vue.use(Router)
 
@@ -112,10 +111,6 @@ export default new Router({
             path: '/login',
             name: 'login',
             component: Login
-        }, {
-            path: '/search',
-            name: 'Search',
-            component: Search
         },
     ]
 })
