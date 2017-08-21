@@ -157,10 +157,6 @@
         console.log('返回')
       },
       nextCity () {
-        let scrollTop = $('.selected').offset().top
-        $('#panel').scrollTop(scrollTop)
-        console.log(scrollTop)
-
         let result = this.adcode % 10000
         if (result === 0) {
           this.adcode = this.adcode + 100
@@ -169,6 +165,15 @@
         }
         console.log(this.adcode)
         this.switch2AreaNode(this.adcode)
+
+        let selectedElementOffsetTop = document.querySelector('.selected').offsetTop
+        let containerHeight = document.querySelector('#area-tree').clientHeight
+        if (selectedElementOffsetTop < containerHeight - 30) {
+          this.panelScrollTop += 29
+        } else {
+          this.panelScrollTop = 0
+        }
+        document.querySelector('#panel').scrollTop = this.panelScrollTop
       },
       previousCity () {
         let scrollTop = $('.selected').offset().top
@@ -285,7 +290,8 @@
     mounted () {
       //创建地图
       this.map = new AMap.Map('container', {
-        zoom: 4
+        zoom: 4,
+        mapStyle: 'amap://styles/darkblue'//样式URL
       })
       AMapUI.load(['ui/geo/DistrictExplorer', 'lib/$'], (DistrictExplorer, $) => {
         //创建一个实例
@@ -313,8 +319,8 @@
         position: absolute;
         right: 0;
         top: 0;
-        width: 600px;
-        height: 600px;
+        width: 100vw;
+        height: 100vh;
       }
       #panel {
         position: absolute;
@@ -324,6 +330,9 @@
         overflow: scroll;
         z-index: 999;
         color: #ddd;
+        #panel::-webkit-scrollbar {
+          display: none;
+        }
         #area-tree {
           h2 {
             display: inline-block;
