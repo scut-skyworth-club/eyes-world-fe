@@ -1,24 +1,27 @@
 <template>
   <div id='Map'>
-    <div id="outer-box">
-      <div id="container" tabindex="0"></div>
-      <div id="panel" class="scrollbar1">
-        <ul id="area-tree">
-        </ul>
+    <div class="wrapper">
+      <div id="outer-box">
+        <div id="container" tabindex="0"></div>
+        <div id="panel" class="scrollbar1">
+          <ul id="area-tree">
+          </ul>
+        </div>
+      </div>
+      <div class="button">
+        <button @click="nextProvince">下一个省</button>
+        <button @click="previousProvince">上一个省</button>
+        <button @click="select">确定选择</button>
+        <button @click="back">返回</button>
+        <button @click="nextCity">下一个市</button>
+        <button @click="lastCity">上一个市</button>
       </div>
     </div>
-    <button @click="nextProvince">下一个省</button>
-    <button @click="lastProvince">上一个省</button>
-    <button @click="select">确定选择</button>
-    <button @click="back">返回</button>
-    <button @click="nextCity">下一个市</button>
-    <button @click="lastCity">上一个市</button>
   </div>
 </template>
 
 <script>
   import router from '../router/index'
-  //  import '../assets/scripts/main'
 
   export default {
     name: 'Map',
@@ -40,7 +43,6 @@
     methods: {
       nextProvince () {
         this.adcode = Math.floor(this.adcode / 10000) * 10000
-        console.log(this.adcode)
         switch (this.adcode) {
           case 150000:
             this.adcode = 210000
@@ -67,11 +69,12 @@
             this.adcode = Number(this.adcode) + Number(10000)
             break
         }
+
         let $nodeEles = $('#area-tree').find('h2')
         $nodeEles.removeClass('selected')
-        $nodeEles.filter('h2[data-adcode=' + this.adcode + ']').addClass('selected')
+        $nodeEles.filter('h2[data-adcode=' + this.adcode + ']').addClass('selected').closest('li').prev().addClass('hide-sub')
       },
-      lastProvince () {
+      previousProvince () {
         this.adcode = Math.floor(this.adcode / 10000) * 10000
         switch (this.adcode) {
           case 100000:
@@ -101,7 +104,7 @@
         }
         let $nodeEles = $('#area-tree').find('h2')
         $nodeEles.removeClass('selected')
-        $nodeEles.filter('h2[data-adcode=' + this.adcode + ']').addClass('selected')
+        $nodeEles.filter('h2[data-adcode=' + this.adcode + ']').addClass('selected').closest('li').next().addClass('hide-sub')
       },
       select () {
         //切换区域s
@@ -136,7 +139,9 @@
         this.switch2AreaNode(this.adcode)
       },
       lastCity () {
-        console.log('上一个市')
+        this.adcode -= 100
+        console.log(this.adcode)
+        this.switch2AreaNode(this.adcode)
       },
       renderAreaPanelNode (ele, props, color) {
         //绘制区域面板的节点
@@ -214,7 +219,9 @@
         $nodeEles.removeClass('selected')
         let $selectedNode = $nodeEles.filter('h2[data-adcode=' + areaNode.getAdcode() + ']').addClass('selected')
         //展开下层节点
-        $selectedNode.closest('li').removeClass('hide-sub').siblings().addClass('hide-sub')
+        if (this.adcode % 10000 === 0) {
+          $selectedNode.closest('li').removeClass('hide-sub').siblings().addClass('hide-sub')
+        }
         //折叠下层的子节点
         $selectedNode.siblings('ul.sublist').children().addClass('hide-sub')
       },
@@ -251,14 +258,6 @@
           eventSupport: true, //打开事件支持
           map: this.map
         })
-        let that = this
-        $('#area-tree').on('click', 'h2[data-children-num]', function () {
-          let adcode = $(this).attr('data-adcode')
-          console.log(adcode)
-          let city = $(this).text()
-          let province = $(this).closest('ul').siblings('.selected').text()
-          that.switch2AreaNode(adcode, province, city)
-        })
         //全国
         this.switch2AreaNode(100000)
       })
@@ -266,10 +265,26 @@
   }
 </script>
 
-<style>
+<style lang="scss">
+  .button {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+  }
+
+  .wrapper {
+    background-image: url('../assets/blue.png');
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+  }
+
   #container {
-    width: 500px;
-    height: 500px;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 600px;
+    height: 600px;
   }
 
   #outer-box {
@@ -281,49 +296,42 @@
     position: absolute;
     top: 0;
     bottom: 0;
-    right: 0;
+    left: 0;
     height: 100%;
     overflow: auto;
     width: 300px;
     z-index: 999;
-    border-left: 1px solid #eaeaea;
-    background: #fff;
+    color: #ddd;
   }
 
   .clear {
     clear: both;
   }
 
-  #area-tree h2 {
-    display: inline-block;
-    font-weight: 500;
-    font-size: 13px;
-    padding: 3px 5px;
-    margin: 0;
-    border: 1px solid #2ca02c;
-    border-width: 1px 3px;
-    cursor: pointer;
-  }
-
-  #area-tree h2.selected {
-    background: #ddd;
-    color: #fff;
-    /*background: #fff;*/
-  }
-
-  #area-tree ul {
-    margin-left: 23px;
-    clear: both;
-  }
-
-  #area-tree li {
-    float: left;
-    margin: 5px 5px 0 0;
-    font-size: 12px;
-  }
-
-  #area-tree li.lv_province {
-    margin: 5px 5px 5px 0;
+  #area-tree {
+    h2 {
+      display: inline-block;
+      font-weight: 500;
+      font-size: 13px;
+      padding: 3px 5px;
+      margin: 0;
+    }
+    h2.selected {
+      background: #ddd;
+      color: #fff;
+    }
+    ul {
+      margin-left: 23px;
+      clear: both;
+    }
+    li {
+      float: left;
+      margin: 5px 5px 0 0;
+      font-size: 12px;
+    }
+    li.lv_province {
+      margin: 5px 5px 5px 0;
+    }
   }
 
   .showHideBtn {
