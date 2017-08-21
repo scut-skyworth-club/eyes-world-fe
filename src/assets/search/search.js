@@ -1,105 +1,173 @@
 var province_list = [{
     province: "北京",
-    initial: "bj"
+    initial: "bj",
+    init: "B",
+    initFlag: true
 }, {
     province: "上海",
-    initial: "sh"
+    initial: "sh",
+    init: "S",
+    initFlag: true
 }, {
     province: "天津",
-    initial: "tj"
+    initial: "tj",
+    init: "T",
+    initFlag: true
 }, {
     province: "重庆",
-    initial: "cq"
+    initial: "cq",
+    init: "C",
+    initFlag: true
 }, {
     province: "香港",
-    initial: "xg"
+    initial: "xg",
+    init: "X",
+    initFlag: true
 }, {
     province: "澳门",
-    initial: "am"
+    initial: "am",
+    init: "A",
+    initFlag: true
 }, {
     province: "河北",
-    initial: "hb"
+    initial: "hb",
+    init: "H",
+    initFlag: true
 }, {
     province: "山西",
-    initial: "sx"
+    initial: "sx",
+    init: "S",
+    initFlag: true
 }, {
     province: "辽宁",
-    initial: "ln"
+    initial: "ln",
+    init: "L",
+    initFlag: true
 }, {
     province: "吉林",
-    initial: "jl"
+    initial: "jl",
+    init: "J",
+    initFlag: true
 }, {
     province: "黑龙江",
-    initial: "hlj"
+    initial: "hlj",
+    init: "H",
+    initFlag: true
 }, {
     province: "江苏",
-    initial: "js"
+    initial: "js",
+    init: "J",
+    initFlag: true
 }, {
     province: "浙江",
-    initial: "zj"
+    initial: "zj",
+    init: "Z",
+    initFlag: true
 }, {
     province: "安徽",
-    initial: "ah"
+    initial: "ah",
+    init: "A",
+    initFlag: true
 }, {
     province: "福建",
-    initial: "fj"
+    initial: "fj",
+    init: "F",
+    initFlag: true
 }, {
     province: "江西",
-    initial: "jx"
+    initial: "jx",
+    init: "J",
+    initFlag: true
 }, {
     province: "山东",
-    initial: "sd"
+    initial: "sd",
+    init: "S",
+    initFlag: true
 }, {
     province: "河南",
-    initial: "hn"
+    initial: "hn",
+    init: "H",
+    initFlag: true
 }, {
     province: "湖北",
-    initial: "hb"
+    initial: "hb",
+    init: "H",
+    initFlag: true
 }, {
     province: "湖南",
-    initial: "hn"
+    initial: "hn",
+    init: "H",
+    initFlag: true
 }, {
     province: "广东",
-    initial: "gd"
+    initial: "gd",
+    init: "G",
+    initFlag: true
 }, {
     province: "海南",
-    initial: "hn"
+    initial: "hn",
+    init: "H",
+    initFlag: true
 }, {
     province: "四川",
-    initial: "sc"
+    initial: "sc",
+    init: "S",
+    initFlag: true
 }, {
     province: "贵州",
-    initial: "gz"
+    initial: "gz",
+    init: "G",
+    initFlag: true
 }, {
     province: "云南",
-    initial: "yn"
+    initial: "yn",
+    init: "Y",
+    initFlag: true
 }, {
     province: "陕西",
-    initial: "sx"
+    initial: "sx",
+    init: "S",
+    initFlag: true
 }, {
     province: "甘肃",
-    initial: "gs"
+    initial: "gs",
+    init: "G",
+    initFlag: true
 }, {
     province: "青海",
-    initial: "qh"
+    initial: "qh",
+    init: "Q",
+    initFlag: true
 }, {
     province: "台湾",
-    initial: "tw"
+    initial: "tw",
+    init: "T",
+    initFlag: true
 }, {
     province: "内蒙古",
-    initial: "nmg"
+    initial: "nmg",
+    init: "N",
+    initFlag: true
 }, {
     province: "广西",
-    initial: "gx"
+    initial: "gx",
+    init: "G",
+    initFlag: true
 }, {
     province: "西藏",
-    initial: "xz"
+    initial: "xz",
+    init: "X",
+    initFlag: true
 }, {
     province: "宁夏",
-    initial: "nx"
+    initial: "nx",
+    init: "N",
+    initFlag: true
 }, {
     province: "新疆",
-    initial: "xj"
+    initial: "xj",
+    init: "X",
+    initFlag: true
 }];
 
 //北京
