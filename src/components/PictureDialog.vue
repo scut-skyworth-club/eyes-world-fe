@@ -2,7 +2,7 @@
 	<div id="picture-dialog" :style="bg" @click="link"> 
 		<div v-if="type==5" class="middleTitle">{{title}}</div>
         <div class="text_bg" :style="text_bg" v-if="type==0?false:true" >
-            <div v-if="type!=5" :style="fontAdjustBig" class="title">{{title.split('-')[0]}}</div>
+            <div v-if="type!=5" :style="fontAdjustBig" class="title">{{getTitle()}}</div>
             <transition name="fade" mode="out-in">
 	            <span v-if="type==1||type==2||type==3?false:true" :style="fontAdjust" class="info_box">
 					<!-- <span :style="fontAdjust">{{date}} &nbsp&nbsp</span><span :style="fontAdjust">@{{author}}</span> -->
@@ -194,14 +194,23 @@
 				}
 			},
 			setBg:function(){
-				var urls = this.pic_url.split('/');
-				if(urls.length>1 && urls[1]=="upload"){
+				if(this.pic_url == undefined){
 					this.bg = {
-						backgroundImage:"url(http://39.108.149.106"+this.pic_url+")",
+						backgroundImage:"",
+					}
+				}else{
+					var urls = this.pic_url.split('/');
+					if(urls.length>1 && urls[1]=="upload"){
+						this.bg = {
+							backgroundImage:"url(http://39.108.149.106"+this.pic_url+")",
+						}
 					}
 				}
 			},
 			getDate:function(){
+				if(this.date == undefined){
+					return "";
+				}
 				let newDate = new Date(parseInt(this.date));
                 let year = newDate.getFullYear();
                 let month = newDate.getMonth();
@@ -218,6 +227,13 @@
                 
                 return year+'/'+month+'/'+day;
 			},
+			getTitle:function(){
+				if(this.title == undefined){
+					return "";
+				}else{
+					return this.title.split('-')[0];
+				}
+			}
 		},
 		mounted:function(){
 			this.setBg();

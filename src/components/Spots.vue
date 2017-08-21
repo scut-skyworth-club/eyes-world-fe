@@ -71,9 +71,8 @@
       },
       select_ad:function(){
         if(this.canSlide){
-          (this.getSpots[this.select]).type = 2;
           this.select++;
-          if(this.select>3||this.offset*4+this.select>this.spots.length){
+          if(this.select>3||this.offset*4+this.select>=this.spots.length){
             if(this.offset+1>=this.getPageIndex.length){
               this.select--;
             }else{
@@ -84,12 +83,10 @@
           }
           this.toggleSlide();
           setTimeout(this.toggleSlide,600);
-          (this.getSpots[this.select]).type = 3;
         }
       },
       select_re:function(){
         if(this.canSlide){
-          (this.getSpots[this.select]).type = 2;
           this.select--;
           if(this.select<0){
             if(this.offset-1<0){
@@ -102,7 +99,6 @@
           }
           this.toggleSlide();
           setTimeout(this.toggleSlide,600);
-          (this.getSpots[this.select]).type = 3;
         }
       },
     },
