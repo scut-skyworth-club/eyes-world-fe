@@ -20,6 +20,76 @@
   </div>
 </template>
 
+<style lang="scss">
+  .wrapper {
+    background-image: url('../assets/blue.png');
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    #outer-box {
+      height: 100%;
+      padding-right: 300px;
+      #container {
+        position: absolute;
+        right: 0;
+        top: 0;
+        width: 600px;
+        height: 600px;
+      }
+      #panel {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        overflow: auto;
+        z-index: 999;
+        color: #ddd;
+        #area-tree {
+          h2 {
+            display: inline-block;
+            font-weight: 500;
+            font-size: 16px;
+            padding: 3px 5px;
+            margin: 0;
+            &.selected {
+              background: #ddd;
+              color: #fff;
+            }
+          }
+          ul {
+            margin-left: 23px;
+            clear: both;
+          }
+          li {
+            margin: 5px 5px 0 0;
+            font-size: 12px;
+            &.lv_province {
+              margin: 5px 5px 5px 0;
+            }
+          }
+          ul.sublist.lv_country {
+            display: flex;
+            flex-direction: column;
+          }
+          .lv_province {
+            /*height: 40px;*/
+          }
+        }
+      }
+    }
+    .button {
+      position: absolute;
+      right: 0;
+      bottom: 0;
+    }
+  }
+
+  .hide-sub > ul {
+    display: none;
+  }
+</style>
+
+
 <script>
   import router from '../router/index'
 
@@ -268,73 +338,3 @@
     }
   }
 </script>
-
-<style lang="scss">
-  .wrapper {
-    background-image: url('../assets/blue.png');
-    width: 100vw;
-    height: 100vh;
-    overflow: hidden;
-    #outer-box {
-      height: 100%;
-      padding-right: 300px;
-      #container {
-        position: absolute;
-        right: 0;
-        top: 0;
-        width: 600px;
-        height: 600px;
-      }
-      #panel {
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        left: 0;
-        height: 100vh;
-        overflow: hidden;
-        width: 300px;
-        z-index: 999;
-        color: #ddd;
-      }
-    }
-    .button {
-      position: absolute;
-      right: 0;
-      bottom: 0;
-    }
-  }
-
-  #area-tree {
-    h2 {
-      display: inline-block;
-      font-weight: 500;
-      font-size: 13px;
-      padding: 3px 5px;
-      margin: 0;
-      &.selected {
-        background: #ddd;
-        color: #fff;
-      }
-    }
-    ul {
-      margin-left: 23px;
-      clear: both;
-    }
-    li {
-      float: left;
-      margin: 5px 5px 0 0;
-      font-size: 12px;
-      &.lv_province {
-        margin: 5px 5px 5px 0;
-      }
-    }
-    .sublist {
-      /*display: flex;*/
-      /*flex-direction: column;*/
-    }
-  }
-
-  .hide-sub > ul {
-    display: none;
-  }
-</style>
