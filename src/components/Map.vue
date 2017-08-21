@@ -37,14 +37,20 @@
           '#b82e2e', '#316395', '#994499', '#22aa99', '#aaaa11', '#6633cc', '#e67300', '#8b0707',
           '#651067', '#329262', '#5574a6', '#3b3eac'
         ],
-        map: ''
+        map: '',
+        panelScrollTop: 0
       }
     },
     methods: {
       nextProvince () {
-        let scrollTop = $('.selected').offset().top
-        $('#panel').scrollTop(scrollTop)
-        console.log(scrollTop)
+        let selectedElementOffsetTop = document.querySelector('.selected').offsetTop
+        let containerHeight = document.querySelector('#area-tree').clientHeight
+        if (selectedElementOffsetTop < containerHeight - 30) {
+          this.panelScrollTop += 34
+        } else {
+          this.panelScrollTop = 0
+        }
+        document.querySelector('#panel').scrollTop = this.panelScrollTop
 
         this.adcode = Math.floor(this.adcode / 10000) * 10000
         switch (this.adcode) {
@@ -79,9 +85,17 @@
         $nodeEles.filter('h2[data-adcode=' + this.adcode + ']').addClass('selected').closest('li').prev().addClass('hide-sub')
       },
       previousProvince () {
-        let scrollTop = $('.selected').offset().top
-        $('#panel').scrollTop(scrollTop)
-        console.log(scrollTop)
+        let selectedElementOffsetTop = document.querySelector('.selected').offsetTop
+        let containerHeight = document.querySelector('#area-tree').clientHeight
+        if (selectedElementOffsetTop > 34) {
+          this.panelScrollTop -= 34
+        } else {
+          this.panelScrollTop = 1110
+        }
+        document.querySelector('#panel').scrollTop = this.panelScrollTop
+        console.log(`this.panelScrollTop:${this.panelScrollTop}`)
+        console.log(`selectedElementOffsetTop:${selectedElementOffsetTop}`)
+        console.log(`containerHeight:${containerHeight}`)
 
         this.adcode = Math.floor(this.adcode / 10000) * 10000
         switch (this.adcode) {
