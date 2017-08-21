@@ -3,18 +3,20 @@
     <img :src="bgs[0]">
     <div class="info"><p>我们是SkyWorth团队</p></div>
     <div class="return-bt">
-        <button v-if="aboutReturn" :style="{border:'2px solid #f1f1f1'}">返回</button>
+        <button v-if="aboutReturn" :style="{background:'url('+bgs[1]+') no-repeat center center',border:'1px solid #f1f1f1'}">返回</button>
         <button>返回</button>
     </div> 
   </div>
 </template>
 <script>
 import bg from '../assets/user/bt_bg3.png'
+import bt_bg from '../assets/user/bt_bg2.png'
 export default {
     data () {
         return{
             bgs:[
-                bg
+                bg,
+                bt_bg,
             ]
         }
     },

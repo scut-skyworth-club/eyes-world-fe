@@ -10,7 +10,8 @@
       </div>
       <hr class="line" v-if="!(index+1==amount)"/>
       <div class="work-img"
-       :style="{transform:'scale('+xScale+','+yScale+')'}" 
+       :style="{transform:'scale('+xScale+','+yScale+')',
+       boxShadow:shadow}" 
        :xScale="calculteSize" 
        :yScale="calculteSize"
        :newUrl="parseUrl"
@@ -29,6 +30,7 @@ export default {
         return {
            xScale: 1,
            yScale: 1,
+           shadow: 'none',
            size: 2.963, 
            newUrl: "",
            photoName: "",
@@ -49,10 +51,12 @@ export default {
                 this.xScale = 1.1;
                 this.yScale = 1.083;
                 this.size = 3.333;
+                this.shadow = '0 0 40px #222222';
             }else {
                 this.xScale = 1;
                 this.yScale = 1;
                 this.size = 2.963;
+                this.shadow = 'none';
             }
         },
         parseUrl: function (){
@@ -72,8 +76,8 @@ export default {
             // }
             let newDate = new Date(parseInt(this.date));
             let year = newDate.getFullYear();
-            let month = newDate.getMonth();
-            let day = newDate.getDay();
+            let month = newDate.getMonth()+1;
+            let day = newDate.getDate();
             let hours = newDate.getHours();
             let minutes = newDate.getMinutes();
             let seconds = newDate.getSeconds();
