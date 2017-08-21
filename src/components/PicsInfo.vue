@@ -34,8 +34,8 @@
             parseDate: function (){
                 let newDate = new Date(parseInt(this.createTime));
                 let year = newDate.getFullYear();
-                let month = newDate.getMonth();
-                let day = newDate.getDay();
+                let month = newDate.getMonth()+1;
+                let day = newDate.getDate();
                 
                 if (month<10) {
                     month = '0'+month;
