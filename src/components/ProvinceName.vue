@@ -1,13 +1,13 @@
 <template>
   <div class="box">
       <div class="input" @keydown.down.prevent="select(1)" @keydown.up.prevent="select(0)">
-        <input v-model="sText" id="searchText" type="text" placeholder="搜索内容" >
+        <input id="searchText" type="text" placeholder="搜索内容" >
         <input id="search" type="submit" value="搜索" @click="change" >
          <!-- <input id="goUp" type="button" value="往上" @click="select(0)">
         <input id="goDown" type="button" value="往下" @click="select(1)">  -->
       </div>
         <ul id="contentList">
-          <li v-for="(item,index) in provinceList" :id="'id'+index" @click="nextPage(index)">
+          <li v-for="(item,index) in provinceList" :id="'id'+index" @click="nextPage(index)" :key="index">
             {{item.province}}
              <span style="display:none">{{item.initial}}</span> 
           </li>
@@ -25,6 +25,41 @@ export default {
     return{
       provinceList:area[0],
       currentLine:-1,
+      // cityList:[{
+      //     "city":"廊坊",
+      //     "albumNum":0
+      //   },{
+      //     "city":"沧州",
+      //     "albumNum":5
+      //   },{
+      //     "city":"石家庄",
+      //     "albumNum":5
+      //   },{
+      //     "city":"唐山",
+      //     "albumNum":0
+      //   },{
+      //     "city":"邯郸",
+      //     "albumNum":5
+      //   },{
+      //     "city":"秦皇岛",
+      //     "albumNum":0
+      //   },{
+      //     "city":"保定",
+      //     "albumNum":5
+      //   },{
+      //     "city":"张家口",
+      //     "albumNum":5
+      //   },{
+      //     "city":"承德",
+      //     "albumNum":5
+      //   },{
+      //     "city":"衡水",
+      //     "albumNum":5
+      //   },{
+      //     "city":"邢台",
+      //     "albumNum":0
+      //   }
+      // ],
     }
   },
 
@@ -60,8 +95,8 @@ export default {
 
     nextPage:function (index) {
       this.currentLine = -1;
+      var tempList = this.cityList;
       $("#contentList").slideUp(300,function(){
-
           $("ul").find("li").remove();
           var arr = area[index + 1];
           for (var i = 0; i < arr.length; i++) {
@@ -70,13 +105,18 @@ export default {
           }
           $("#contentList").slideDown();
 
-          $(".cityBtn").click(function() {
-            var idb = $(this).attr("id");
-            alert(idb);
-          });
       });
-      
-    }
+      $("#contentList").delegate('.cityBtn','click',function() {
+          // var len = tempList[0].city;      //不能直接访问this.cityList
+          // alert(len);
+          // var id = $(this).attr("id");
+          // document.getElementById(id).style.color="#cccccc";
+          var t = $(this).text();
+          var span = $(this.span).text();
+          alert(span);
+         
+      });
+    },
   }
   
 }

@@ -56,7 +56,7 @@
       Tourism,
       User,
       Latest,
-      Collage
+      Collage,
     },
     data() {
       return {

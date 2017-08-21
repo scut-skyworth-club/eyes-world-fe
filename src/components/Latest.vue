@@ -1,14 +1,14 @@
 <template>
 <div id="Latest">
-    <div id="container" v-on:mouseover="stop" v-on:mouseout="player">
+    <div id="container" v-on:mouseover="stop">
         <head>
         <title>最新推荐</title>
         </head>
         <div id="box1">
         <p id="text">最新推荐</p>
         </div>
-        <a href="javascript:;" id="prev" class="arrow" @click="animate(88.05)"><</a>
-        <a href="javascript:;" id="next" class="arrow" @click="animate(-88.05)">></a>
+        <!-- <a href="javascript:;" id="prev" class="arrow" ><</a>
+        <a href="javascript:;" id="next" class="arrow">></a> -->
         <div id="list" :style="listLeft">
             <picture-dialog 
                 class="Lpic"
@@ -60,6 +60,8 @@
 <script>
     import bg1 from '../assets/bg1.jpg'
     import bg2 from '../assets/bg2.jpg'
+    import bg4 from '../assets/bg4.jpg'
+    import bg5 from '../assets/bg5.jpg'
     import tu1 from '../assets/tu1.jpg'
     import tu2 from '../assets/tu2.jpg'
     import tu3 from '../assets/tu3.jpg'
@@ -98,7 +100,7 @@ let TotalAlumList = [{
        like: "200",
        visited: "100",
        isFoucs: true,
-       tu: bg1,
+       tu: bg4,
        type: 0,
     }, {
        id: 3,
@@ -108,7 +110,7 @@ let TotalAlumList = [{
        like: "200",
        visited: "100",
        isFoucs: true,
-       tu: bg2,
+       tu: bg5,
        type: 0,
     }, {
        id: 4,
@@ -140,7 +142,28 @@ let TotalAlumList = [{
        isFoucs: true,
        tu: bg2,
        type: 0,
-    }, {id:0,date:"2017/08/01",author:"XXX",title:"海心沙",like:"100",visited:"100",isFoucs:true,tu:tu5,type:4,},
+    }, {
+       id: 7,
+       date: "2017/08/01",
+       author: "XXX",
+       title: "海心沙",
+       like: "200",
+       visited: "100",
+       isFoucs: true,
+       tu: bg4,
+       type: 0,
+    }, {
+       id: 8,
+       date: "2017/08/01",
+       author: "XXX",
+       title: "海心沙",
+       like: "200",
+       visited: "100",
+       isFoucs: true,
+       tu: bg5,
+       type: 0,
+    }, 
+    {id:0,date:"2017/08/01",author:"XXX",title:"海心沙",like:"100",visited:"100",isFoucs:true,tu:tu5,type:4,},
     {id:1,date:"2017/09/09",author:"XXX",title:"遥",like:"100",visited:"100",isFoucs:true,tu:tu1,type:4,},
     {id:2,date:"2016/02/01",author:"XXX",title:"远",like:"100",visited:"100",isFoucs:true,tu:tu2,type:4,},
     {id:3,date:"2017/08/01",author:"XXX",title:"海心沙",like:"100",visited:"100",isFoucs:true,tu:tu3,type:4,},
@@ -148,8 +171,8 @@ let TotalAlumList = [{
     {id:5,date:"2017/08/01",author:"XXX",title:"海心沙",like:"100",visited:"100",isFoucs:true,tu:tu5,type:4,},
     {id:6,date:"2017/08/01",author:"XXX",title:"海心沙",like:"100",visited:"100",isFoucs:true,tu:tu1,type:4,}];
 
-    let supAlbumListTemp = TotalAlumList.slice(0, 7);
-    let albumListTemp = TotalAlumList.slice(7, 13);
+    let supAlbumListTemp = TotalAlumList.slice(0, 9);
+    let albumListTemp = TotalAlumList.slice(9, 15);
 
 
 
@@ -157,6 +180,7 @@ let TotalAlumList = [{
     var prev = document.getElementById('prev');
     var next = document.getElementById('next');
     var timer;
+    var screenWidth = $(window).width();
     var container = document.getElementById('container');
     export default {
         name:'Latest',
@@ -189,7 +213,6 @@ let TotalAlumList = [{
                 if(newLeft>-81.8){
                     newLeft = -434;
                 }
-
                 this.listLeft = {
                     left:newLeft+"vw",
                 }
@@ -218,19 +241,62 @@ let TotalAlumList = [{
             select_add:function(){
                 (this.supAlbumList[this.selected]).type=0;
                 this.selected++;
-                if(this.selected>this.supAlbumList.length){
-                    this.selected--;
+                if(this.selected>=this.supAlbumList.length){
+                    this.selected=0;
+                    $("#total").css("left","0");
+                }
+                if(this.selected>=5&&this.selected<=this.supAlbumList.length){
+                    $("#total").css("left",function(){
+                        var preLeft=$("#total").css("left");
+                        // var screenWidth = $(window).width();
+                        var renewLeft=parseFloat(preLeft)/parseFloat(screenWidth)*100-17.94+"vw";
+                        return renewLeft;
+                    });
                 }
                 (this.supAlbumList[this.selected]).type=4;
             },
             select_sub:function(){
-                (this.supAlbumList[this.selected]).type=0;
                 this.selected--; 
                 if(this.selected<0){
-                    this.selected++;
+                    this.selected=this.supAlbumList.length-1;
+                    var num=this.supAlbumList.length-4;
+                    $("#total").css("left",function(){
+                        var maxLeft=(-17.94)*parseInt(num)+"vw";
+                        return maxLeft;
+                    });
                 }
-               (this.supAlbumList[this.selected]).type=4;
+                var currentLeft;
+                currentLeft=$(".selected").offset();
+                console.log(currentLeft);
+                if(parseFloat(currentLeft.left)<0.15*parseFloat(screenWidth)){
+                    $("#total").css("left",function(){
+                        var preLeft=$("#total").css("left");
+                        // var screenWidth = $(window).width();
+                        var renewLeft=parseFloat(preLeft)/parseFloat(screenWidth)*100+17.94+"vw";
+                        return renewLeft;
+                    });
+
+                }                
+                (this.supAlbumList[this.selected]).type=4;
             },
+            clear:function(){
+                var i=0;
+                for(i=0;i<this.supAlbumList.length;i++){
+                    if((this.supAlbumList[i]).type=4){
+                        this.supAlbumList[i].type=0;
+                    }
+                }
+            },
+            /* judge:function(){
+                var i=0;
+                var n=0;
+                for(i=0;i<this.supAlbumList.length;i++){
+                    if((this.supAlbumList[i]).type=4){
+                        n=1;
+                    }
+                }
+                return n;
+            }, */
             chooseDemo:function(){
                     document.onkeydown=(event)=>{
                         if(event.which==40){
@@ -239,15 +305,18 @@ let TotalAlumList = [{
                                 this.stop();
                                 $("#total").css("margin-left","6.25vw");
                                 $("#smallpics").css("margin-left","0");                                
-                                (this.supAlbumList[0]).type=0;
+                                this.clear();
                                 $("#addshadow").css("box-shadow","0 0 2.55vw #000000");
                             }else{
                                 $("#addshadow").css("box-shadow","");
                                 $("#total").css("margin-left","5.15vw");
                                 $("#smallpics").css("margin-left","1.1vw");
-                                $("this.supAlbumList[0]").css("margin-right","1.1vw");
+                                // $("this.supAlbumList[0]").css("margin-right","1.1vw");
+                                this.clear();
                                 (this.supAlbumList[0]).type=4;
+                                $("#total").css("left","0");
                                 this.player();
+                                this.selected=0;
                             }
                         }
                         if(event.which==38){
@@ -256,14 +325,16 @@ let TotalAlumList = [{
                                 $("#total").css("margin-left","5.15vw");
                                 $("#smallpics").css("margin-left","1.1vw");
                                 $("this.supAlbumList[0]").css("margin-right","1.1vw");
+                                this.clear();
                                 (this.supAlbumList[0]).type=4;
+                                $("#total").css("left","0");
                                 this.player();
-                            }
-                            else{
+                                this.selected=0;    
+                            } else{
                                 this.stop();
                                 $("#total").css("margin-left","6.25vw");
                                 $("#smallpics").css("margin-left","0");                                
-                                (this.supAlbumList[0]).type=0;
+                                this.clear();
                                 $("#addshadow").css("box-shadow","0 0 2.55vw #000000");
                             }
                         }
@@ -272,6 +343,20 @@ let TotalAlumList = [{
                                 $("#addshadow").css("box-shadow","");
                                 this.animate(-88.05);
                                 setTimeout(function(){$("#addshadow").css("box-shadow","0 0 2.55vw #000000")},550);
+                            }else {
+                                var i=0;
+                                var n=0;
+                                for(i=0;i<this.supAlbumList.length;i++){
+                                    if((this.supAlbumList[i]).type=4){
+                                        n=1;
+                                    }
+                                }
+                                if(n==1){
+                                    $("#total").css("margin-left","6.25vw");
+                                    $("#smallpics").css("margin-left","0");
+                                    this.clear();                                
+                                    this.select_add();
+                                }
                             }
                         }
                         if(event.which==37){
@@ -279,31 +364,23 @@ let TotalAlumList = [{
                                 $("#addshadow").css("box-shadow","");
                                 this.animate(88.05);
                                 setTimeout(function(){$("#addshadow").css("box-shadow","0 0 2.55vw #000000")},550);
-                            }
+                            }else {
+                                var i=0;
+                                var n=0;
+                                for(i=0;i<this.supAlbumList.length;i++){
+                                    if((this.supAlbumList[i]).type=4){
+                                        n=1;
+                                    }
+                                }
+                                if(n==1){
+                                    $("#total").css("margin-left","6.25vw");
+                                    $("#smallpics").css("margin-left","0");
+                                    this.clear();                                
+                                    this.select_sub();
+                                }
+                            } 
                         }   
                     }
-                /* var num=0;
-                for(i=0;i<=this.supAlbumList.length;i++){
-                    if (this.supAlbumList[i].attr("box-shadow")!=none){
-                        num=1;
-                    }
-                }
-                if(num==0){
-                    document.onkeydown=function(event)
-                } */
-                /* document.onkeydown=function(event){
-                    if ($(document).scrollTop()<=0.35*$(window).height()){
-                        if (event.which==13){
-                            this.stop;
-                        }
-                        else if(event.which==39){
-                                this.animate(-88.05);
-                        }
-                        else if(event.which==37){
-                                this.animate(88.05);
-                        }
-                    }
-                    } */
             },
         },
         computed:{
@@ -315,22 +392,9 @@ let TotalAlumList = [{
         mounted() {
             setInterval(this.setRefreshTime,1000);
             this.chooseDemo();
+            this.player();
         }
     };
-
-    /* $(window).scroll(function(){
-        var that=this;
-        if($(document.scrollTop())>=$(document).height()-$(window).height()){
-            htmlobj=$.ajax({
-                type:"get",
-                dataType:"json",
-                success:function(){
-                    active();
-                }
-            });
-            $("#Latest").append(html.responseText);
-        }
-    }) */
 </script>
 
 
@@ -349,7 +413,6 @@ body{
     width: 100vw;
     height: 44.4vh;
     position: relative;
-      /* overflow: hidden;    */
 }
 #list{
     width: 616.35vw;
@@ -358,15 +421,6 @@ body{
     z-index: 1;
     top:14.8vh;
     transition: all 0.6s;
-    /* overflow: hidden; */
-}
-#group1{
-    width:200vw;
-    position: absolute;
-    /* margin-left:6.1vw; */
-    top:64.8vh;
-     overflow: hidden; 
-    /* overflow-y: scroll; */
 }
 #box1{
     position: absolute;
@@ -401,7 +455,7 @@ body{
     width: 100%;
     background-size: cover;
 }
-.arrow {
+/* .arrow {
 cursor: pointer;
 display: none; 
 line-height: 12vh;
@@ -415,13 +469,8 @@ z-index: 4;
 top: 40vh;
 background-color: RGBA(0, 0, 0, .3);
 color: #fff;
-}
-.arrow:hover {
-background-color: RGBA(0, 0, 0, .7);
-}
-#container:hover .arrow {
-display: block;
-}
+} */
+
 #prev {
 left: 6.25vw;
 }
@@ -435,11 +484,8 @@ height:44.4vh;
 top:14.8vh;
 width:87.5vw;
 left: 6.2vw;
-z-index:3
-}
- /* #addshadow:hover {
-box-shadow: 0 0 2.55vw;
-}  */
+z-index:3;
+} 
 #spotsName{
     position: absolute;
     top:63vh;
@@ -447,17 +493,19 @@ box-shadow: 0 0 2.55vw;
 }
 #total{
     width:200vw;
-    position: absolute;
+    position: absolute; 
     top:66vh;
-    overflow: hidden; 
+    /* overflow: hidden;  */
     float:left; 
     margin-left: 6.25vw;
     padding-top: 2vh;
-}
+    /* left:0; */
+} 
 #smallpics{
     height:31.3vh;
     transition: all 0.6s;
-}
+    /* left:0; */
+} 
 .noSelected{
     margin-right:2.34vw;
     width:15.6vw;
