@@ -45,6 +45,7 @@
         let scrollTop = $('.selected').offset().top
         $('#panel').scrollTop(scrollTop)
         console.log(scrollTop)
+
         this.adcode = Math.floor(this.adcode / 10000) * 10000
         switch (this.adcode) {
           case 150000:
@@ -78,6 +79,10 @@
         $nodeEles.filter('h2[data-adcode=' + this.adcode + ']').addClass('selected').closest('li').prev().addClass('hide-sub')
       },
       previousProvince () {
+        let scrollTop = $('.selected').offset().top
+        $('#panel').scrollTop(scrollTop)
+        console.log(scrollTop)
+
         this.adcode = Math.floor(this.adcode / 10000) * 10000
         switch (this.adcode) {
           case 100000:
@@ -138,15 +143,24 @@
         console.log('返回')
       },
       nextCity () {
+        let scrollTop = $('.selected').offset().top
+        $('#panel').scrollTop(scrollTop)
+        console.log(scrollTop)
+
         let result = this.adcode % 10000
         if (result === 0) {
           this.adcode = this.adcode + 100
         } else {
           this.adcode = $('.selected').closest('li').next().children('.lv_city').attr('data-adcode')
         }
+        console.log(this.adcode)
         this.switch2AreaNode(this.adcode)
       },
       previousCity () {
+        let scrollTop = $('.selected').offset().top
+        $('#panel').scrollTop(scrollTop)
+        console.log(scrollTop)
+
         this.adcode = $('.selected').closest('li').prev().children('.lv_city').attr('data-adcode')
         console.log(this.adcode)
         this.switch2AreaNode(this.adcode)
