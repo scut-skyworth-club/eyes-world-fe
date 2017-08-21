@@ -259,7 +259,7 @@
     },
     mounted: function (){
       var self = this;
-      fetch('http://39.108.149.106/api/user/works', {
+      fetch('http://39.108.149.106/api/user/favorite', {
         method: 'GET',
         mode: 'cors',
         headers: {
@@ -292,15 +292,21 @@
         }
       },
       rightMove: function (){
-        if (this.counter!==this.amount-1&&this.counter!==this.amount) {
-          if (this.counter===1) {
+        if (this.amount===2) {
+          if (this.counter!==2) {
             this.counter++;
-          }else{
-            this.counter = this.counter+2;
           }
-          if ((Math.floor(this.counter/2)-4)%3===0&&(Math.floor(this.counter/2)-4)!==-3) {
-            //(Math.floor(this.counter/2)-4)!==-3是把小图第一列的情况排除
-            this.oLeft = this.oLeft-53.124;
+        }else{
+          if (this.counter!==this.amount-1&&this.counter!==this.amount) {
+            if (this.counter===1) {
+              this.counter++;
+            }else{
+              this.counter = this.counter+2;
+            }
+            if ((Math.floor(this.counter/2)-4)%3===0&&(Math.floor(this.counter/2)-4)!==-3) {
+              //(Math.floor(this.counter/2)-4)!==-3是把小图第一列的情况排除
+              this.oLeft = this.oLeft-53.124;
+            }
           }
         }
       },

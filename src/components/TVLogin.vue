@@ -3,12 +3,13 @@
         <img :src="loginBg"> 
         <p class="login-title">{{title}}</p>
         <date class="time"></date>
-        <div>
+        <div class="qr-container">
             <p>手机扫描二维码登录</p>
-            <img :src="qrPic">
+            <img :src="pic" id="qr">
             <button @click="loginClick">登&nbsp&nbsp&nbsp&nbsp录</button>
         </div>
-        <p class="website">PC端登录网址：www.baidu.com</p>
+        <a class="website" :href="link" target="_blank">PC端登录网址：{{link}}</a>
+        <span id="marker"></span>
     </div>
 </template>
 
@@ -22,8 +23,8 @@ var data = {
 }
 
 import bg from '../assets/login/login_bg.png'
-import qr from '../assets/login/qr_code.png'
 import Date from './Date'
+import router from '../router/index'
 
 // var marker;
 // $(document).ready(function(){
@@ -39,11 +40,12 @@ export default {
   name: 'tvlogin',
   data () {
     return {
-      title: '登录/注册',
-      time:'星期四 | 10:00',
-      website:'PC端登录网址：www.baidu.com',
-      loginBg: bg,
-      qrPic: qr,
+        title: '登录/注册',
+        loginBg: bg,
+        server: 'http://39.108.149.106/',
+        pic: '',
+        marker: '',
+        link: ''
     }
   },
   components:{
@@ -61,13 +63,51 @@ export default {
     //             }
     //         });
     //   }
+    aCallback: function() {
+        var _this = this;
+        fetch(_this.server + 'login/tv/getqr', {
+            mode: 'cors',
+            method: 'GET',
+            headers: {
+                'Access-Control-Allow-Credentials': true
+            },
+            credentials: "include",
+        }).then(function(response) {
+            return response.json();
+        }).then(function(getres) {
+            // 得到数据 getres <----------------------------------- important! --------------------------------->
+            _this.pic = _this.server + getres.qrPath;
+            _this.marker = getres.marker;
+            _this.link = _this.server + _this.link + 'login.html?marker=' + _this.marker;
+        });
+    },
     loginClick: function (){
-        $.post("/login/tv/login","marker="+marker,bcallBack);
-        function bcallBack(data,status){
-
-            location.href="/tvhome.html";
-        }
-    }
+        fetch(this.server + 'login/tv/login', {
+            mode: 'cors',
+            method: 'POST',
+            headers: {
+                'Access-Control-Allow-Credentials': true,
+                'Content-Type':'application/x-www-form-urlencoded; charset=UTF-8',
+            },
+            credentials: "include",
+            body: 'marker=' + this.marker
+        }).then(function(response) {
+            // if (response.headers.get('Content-Type')==='text/html') {
+            //     console.log('登录失败');
+            // }else {
+            //     router.replace({name:'User'});
+            // }
+            console.log(response.headers.get('Content-Type'));
+        });
+        // .then(function(data){
+        //     if (data.state) {
+        //         router.replace({name:'User',params:{userName:data.username}});
+        //     }
+        // });
+    },
+  },
+  created() {
+    this.aCallback();
   }
 }
 </script>
@@ -97,28 +137,28 @@ export default {
         top: 6.481vh;
         left: 6.25vw;
     }
-    #tvlogin>div {
+    #tvlogin>.qr-container {
         width: 21.875vw;
         height: 53.703vh;
         position: absolute;
         top: 23.148vh;
         left: 39.0625vw;
     }
-    #tvlogin>div>p {
+    #tvlogin>.qr-container>p {
         font-family: "小米兰亭";
         font-size: 3.333vh;
         text-align: center;
         margin: 0 auto;
         color: #f1f1f1;
     }
-    #tvlogin>div>img {
+    #tvlogin>.qr-container>img {
         width: 21.875vw;
         height: 38.889vh;
         position: absolute;
         left: 0;
         bottom: 7.407vh;
     } 
-    #tvlogin>div>button {
+    #tvlogin>.qr-container>button {
         text-align: center;
         position: absolute;
         left: 8vw;
