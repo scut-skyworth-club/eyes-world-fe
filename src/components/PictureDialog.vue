@@ -15,7 +15,6 @@
 	            	<span :style="fontAdjustMiddle" class="like"><img :src="pic_like"/>{{like}}</span>
 	            </span>
             </transition>
-            {{Adjust}}
         </div>
     </div>
 </template>
@@ -80,30 +79,6 @@
 				let font_s = x * 0.022;
 				let font_m = x * 0.029;
 				let font_b = x * 0.07;
-
-				// if(font_s > 15){
-				// 	font_s = 15;
-				// }
-
-				// if(font_m > 20){
-				// 	font_m = 20;
-				// }
-
-				// if(font_b > 48){
-				// 	font_b = 48;
-				// }
-
-				// if(font_s < 11){
-				// 	font_s = 11;
-				// }
-
-				// if(font_m < 15){
-				// 	font_m = 15;
-				// }
-
-				// if(font_b < 30){
-				// 	font_b = 30;
-				// }
 
 				this.fontAdjust = {
 					fontSize:font_s +"px"
@@ -245,6 +220,8 @@
 			let el = this.$el; 
 			this.height = el.offsetHeight;
 			this.width = el.offsetWidth;
+
+			this.Adjust;
 		}
 
 	}
