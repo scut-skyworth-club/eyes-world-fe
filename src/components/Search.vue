@@ -1,6 +1,4 @@
 <template>
-<!-- 说明：当search获得焦点时方可搜索
-      当searchText获得焦点时方可回车打印所选中的省份 -->
   <div id="box" :style="pic1" :flag="changeFlag" :searchSelect="changeFlag" :toggleSearch="inOrOut">
       <div id="searchContent">
         <input id="searchText" type="text" placeholder="搜索内容" @keydown="nextPage($event)">
@@ -145,22 +143,12 @@ export default {
       if(this.currentLine != -1){
         $("#contentList li").eq(this.currentLine).addClass("hightLight");
         var id_li = $("#contentList li").eq(this.currentLine).attr("id");//获取当前省份
-        // var id_a = $("#contentList li a").eq(this.currentLine).attr("id");
-
         
         this.provinceName = document.getElementById(id_li).innerText;
         var reg = /[A-Z]/g;//正则表达式
         this.provinceName = this.provinceName.replace(reg,"");
-        // var tempName1 = document.getElementById(id_li).innerText;
-        // if(this.provinceList[this.currentLine].initFlag){
-        //   var tempName2 = document.getElementById(id_a).innerText;
-        // this.provinceName = tempName1.replace([A-Z],"");
-        // }else{
-        //   this.provinceName = tempName1;
-        // }
         
-        // console.log(id_a);
-        console.log(this.provinceName)
+        // console.log(this.provinceName)
       }
     },
 
@@ -169,8 +157,8 @@ export default {
       // var id = event.currentTarget.id;
       if(event.keyCode == 13){
         if(this.currentLine != -1){
-          console.log(this.provinceName);
-          //this.$emit('search-province',this.provinceName);
+          // console.log(this.provinceName);
+          this.$emit('search-province',this.provinceName);
         }
         
       }else{
@@ -338,7 +326,7 @@ export default {
   } 
   .picDivision{
     position: absolute;
-    width: 15%;
+    width: 16%;
     height: 1.8px;
     top: 0;
     left: 0;
@@ -349,7 +337,7 @@ export default {
     font-size: 18.75px;
     color: #a1d3ff;
     top:-2vh;
-    left:9.5%;
+    left:8.5%;
   }
 
   /*高亮样式暂定  */
