@@ -141,12 +141,10 @@
         } else {
           this.adcode = $('.selected').closest('li').next().children('.lv_city').attr('data-adcode')
         }
-
-        console.log(this.adcode)
         this.switch2AreaNode(this.adcode)
       },
       previousCity () {
-        this.adcode -= 100
+        this.adcode = $('.selected').closest('li').prev().children('.lv_city').attr('data-adcode')
         console.log(this.adcode)
         this.switch2AreaNode(this.adcode)
       },
