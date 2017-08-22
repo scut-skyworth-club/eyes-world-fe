@@ -60,7 +60,7 @@ export default {
             }
         },
         parseUrl: function (){
-            this.newUrl = "http://39.108.149.106"+this.url; //对传过来的url进行解析
+            this.newUrl = "http://39.108.149.106"+this.url+"thumbnail"; //对传过来的url进行解析
         },
         parseName: function (){
             let str = "-";
