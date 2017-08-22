@@ -1,6 +1,6 @@
 <template>
   <div id="Details">
-    {{msg}}
+    {{description}}
   </div>
 </template>
 
@@ -12,7 +12,9 @@ export default {
           msg:'这是详情页',
         }
     },
+    props: ['description'],
 }
+
 </script>
 
 <style>
@@ -24,6 +26,9 @@ export default {
         left: 30vw;
         background-color: #7d7d7d;
         font-family: "小米兰亭";
+        font-size: 3.241vh;
+        letter-spacing: 0.139vh;
+        line-height: 3.3vh;
         opacity: 0.6;
         z-index: 50;
         color: #f1f1f1;
