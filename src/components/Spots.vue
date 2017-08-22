@@ -42,8 +42,8 @@
     <ul id="pageIndex">
        <li v-for="index in getPageIndex"> 
         <transition name="indexFade" mode="out-in">
-           <img v-if="index" key="foucs" :src="ico_index_foucs" /> 
-           <img v-else key="unfoucs" :src="ico_index" /> 
+           <img v-if="index" key="foucs" class="index_focus" :src="ico_index_foucs" /> 
+           <img v-else key="unfoucs" class="index_unfocus" :src="ico_index" /> 
         </transition>
       </li>
     </ul> 
@@ -57,11 +57,6 @@
   import bg from '../assets/spot_bg.png'
   import ico_index from '../assets/spot_index.png'
   import ico_index_foucs from '../assets/spot_index_foucs.png'
-
-  import bg1 from '../assets/bg1.jpg'
-  import bg2 from '../assets/bg2.jpg'
-  import bg3 from '../assets/bg3.jpg'
-  import bg4 from '../assets/bg4.jpg'
 
   export default {
     name: 'spots',
@@ -357,9 +352,19 @@
   margin-right: 1.3vw;
 }
 
-#pageIndex > li >img{
+#pageIndex > li > .index_focus{
   display: inline-block;
-  height:3vh;
+  position: relative;
+  top:-0.6vh;
+  height: 4.2vh;
+  width:5.5vw;
+}
+
+#pageIndex > li > .index_unfocus{
+  display: inline-block;
+  position: relative;
+  height: 3vh;
+  width:5vw;
 }
 
 .indexFade-enter-active, .indexFade-leave-active {
