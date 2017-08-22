@@ -146,18 +146,6 @@
     computed: {
     },
     methods: {
-      getLabels:function(){
-        this.labelList = new Array(6);
-        for(let i=0;i<6;i++){
-          this.labelList[i] = this.labels[(this.offset+i)%this.labels.length];
-        }
-      },
-      getLabels_op:function(){
-        this.labelList_op = new Array(4);
-        for(let i=0;i<4;i++){
-          this.labelList_op[i] = this.labels[this.labels.length-1-(this.offset+i)%this.labels.length];
-        }
-      },
       getLeft:function(index){
         let left;
         if(index-this.offset == 0){
