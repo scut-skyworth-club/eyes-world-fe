@@ -1,97 +1,84 @@
 <template>
-<div id="Latest">
-    <div id="container" v-on:mouseover="stop">
-        <head>
-        <title>最新推荐</title>
-        </head>
-        <div id="box1">
-        <p id="text">最新推荐</p>
+  <div id="latest-new">
+    <img :src="bgs[0]" id="latest-new-bg">
+    <p class="title">最新推荐</p>
+    <date class="time"></date>
+    <div class="roll-pics-container">
+        <div :style="{left:oLeft+'vw',transition:setTransition}">
+          <ul>
+            <li v-for="(item,index) in images" :key="item.id">
+              <picture-dialog
+                :date="item.date" 
+                :author="item.author" 
+                :pic_url="item.tu" 
+                :like="item.like" 
+                :title="item.title" 
+                :visited="item.visited" 
+                :type="(counter===index||(counter===1&&index===9)||(counter===10&&index===2))&&focus===0?4:0"
+                :style="{left:index*75+'vw',
+                transform:'scale(1,'+((counter===index||(counter===1&&index===9)||(counter===10&&index===2))?1:0.958)+')',
+                boxShadow:(counter===index||(counter===1&&index===9)||(counter===10&&index===2))&&focus===0?'0 6px 40px #222222':'none'}"
+                class="roll-pic">
+                <!-- counter是按键控制值，当couter与index相等时，表示焦点来到这张图片上，
+                改变图片的type值，使下面的信息条显示，同时修改y方向上的变换大小以及显示阴影，
+                counter==1&&index==9与counter==10&&index==2的情况是为了消除图片从第一张
+                变到最后一张和从最后一张变到第一张时的过渡效果 -->
+              </picture-dialog>
+            </li>
+          </ul>
         </div>
-        <!-- <a href="javascript:;" id="prev" class="arrow" ><</a>
-        <a href="javascript:;" id="next" class="arrow">></a> -->
-        <div id="list" :style="listLeft">
-            <picture-dialog 
-                class="Lpic"
-                v-for="item in groceryList"
-                v-bind:key="item.id"
-                :isFoucs="item.isFoucs"
-                :date="item.date"
-                :author="item.author"
-                :pic_url="item.tu"
-                :like="item.like"
-                :title="item.title"
-                :visited="item.visited"
-                :type="item.type"
-                >
+    </div>
+    <ul>
+        <li v-for="(span,inx) in spans" :key="span.id">
+            <span :style="{left:inx*3.125+'vw',
+            backgroundColor:(counter===inx+2)||(counter===1&&inx===7)||(counter===10&&inx===0)&&focus===0?'#4e72cc':'#999999'}"></span>
+        </li>
+    </ul>
+    <p class="spots-title">景点TOP20&nbsp{{itemCounter}}/20</p>
+    <div class="small-pics-container" :style="{left:mLeft+'vw'}">
+        <ul>
+        <li v-for="(item,index) in smallImages" :key="item.id">
+            <picture-dialog
+            :date="item.date" 
+            :author="item.author" 
+            :pic_url="item.tu" 
+            :like="item.like" 
+            :title="item.title" 
+            :visited="item.visited" 
+            :type="(itemCounter-1===index&&focus===1)?4:0"
+            :style="{left:index*17.969+'vw',
+            transform:'scale('+((itemCounter-1===index&&focus===1)?1.133:1)+')',
+            boxShadow:(itemCounter-1===index&&focus===1)?'0 0 20px #222222':'none'}"
+            class="small-pics">
             </picture-dialog>
-            
-        </div>
-    <div id="addshadow">
+        </li>
+        </ul>
     </div>
-    <div id="box2">
-    <p id="time">{{getDay}}&nbsp;&nbsp;|&nbsp;&nbsp;{{time}}</p>
-    </div>
-    </div>
-    <div id="spotsName" :style="spotFont">景点TOP20</div>
-    <div id="total">
-        <div id="smallpics">
-            <picture-dialog 
-                v-for="item in supAlbumList"
-                :class="item.type==4?'selected':'noSelected'"
-                v-bind:key="item.id"
-                :date="item.date"
-                :author="item.author"
-                :pic_url="item.tu"
-                :like="item.like"
-                :title="item.title"
-                :visited="item.visited"
-                :type="item.type"
-                >
-                <a>{{item}}</a>
-            </picture-dialog>
-        </div>
-    </div>
-    <!-- <div id="group1">
-    <browsepic-dialog spot="广州" :albumlist="supAlbumList"></browsepic-dialog>
-    </div> -->
-</div>
+    {{setKey}}
+  </div>
 </template>
-
 <script>
+    import bg from '../assets/blue.png'
     import bg1 from '../assets/bg1.jpg'
     import bg2 from '../assets/bg2.jpg'
-    import bg4 from '../assets/bg4.jpg'
-    import bg5 from '../assets/bg5.jpg'
     import tu1 from '../assets/tu1.jpg'
     import tu2 from '../assets/tu2.jpg'
     import tu3 from '../assets/tu3.jpg'
     import tu4 from '../assets/tu4.jpg'
     import tu5 from '../assets/tu5.jpg'
-    import Vue from 'vue'
-    import Router from 'vue-router'
+    
+    import Date from './Date'
+    import PictureDialog from './PictureDialog'
+    import router from '../router/index'
 
-    import $ from 'jquery'
-
-let TotalAlumList = [{
-       id: 0,
-       date: "2017/08/01",
-       author: "XXX",
-       title: "海心沙",
-       like: "200",
-       visited: "100",
-       isFoucs: true,
-       tu: bg1,
-       type: 0,
-    }, {
+    let totalPhotos = [ {
        id: 1,
        date: "2017/09/09",
        author: "XXX",
        title: "遥",
        like: "200",
        visited: "100",
-       isFoucs: true,
        tu: bg2,
-       type: 0,
     }, {
        id: 2,
        date: "2016/02/01",
@@ -99,9 +86,7 @@ let TotalAlumList = [{
        title: "远",
        like: "200",
        visited: "100",
-       isFoucs: true,
-       tu: bg4,
-       type: 0,
+       tu: bg1,
     }, {
        id: 3,
        date: "2017/08/01",
@@ -109,9 +94,7 @@ let TotalAlumList = [{
        title: "海心沙",
        like: "200",
        visited: "100",
-       isFoucs: true,
-       tu: bg5,
-       type: 0,
+       tu: bg2,
     }, {
        id: 4,
        date: "2017/08/01",
@@ -119,9 +102,7 @@ let TotalAlumList = [{
        title: "海心沙",
        like: "200",
        visited: "100",
-       isFoucs: true,
        tu: bg2,
-       type: 0,
     }, {
        id: 5,
        date: "2017/08/01",
@@ -129,9 +110,7 @@ let TotalAlumList = [{
        title: "海心沙",
        like: "200",
        visited: "100",
-       isFoucs: true,
        tu: bg1,
-       type: 0,
     }, {
        id: 6,
        date: "2017/08/01",
@@ -139,396 +118,392 @@ let TotalAlumList = [{
        title: "海心沙",
        like: "200",
        visited: "100",
-       isFoucs: true,
        tu: bg2,
-       type: 0,
-    }, {
+    }, 
+    {
        id: 7,
        date: "2017/08/01",
        author: "XXX",
        title: "海心沙",
        like: "200",
        visited: "100",
-       isFoucs: true,
-       tu: bg4,
-       type: 0,
+       tu: bg1,
     }, {
        id: 8,
+       date: "2017/09/09",
+       author: "XXX",
+       title: "遥",
+       like: "200",
+       visited: "100",
+       tu: bg2,
+    }, {
+       id: 9,
+       date: "2016/02/01",
+       author: "XXX",
+       title: "远",
+       like: "200",
+       visited: "100",
+       tu: bg1,
+    }, {
+       id: 10,
        date: "2017/08/01",
        author: "XXX",
        title: "海心沙",
        like: "200",
        visited: "100",
-       isFoucs: true,
-       tu: bg5,
-       type: 0,
+       tu: bg2,
+    }, {
+       id: 11,
+       date: "2017/08/01",
+       author: "XXX",
+       title: "海心沙",
+       like: "200",
+       visited: "100",
+       tu: bg2,
+    }, {
+       id: 12,
+       date: "2017/08/01",
+       author: "XXX",
+       title: "海心沙",
+       like: "200",
+       visited: "100",
+       tu: bg1,
+    }, {
+       id: 13,
+       date: "2017/08/01",
+       author: "XXX",
+       title: "海心沙",
+       like: "200",
+       visited: "100",
+       tu: bg2,
     }, 
-    {id:0,date:"2017/08/01",author:"XXX",title:"海心沙",like:"100",visited:"100",isFoucs:true,tu:tu5,type:4,},
-    {id:1,date:"2017/09/09",author:"XXX",title:"遥",like:"100",visited:"100",isFoucs:true,tu:tu1,type:4,},
-    {id:2,date:"2016/02/01",author:"XXX",title:"远",like:"100",visited:"100",isFoucs:true,tu:tu2,type:4,},
-    {id:3,date:"2017/08/01",author:"XXX",title:"海心沙",like:"100",visited:"100",isFoucs:true,tu:tu3,type:4,},
-    {id:4,date:"2017/08/01",author:"XXX",title:"海心沙",like:"100",visited:"100",isFoucs:true,tu:tu4,type:4,},
-    {id:5,date:"2017/08/01",author:"XXX",title:"海心沙",like:"100",visited:"100",isFoucs:true,tu:tu5,type:4,},
-    {id:6,date:"2017/08/01",author:"XXX",title:"海心沙",like:"100",visited:"100",isFoucs:true,tu:tu1,type:4,}];
+    {
+       id: 14,
+       date: "2017/09/09",
+       author: "XXX",
+       title: "遥",
+       like: "200",
+       visited: "100",
+       tu: bg2,
+    }, {
+       id: 15,
+       date: "2016/02/01",
+       author: "XXX",
+       title: "远",
+       like: "200",
+       visited: "100",
+       tu: bg1,
+    }, {
+       id: 16,
+       date: "2017/08/01",
+       author: "XXX",
+       title: "海心沙",
+       like: "200",
+       visited: "100",
+       tu: bg2,
+    }, {
+       id: 17,
+       date: "2017/08/01",
+       author: "XXX",
+       title: "海心沙",
+       like: "200",
+       visited: "100",
+       tu: bg2,
+    }, {
+       id: 18,
+       date: "2017/08/01",
+       author: "XXX",
+       title: "海心沙",
+       like: "200",
+       visited: "100",
+       tu: bg1,
+    }, {
+       id: 19,
+       date: "2017/08/01",
+       author: "XXX",
+       title: "海心沙",
+       like: "200",
+       visited: "100",
+       tu: bg2,
+    }, 
+    {
+       id: 20,
+       date: "2017/08/01",
+       author: "XXX",
+       title: "海心沙",
+       like: "200",
+       visited: "100",
+       tu: bg1,
+    },
+    {id:0,date:"2017/08/01",author:"XXX",title:"1",like:"100",visited:"100",tu:tu5},
+    {id:1,date:"2017/09/09",author:"XXX",title:"2",like:"100",visited:"100",tu:tu1,},
+    {id:2,date:"2016/02/01",author:"XXX",title:"3",like:"100",visited:"100",tu:tu2,},
+    {id:3,date:"2017/08/01",author:"XXX",title:"4",like:"100",visited:"100",tu:tu3,},
+    {id:4,date:"2017/08/01",author:"XXX",title:"5",like:"100",visited:"100",tu:tu4,},
+    {id:5,date:"2017/08/01",author:"XXX",title:"6",like:"100",visited:"100",tu:tu5,},
+    {id:6,date:"2017/08/01",author:"XXX",title:"7",like:"100",visited:"100",tu:tu1,},
+    {id:7,date:"2017/08/01",author:"XXX",title:"8",like:"100",visited:"100",tu:tu4,}];
 
-    let supAlbumListTemp = TotalAlumList.slice(0, 9);
-    let albumListTemp = TotalAlumList.slice(9, 15);
+    totalPhotos = totalPhotos.reverse();
 
+    let smallPics = totalPhotos.slice(8);
+    let rollPics = totalPhotos.slice(0,8);
+    let subLastPics = totalPhotos.slice(6,8);   //尾元素副本
+    let subFirstPics = totalPhotos.slice(0,2);     //首元素副本
+    rollPics = [...subLastPics,...rollPics,...subFirstPics];
 
-
-    var list = document.getElementById('list');
-    var prev = document.getElementById('prev');
-    var next = document.getElementById('next');
-    var timer;
-    var screenWidth = $(window).width();
-    var container = document.getElementById('container');
     export default {
-        name:'Latest',
-        data(){
+        data (){
             return {
-                selected:0,
-                offset:0,
-                time: '00:00',
-                msg:'最新推荐组件',
-                groceryList: albumListTemp,
-                supAlbumList: supAlbumListTemp,
-                listLeft:{
-                    left:"-81.8vw",
-                },
-                spotFont:{
-                    fontSize:"1.35vw",
-                    fontFamily:"小米兰亭",
-                    color:"#f1f1f1",
-                },
+                picType: 0,
+                counter: 2,
+                focus: 0,
+                itemCounter: 1,
+                oLeft: -143.75,
+                mLeft: 6.25,
+                images: rollPics,
+                amount: rollPics.length,
+                smallImages: smallPics,
+                animated: false,
+                bgs:[
+                    bg,
+                ],
+                setTransition: 'all 1s ease',
+                spans: [
+                    {id: 1},
+                    {id: 2},
+                    {id: 3},
+                    {id: 4},
+                    {id: 5},
+                    {id: 6},
+                    {id: 7},
+                    {id: 8},
+                ],
             }
         },
-        methods:{
-            animate:function(offset){
-                var newLeft = parseFloat(this.listLeft.left) + offset;
-                // list.style.left = newLeft + 'vw';
-                
-                if(newLeft<-434){
-                    newLeft = -81.8;
-                }
-                if(newLeft>-81.8){
-                    newLeft = -434;
-                }
-                this.listLeft = {
-                    left:newLeft+"vw",
-                }
+        mounted: function (){
+            //这里获取后台数据
+        },
+        computed: {
+            setKey:function(){
+                let self = this;
+                document.onkeydown = function(event){
+                    switch(event.which){
+                        case 37:
+                        //left
+                        self.leftMove();
+                        
+                        break;
+                        case 38:
+                        //up
+                        if (self.focus===1) {
+                            self.focus = 0;
+                        }
+                        break;
+                        case 39:
 
-            },
-            player:function(){
-                timer = setInterval(this.nextPage, 1500)
-            },
-            stop:function(){
-                clearInterval(timer);
-            },
-            nextPage:function(){
-                this.animate(-88.05);
-            },
-            setRefreshTime: function() {
-                    var hour = new Date().getHours();
-                    var minute=new Date().getMinutes();
-                    if(hour<10){
-                        hour="0"+hour;
-                    }
-                    if(minute<10){
-                        minute="0"+minute;
-                    }
-                    this.$data.time=hour+":"+minute;
-            },
-            select_add:function(){
-                (this.supAlbumList[this.selected]).type=0;
-                this.selected++;
-                if(this.selected>=this.supAlbumList.length){
-                    this.selected=0;
-                    $("#total").css("left","0");
-                }
-                if(this.selected>=5&&this.selected<=this.supAlbumList.length){
-                    $("#total").css("left",function(){
-                        var preLeft=$("#total").css("left");
-                        // var screenWidth = $(window).width();
-                        var renewLeft=parseFloat(preLeft)/parseFloat(screenWidth)*100-17.94+"vw";
-                        return renewLeft;
-                    });
-                }
-                (this.supAlbumList[this.selected]).type=4;
-            },
-            select_sub:function(){
-                this.selected--; 
-                if(this.selected<0){
-                    this.selected=this.supAlbumList.length-1;
-                    var num=this.supAlbumList.length-4;
-                    $("#total").css("left",function(){
-                        var maxLeft=(-17.94)*parseInt(num)+"vw";
-                        return maxLeft;
-                    });
-                }
-                var currentLeft;
-                currentLeft=$(".selected").offset();
-                console.log(currentLeft);
-                if(parseFloat(currentLeft.left)<0.15*parseFloat(screenWidth)){
-                    $("#total").css("left",function(){
-                        var preLeft=$("#total").css("left");
-                        // var screenWidth = $(window).width();
-                        var renewLeft=parseFloat(preLeft)/parseFloat(screenWidth)*100+17.94+"vw";
-                        return renewLeft;
-                    });
-
-                }                
-                (this.supAlbumList[this.selected]).type=4;
-            },
-            clear:function(){
-                var i=0;
-                for(i=0;i<this.supAlbumList.length;i++){
-                    if((this.supAlbumList[i]).type=4){
-                        this.supAlbumList[i].type=0;
-                    }
-                }
-            },
-            /* judge:function(){
-                var i=0;
-                var n=0;
-                for(i=0;i<this.supAlbumList.length;i++){
-                    if((this.supAlbumList[i]).type=4){
-                        n=1;
-                    }
-                }
-                return n;
-            }, */
-            chooseDemo:function(){
-                    document.onkeydown=(event)=>{
-                        if(event.which==40){
-                            // alert("hh");
-                            if($("#addshadow").css("box-shadow") === "none"){
-                                this.stop();
-                                $("#total").css("margin-left","6.25vw");
-                                $("#smallpics").css("margin-left","0");                                
-                                this.clear();
-                                $("#addshadow").css("box-shadow","0 0 2.55vw #000000");
-                            }else{
-                                $("#addshadow").css("box-shadow","");
-                                $("#total").css("margin-left","5.15vw");
-                                $("#smallpics").css("margin-left","1.1vw");
-                                // $("this.supAlbumList[0]").css("margin-right","1.1vw");
-                                this.clear();
-                                (this.supAlbumList[0]).type=4;
-                                $("#total").css("left","0");
-                                this.player();
-                                this.selected=0;
-                            }
+                        //right
+                        self.rightMove();
+                        break;
+                        case 40:
+                        //down
+                        if (self.focus===0) {
+                            self.focus = 1;
                         }
-                        if(event.which==38){
-                            if($("#addshadow").css("box-shadow") !== "none"){
-                                $("#addshadow").css("box-shadow","");
-                                $("#total").css("margin-left","5.15vw");
-                                $("#smallpics").css("margin-left","1.1vw");
-                                $("this.supAlbumList[0]").css("margin-right","1.1vw");
-                                this.clear();
-                                (this.supAlbumList[0]).type=4;
-                                $("#total").css("left","0");
-                                this.player();
-                                this.selected=0;    
-                            } else{
-                                this.stop();
-                                $("#total").css("margin-left","6.25vw");
-                                $("#smallpics").css("margin-left","0");                                
-                                this.clear();
-                                $("#addshadow").css("box-shadow","0 0 2.55vw #000000");
-                            }
-                        }
-                        if(event.which==39){
-                            if($("#addshadow").css("box-shadow") !== "none"){
-                                $("#addshadow").css("box-shadow","");
-                                this.animate(-88.05);
-                                setTimeout(function(){$("#addshadow").css("box-shadow","0 0 2.55vw #000000")},550);
-                            }else {
-                                var i=0;
-                                var n=0;
-                                for(i=0;i<this.supAlbumList.length;i++){
-                                    if((this.supAlbumList[i]).type=4){
-                                        n=1;
-                                    }
-                                }
-                                if(n==1){
-                                    $("#total").css("margin-left","6.25vw");
-                                    $("#smallpics").css("margin-left","0");
-                                    this.clear();                                
-                                    this.select_add();
-                                }
-                            }
-                        }
-                        if(event.which==37){
-                            if($("#addshadow").css("box-shadow") !== "none"){
-                                $("#addshadow").css("box-shadow","");
-                                this.animate(88.05);
-                                setTimeout(function(){$("#addshadow").css("box-shadow","0 0 2.55vw #000000")},550);
-                            }else {
-                                var i=0;
-                                var n=0;
-                                for(i=0;i<this.supAlbumList.length;i++){
-                                    if((this.supAlbumList[i]).type=4){
-                                        n=1;
-                                    }
-                                }
-                                if(n==1){
-                                    $("#total").css("margin-left","6.25vw");
-                                    $("#smallpics").css("margin-left","0");
-                                    this.clear();                                
-                                    this.select_sub();
-                                }
-                            } 
-                        }   
+                        break;
+                        case 13:
+                        //center
+                        self.enterItem();
+                        break;
+                        case 82:
+                        break;
+                        case 4:
+                        break;
                     }
+                }
             },
         },
-        computed:{
-            getDay:function(){
-                var day=["日","一","二","三","四","五","六"];
-                return "星期"+day[new Date().getDay()];
+        methods: {
+            leftMove: function (){
+                if (this.focus===0) {
+                    if (!this.animated) {   
+                        this.animated = true;   //动画过程中使按键失效
+                        if (this.counter!==2) { //如果不是第一张图片，只是左移一张
+                            this.counter--;
+                            this.oLeft = this.oLeft+75;
+                            let self = this;
+                            window.setTimeout(function() { //动画完成后恢复按键功能
+                                self.animated = false;
+                            }, 1000);
+                        }else {     //如果是第一张图片，左移一张到达最后一张副本处
+                            this.counter--;
+                            this.oLeft = this.oLeft+75;
+                            let self = this;
+                            window.setTimeout(function (){ 
+                                //完成动画后，把副本图拉回最后一张，此阶段setTransition='none'关闭动画效果
+                                self.counter = 9;
+                                self.oLeft = self.oLeft-75*8;
+                                self.setTransition = 'none';
+                                self.animated = false;
+                            },1000);
+                        }
+                        this.setTransition = 'all 1s ease';
+                    }
+                }else {
+                    if (this.itemCounter!==1) {
+                        this.itemCounter--;
+                        if (this.itemCounter%5==0) {
+                            this.mLeft = this.mLeft+89.844;
+                        }
+                    }
+                }
             },
+            rightMove: function (){
+                if (this.focus===0) {
+                    if (!this.animated) {
+                        this.animated = true;
+                        if (this.counter!==this.amount-3) {
+                            this.counter++;
+                            this.oLeft = this.oLeft-75;
+                            let self = this;
+                            window.setTimeout(function() {
+                                self.animated = false;
+                            }, 1000);
+                        }else {
+                            this.counter++;
+                            this.oLeft = this.oLeft-75;
+                            let self = this;
+                            window.setTimeout(function (){
+                                self.counter = 2;
+                                self.oLeft = self.oLeft+75*8;
+                                self.setTransition = 'none';
+                                self.animated = false;
+                            },1000);
+                        }
+                        this.setTransition = 'all 1s ease';
+                    }
+                }else {
+                    if(this.itemCounter!==this.smallImages.length){
+                        this.itemCounter++;
+                        if ((this.itemCounter-6)%5===0) {
+                            this.mLeft = this.mLeft-89.844
+                        }
+                    }
+                }
+            },
+            enterItem: function (){
+                router.push({name:'Panorama'});
+            }
         },
-        mounted() {
-            setInterval(this.setRefreshTime,1000);
-            this.chooseDemo();
-            this.player();
+        // 这部分是实现自动轮播的
+        // mounted: function (){
+        //     let self = this;
+        //     window.setInterval(self.rightMove,4000);  
+        // },       
+        components: {
+            Date,
+            PictureDialog,
         }
-    };
+    }
 </script>
 
-
 <style>
-*{
-    margin: 0;
-    padding: 0;
-    text-decoration: none;
-}
-
-body{
-    padding: 0;
-    overflow: hidden;
-}
-#container{
-    width: 100vw;
-    height: 44.4vh;
-    position: relative;
-}
-#list{
-    width: 616.35vw;
-    height: 44.4vh;
-    position: absolute;
-    z-index: 1;
-    top:14.8vh;
-    transition: all 0.6s;
-}
-#box1{
-    position: absolute;
-    top:4.18vh;
-    left:6.1vw;
-    z-index: 999;
-}
-#text{
-    color: #fff;
-    font-size: 3.12vw;
-    font-family:"小米兰亭Light";
-    z-index: 999;
-}
-#box2{ 
-    position: absolute;
-    top:4.18vh;
-    right:6.1vw;
-    z-index: 999;
-}
-#Latest{
-height:100vh;
-}
-#time{
-    color: #f1f1f1;
-    font-size: 1.25vw;
-    font-family: "小米兰亭Light";
-    z-index:999;
-}
-body{
-    background: url("../assets/blue.png") no-repeat;
-    height: 100%;
-    width: 100%;
-    background-size: cover;
-}
-/* .arrow {
-cursor: pointer;
-display: none; 
-line-height: 12vh;
-text-align: center;
-font-size: 5vw;
-font-weight: bold;
-width: 5vw;
-height: 12vh;
-position: absolute;
-z-index: 4;
-top: 40vh;
-background-color: RGBA(0, 0, 0, .3);
-color: #fff;
-} */
-
-#prev {
-left: 6.25vw;
-}
-#next {
-right: 6.25vw;
-}
-#addshadow{
-display: block;
-position: absolute;
-height:44.4vh;
-top:14.8vh;
-width:87.5vw;
-left: 6.2vw;
-z-index:3;
-} 
-#spotsName{
-    position: absolute;
-    top:63vh;
-    margin-left: 6.25vw;
-}
-#total{
-    width:200vw;
-    position: absolute; 
-    top:66vh;
-    /* overflow: hidden;  */
-    float:left; 
-    margin-left: 6.25vw;
-    padding-top: 2vh;
-    /* left:0; */
-} 
-#smallpics{
-    height:31.3vh;
-    transition: all 0.6s;
-    /* left:0; */
-} 
-.noSelected{
-    margin-right:2.34vw;
-    width:15.6vw;
-    height: 28vh;
-}
-.selected{
-    margin-right:1.34vw;
-    box-shadow: 0 0 2.55vw rgba(0,0,0,0.7);
-    vertical-align:top;
-    width: 17.7vw;
-    height: 31.5vh;
-}
-.Lpic{
-    height: 44.4vh;
-    width:87.5vw;
-    float:left;
-    margin-right:0.55vw;
-}
-/* .active{
-    box-shadow:
-} */
+    #latest-new {
+        width: 100vw;
+        height: 100vh;
+        position: absolute;
+        top: 0;
+        left: 0;
+        overflow: hidden;
+    }
+    #latest-new>img {
+        width: 100vw;
+        height: 100vh;
+        position: absolute;
+        top: 0;
+        left: 0;
+        margin: 0;
+        padding: 0;
+    }
+    #latest-new>.title {
+        font-family: '小米兰亭';
+        font-size: 5.556vh;
+        line-height: 5.556vh;
+        color: #f1f1f1;
+        letter-spacing: 4px; 
+        position: absolute;
+        top: 6.481vh;
+        left: 6.25vw;
+    }
+    #latest-new>.roll-pics-container {
+        width: 87.5vw;
+        height: 48vh;
+        position: absolute;
+        top: 14.815vh;
+        left: 6.25vw;
+        /* border: 1px solid red; */
+        overflow: hidden; 
+    }
+    #latest-new>.roll-pics-container>div {
+        width: 900vw;
+        height: 44.444vh;
+        position: absolute;
+        top: 0;
+        /* left: -68.75vw; */
+        /* border: 2px solid yellow; */
+        /* transition: all 1s ease; */
+    }
+    #latest-new>.roll-pics-container>div .roll-pic {
+        width: 75vw;
+        height: 44.444vh;
+        position: absolute;
+        top: 0;
+        transform-origin: 0 100%;
+    }
+    #latest-new>ul {
+        position: absolute;
+        top: 62.037vh;
+        left: 38.021vw;
+        text-decoration: none;
+        width: 20vw;
+        height: 1vh;
+    }
+    #latest-new>ul>li {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 1vh;
+        width: 20vw;
+    }
+    #latest-new>ul>li>span {
+        width: 2.083vw;
+        height: 0.278vh;
+        position: absolute;
+        top: 0;
+    }
+    #latest-new>.spots-title {
+        font-family: '小米兰亭';
+        font-size: 2.407vh;
+        line-height: 2.407vh;
+        color: #f1f1f1;
+        letter-spacing: 2px; 
+        position: absolute;
+        top: 64.815vh;
+        left: 6.25vw;
+    }
+    #latest-new>.small-pics-container {
+        width: 357.031vw;
+        height: 27.778vh;
+        position: absolute;
+        top: 69.444vh;
+        transition: all 1s ease;
+    }
+    #latest-new>.small-pics-container .small-pics {
+        width: 15.625vw;
+        height: 27.778vh;
+        position: absolute;
+        top: 0;
+        transition: all 0.6s ease;
+    }
 </style>
 
-
-/* $("#id").removeClass('active')
-$("#id2").addClass('active') */
