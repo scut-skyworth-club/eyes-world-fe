@@ -1,7 +1,7 @@
 <template>
   <div id="box" :style="pic1" :flag="changeFlag" :searchSelect="changeFlag" :toggleSearch="inOrOut">
       <div id="searchContent">
-        <input id="searchText" type="text" placeholder="搜索内容" @keydown="nextPage($event)">
+        <input id="searchText" type="text" placeholder="搜索内容">
         <!-- <input id="search" type="submit" value="搜索" style="display:none"> -->
         <img id="searchPic" :src="pic2" /> 
       </div>
@@ -155,15 +155,15 @@ export default {
     nextPage:function (event) {
       // var name = event.currentTarget.innerText;
       // var id = event.currentTarget.id;
-      if(event.keyCode == 13){
-        if(this.currentLine != -1){
-          // console.log(this.provinceName);
-          this.$emit('search-province',this.provinceName);
-        }
+      // if(event.keyCode == 13){
+      //   if(this.currentLine != -1){
+          console.log(this.provinceName);
+          // this.$emit('search-province',this.provinceName);
+        // }
         
-      }else{
-        return;
-      }
+      // }else{
+      //   return;
+      // }
     
     },
 
@@ -209,7 +209,6 @@ export default {
       // var timer;
       if(self.searchSelect){
         $("#searchContent").addClass("searchHeightLight");
-        document.getElementById("searchText").focus();//输入框获取焦点
         if(self.timerFlag){
           self.timer2 = setInterval(self.change,1000);//开启定时器（只开启一次）
           self.timerFlag = false;
@@ -235,13 +234,17 @@ export default {
     inOrOut:function(){
       let self = this;
       //当选中某个省份时不能在输入框和图标之间切换
-      if(self.currentLine != -1){
+      if((self.toggleSearch != self.tempNum)&&(self.currentLine != -1)){
+        document.getElementById("searchText").blur();
+        self.nextPage();
+        document.getElementById("searchText").focus();
         self.tempNum = self.toggleSearch;
         return;
       }
       if((self.toggleSearch != self.tempNum)&&(self.currentLine == -1)){
         if(self.canChange){
           self.fadeInOut(0.02);
+          document.getElementById("searchText").focus();//输入框获取焦点
         }
         self.toggleChange();
         setTimeout(self.toggleChange,1000);
