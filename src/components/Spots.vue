@@ -173,92 +173,7 @@
         bg:{
           backgroundImage:"url("+bg+")",
         },
-        spots:[
-          // {
-          //   albumId:0,
-          //   albumName:"广州塔0",
-          //   visitAmount:200,
-          //   likeAmount:200,
-          //   url:bg1,
-          // },
-          // {
-          //   albumId:1,
-          //   albumName:"海心沙0",
-          //   visitAmount:200,
-          //   likeAmount:200,
-          //   url:bg2,
-          // },
-          // {
-          //   albumId:2,
-          //   albumName:"烈士陵园0",
-          //   visitAmount:200,
-          //   likeAmount:200,
-          //   url:bg3,
-          // },
-          // {
-          //   albumId:3,
-          //   albumName:"华南理工大学0",
-          //   visitAmount:200,
-          //   likeAmount:200,
-          //   url:bg4,
-          // },
-          // {
-          //   albumId:0,
-          //   albumName:"广州塔1",
-          //   visitAmount:200,
-          //   likeAmount:200,
-          //   url:bg4,
-          // },
-          // {
-          //   albumId:1,
-          //   albumName:"海心沙1",
-          //   visitAmount:200,
-          //   likeAmount:200,
-          //   url:bg3,
-          // },
-          // {
-          //   albumId:2,
-          //   albumName:"烈士陵园1",
-          //   visitAmount:200,
-          //   likeAmount:200,
-          //   url:bg2,
-          // },
-          // {
-          //   albumId:3,
-          //   albumName:"华南理工大学1",
-          //   visitAmount:200,
-          //   likeAmount:200,
-          //   url:bg1,
-          // },
-          // {
-          //   albumId:0,
-          //   albumName:"广州塔2",
-          //   visitAmount:200,
-          //   likeAmount:200,
-          //   url:bg1,
-          // },
-          // {
-          //   albumId:1,
-          //   albumName:"海心沙2",
-          //   visitAmount:200,
-          //   likeAmount:200,
-          //   url:bg2,
-          // },
-          // {
-          //   albumId:2,
-          //   albumName:"烈士陵园2",
-          //   visitAmount:200,
-          //   likeAmount:200,
-          //   url:bg3,
-          // },
-          // {
-          //   albumId:3,
-          //   albumName:"华南理工大学2",
-          //   visitAmount:200,
-          //   likeAmount:200,
-          //   url:bg4,
-          // },
-        ],
+        spots:[],
       }
     },
     mounted:function(){
@@ -435,10 +350,16 @@
 }
 
 #pageIndex > li{
-  display: inline;
+  display: inline-block;
   vertical-align: middle;
+  height:100%;
   margin-left:1.3vw;
   margin-right: 1.3vw;
+}
+
+#pageIndex > li >img{
+  display: inline-block;
+  height:3vh;
 }
 
 .indexFade-enter-active, .indexFade-leave-active {
