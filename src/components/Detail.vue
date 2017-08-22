@@ -1,5 +1,5 @@
 <template>
-  <div id="Details">
+  <div id="detail">
     {{description}}
   </div>
 </template>
@@ -7,6 +7,7 @@
 <script>
 
 export default {
+    name:'detail',
     data () {
         return{
           msg:'这是详情页',

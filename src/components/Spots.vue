@@ -54,6 +54,7 @@
 </template>
 
 <script>
+  import router from '../router/index'
   import bg from '../assets/spot_bg.png'
   import ico_index from '../assets/spot_index.png'
   import ico_index_foucs from '../assets/spot_index_foucs.png'
@@ -190,6 +191,7 @@
           //down
             break;
           case 13:
+            router.push("./"+self.spots[self.offset*4+self.select].albumId+"/0");
           //center
             break;
           case 82:
