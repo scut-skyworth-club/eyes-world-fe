@@ -5,9 +5,9 @@
 
     <router-link :to="getPath">
       <div>
-        <button>
-        景点组件
-        </button>
+        <!--<button>-->
+        <!--景点组件-->
+        <!--</button>-->
       </div>
     </router-link>
   {{setKey}}
@@ -33,7 +33,7 @@
     computed: {
       setKey:function(){
         document.onkeydown = function(event){
-          
+
         }
       },
       getPath: function () {
