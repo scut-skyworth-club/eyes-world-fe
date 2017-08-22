@@ -14,9 +14,9 @@
             <transition name="fade" mode="out-in">
             <picture-dialog
                 v-if="toggle"
-                :title="item.college"
-                :like="item.likeNum"
-                :visited="item.visited"
+                :title="item.albumName"
+                :like="item.likeAmount"
+                :visited="item.visitAmount"
                 :pic_url="item.url"
                 :type="select==index?3:2"
                 class="pic"
@@ -25,9 +25,9 @@
 
             <picture-dialog
                 v-else 
-                :title="item.college"
-                :like="item.likeNum"
-                :visited="item.visited"
+                :title="item.albumName"
+                :like="item.likeAmount"
+                :visited="item.visitAmount"
                 :pic_url="item.url"
                 :type="select==index?3:2"
                 class="pic"
@@ -51,6 +51,7 @@
 </template>
 
 <script>
+  import router from '../router/index'
   import bg from '../assets/spot_bg.png'
   import ico_index from '../assets/spot_index.png'
   import ico_index_foucs from '../assets/spot_index_foucs.png'
@@ -71,7 +72,7 @@
           (this.getColleges[this.select]).type = 2;
           if(!this.searchSelect)    //从搜索框右移回到图片框
             this.select++;
-          if(this.select>3||this.offset*4+this.select>this.colleges.length){
+          if(this.select>3||this.offset*4+this.select>=this.colleges.length){
             if(this.offset+1>=this.getPageIndex.length){
               this.select--;
             }else{
@@ -107,9 +108,9 @@
       listenToSearch:function(getdate){
         let self = this;
         self.colleges = [];//清空原来的colleges数组
-        var provinceName = getdate;
-        console.log(provinceName);
-        var url = "http://39.108.149.106/api/provinces/college/"+provinceName;
+        self.provinceName = getdate;
+        console.log(self.provinceName);
+        var url = "http://39.108.149.106/api/provinces/college/"+self.provinceName;
         fetch(url, {
             mode: 'cors',
             method: 'GET',
@@ -167,6 +168,7 @@
     data() {
       return {
         flag:0,
+        provinceName:"广东",
         searchSelect:false,
         toggleSearch:0,//用于淡入淡出
         toggleFlag:false,//用于判断二次淡入淡出
@@ -182,86 +184,86 @@
         // colleges:[
         //   {
         //     albumId:0,
-        //     college:"华南理工大学",
-        //     visited:200,
-        //     likeNum:200,
+        //     albumName:"华南理工大学",
+        //     visitAmount:200,
+        //     likeAmount:200,
         //     url:bg1,
         //   },
         //   {
         //     albumId:1,
-        //     college:"华南农业大学",
-        //     visited:200,
-        //     likeNum:200,
+        //     albumName:"华南农业大学",
+        //     visitAmount:200,
+        //     likeAmount:200,
         //     url:bg2,
         //   },
         //   {
         //     albumId:2,
-        //     college:"华南师范大学",
-        //     visited:200,
-        //     likeNum:200,
+        //     albumName:"华南师范大学",
+        //     visitAmount:200,
+        //     likeAmount:200,
         //     url:bg3,
         //   },
         //   {
         //     albumId:3,
-        //     college:"中山大学",
-        //     visited:200,
-        //     likeNum:200,
+        //     albumName:"中山大学",
+        //     visitAmount:200,
+        //     likeAmount:200,
         //     url:bg4,
         //   },
         //   {
         //     albumId:0,
-        //     college:"广东工业大学",
-        //     visited:200,
-        //     likeNum:200,
+        //     albumName:"广东工业大学",
+        //     visitAmount:200,
+        //     likeAmount:200,
         //     url:bg4,
         //   },
         //   {
         //     albumId:1,
-        //     college:"广东外语外贸大学",
-        //     visited:200,
-        //     likeNum:200,
+        //     albumName:"广东外语外贸大学",
+        //     visitAmount:200,
+        //     likeAmount:200,
         //     url:bg3,
         //   },
         //   {
         //     albumId:2,
-        //     college:"广州大学",
-        //     visited:200,
-        //     likeNum:200,
+        //     albumName:"广州大学",
+        //     visitAmount:200,
+        //     likeAmount:200,
         //     url:bg2,
         //   },
         //   {
         //     albumId:3,
-        //     college:"广东药科大学",
-        //     visited:200,
-        //     likeNum:200,
+        //     albumName:"广东药科大学",
+        //     visitAmount:200,
+        //     likeAmount:200,
         //     url:bg1,
         //   },
         //   {
         //     albumId:0,
-        //     college:"暨南大学",
-        //     visited:200,
-        //     likeNum:200,
+        //     albumName:"暨南大学",
+        //     visitAmount:200,
+        //     likeAmount:200,
         //     url:bg1,
         //   },
         //   {
         //     albumId:1,
-        //     college:"广东金融学院",
-        //     visited:200,
-        //     likeNum:200,
+        //     albumName:"广东金融学院",
+        //     visitAmount:200,
+        //     likeAmount:200,
         //     url:bg2,
         //   },
         //   {
         //     albumId:2,
-        //     college:"广东中医药大学",
-        //     visited:200,
-        //     likeNum:200,
+        //     albumName:"广东中医药大学",
+        //     visitAmount:200,
+        //     likeAmount:200,
         //     url:bg3,
         //   },
         //   {
         //     albumId:3,
-        //     college:"星海音乐学院",
-        //     visited:200,
-        //     likeNum:200,
+        //     albumName:"星海音乐学院",
+        //     visitAmount:200,
+        //     likeAmount:200,
         //     url:bg4,
         //   },
         // ],
@@ -274,7 +276,8 @@
         switch(event.which){
           case 37:
           //left
-            self.select_re();
+            if(self.select != -1)//左移至搜索框之后不可再左移
+              self.select_re();
             if(self.changeFlag && (self.offset + self.select == 0)){
               self.searchSelect = true;
               self.select = -1;//切换到输入框，图片框没有内容被选中
@@ -305,6 +308,7 @@
           // self.$refs.Search.select(1);
           if(self.searchSelect){
             self.flag --;
+            console.log("123456");
           }
             break;
           case 13:
@@ -316,7 +320,8 @@
               self.toggleSearch = 0;
             self.toggleFlag = !self.toggleFlag;
           }else{
-            
+            var collegeName = self.colleges[self.offset+self.select].albumName;
+            router.push('/provinces/college/'+self.provinceName+'/'+collegeName+'/Spots');
           }
             break;
           case 82:
@@ -342,7 +347,7 @@
         response.json().then(function(json){
           
           self.colleges = json;
-          // console.log(json);
+          //console.log(json);
           
         },function(err){
           console.log("json解析失败\n"+err);
@@ -417,6 +422,7 @@
 
 #date{
   position: absolute;
+  font-size: 1.2vw;
   top:6.48vh;
   right:10vw;
 }    
