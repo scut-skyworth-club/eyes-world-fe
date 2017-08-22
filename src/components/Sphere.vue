@@ -83,6 +83,7 @@ export default {
       let viewSize = document.getElementById(id);
       let windowH = document.documentElement.clientHeight;
       let windowW = document.documentElement.clientWidth;
+
       viewSize.style.width = windowW + 'px';
       viewSize.style.height = windowH + 'px';
     })(this.id)
