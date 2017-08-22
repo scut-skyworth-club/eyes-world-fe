@@ -1,7 +1,7 @@
 <template>
   <div id="panorama">
       <transition name="show-photo">
-        <img v-show="showPhoto" :src="bgs[index]" alt="1" class="panorama-pic">
+        <img v-show="showPhoto" :src="currentPic" alt="1" class="panorama-pic">
       </transition>
       <div class="pic-info">
         <div>
@@ -45,18 +45,12 @@
       <comment v-if="showComments"></comment> 
     </transition>
     <transition name="show-details">
-      <detail v-if="showDetails"></detail>
+      <detail v-if="showDetails" :description="description"></detail>
     </transition> 
     {{setKey}}
   </div>
 </template>
 <script>
-    import bg1 from '../assets/demo2.jpg'
-    import bg2 from '../assets/login/demo3.jpg'
-    import bg3 from '../assets/login/demo4.jpg'
-    import bg4 from '../assets/login/demo5.jpg'
-    import bg5 from '../assets/login/demo6.jpg'
-    import bg6 from '../assets/login/demo7.jpg'
     import icon from '../assets/panorama/profile_icon.png'
     import visited from '../assets/panorama/visited_icon.png'
     import liked from '../assets/panorama/liked.png'
@@ -91,14 +85,7 @@
                 likeAmount: 60,
                 counter: 0,
                 animated: false,
-                bgs:[
-                    bg1,
-                    bg2,
-                    bg3,
-                    bg4,
-                    bg5,
-                    bg6,
-                ],
+                description: '',
                 icons:[
                     icon1,
                     icon2,
@@ -106,8 +93,20 @@
                     icon4,
                     icon5,
                     icon6,
-                ]
+                ],
+                photos:[],
+                currentPic:""
             }
+        },
+        mounted: function (){
+           let photos = localStorage.getItem('photos');
+           let currentId = localStorage.getItem('currentId');
+           photos = JSON.parse(photos);
+           currentId = JSON.parse(currentId);
+           this.photos = photos;
+           this.index = currentId;
+           this.showPicture(this.index);
+           console.log(photos);
         },
         methods: {
             likeOrCancel: function () { //点赞或者取消，需要完善的是把点赞数统计加入进来
@@ -116,6 +115,17 @@
             },
             hideNavBar: function () { //隐藏操作栏
                 this.showBar = false;
+            },
+            showPicture: function(index) {
+                this.currentPic = this.parseUrl(this.photos[index].url);
+                this.spot = this.parseName(this.photos[index].photoName);
+                this.date = this.parseDate(this.photos[index].createTime);
+                this.likeAmount = this.photos[index].likeAmount;
+                let visited = this.photos[index].visitedAmount;
+                this.visitedAmount = visited!=null?visited:0;
+                this.author = this.photos[index].username;
+                this.description = this.photos[index].photoDescription;
+                console.log(this.description);
             },
             askForPrevPic: function () {
                 // alert("请求上一张图片");
@@ -126,35 +136,59 @@
                     if (!this.animated) {
                         this.animated = true;
                         this.showPhoto=false;
-                        var _this = this;
+                        var self = this;
                         window.setTimeout(function() { //设置图片切换时延迟，以产生原图片退出和新图片进入时动画
-                            _this.index--;
-                            _this.showPhoto=true;
+                            self.showPicture(--self.index);
+                            self.showPhoto=true;
                         },700);
                         window.setTimeout(function(){   //等待新图片进入后点击左右键才有效
-                            _this.animated = false;
+                            self.animated = false;
                         },1400);
                     }
                 }
             },
             askForNextPic: function () {
-                if(this.index===this.bgs.length-1){
+                if(this.index===this.photos.length-1){
                     console.log('没有下一张了');
                     return;
                 }else {
                     if (!this.animated) {
                         this.animated = true;
                         this.showPhoto=false;
-                        var _this = this;
+                        var self = this;
                         window.setTimeout(function() { //设置图片切换时延迟，以产生原图片退出和新图片进入时动画
-                            _this.index++;
-                            _this.showPhoto=true;
+                            // self.index++;
+                            self.showPicture(++self.index);
+                            self.showPhoto=true;
                         },700);
                         window.setTimeout(function(){   //等待新图片进入后点击左右键才有效
-                            _this.animated = false;
+                            self.animated = false;
                         },1400);
                     }
+                    // console.log(this.parseUrl(this.photos[this.index].url));
                 }
+            },
+            parseUrl: function(url) {
+                return "http://39.108.149.106"+url;
+            },
+            parseDate: function(createTime){
+                let newDate = new Date(parseInt(createTime));
+                let year = newDate.getFullYear();
+                let month = newDate.getMonth()+1;
+                let day = newDate.getDate();
+                
+                if (month<10) {
+                    month = '0'+month;
+                }
+                if (day<10) {
+                    day = '0'+day;
+                }
+                
+                return year+'/'+month+'/'+day;
+            },
+            parseName: function (title){
+                let str = "-";
+                return title.split(str)[0];
             },
             leftMove: function (){
                 if (this.focus===1) {
@@ -269,7 +303,7 @@
         },
         components: {
             Comment,
-            Detail
+            Detail,
         }
     }
 </script>
