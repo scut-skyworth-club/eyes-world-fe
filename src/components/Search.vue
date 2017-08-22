@@ -157,8 +157,8 @@ export default {
       // var id = event.currentTarget.id;
       // if(event.keyCode == 13){
       //   if(this.currentLine != -1){
-          console.log(this.provinceName);
-          // this.$emit('search-province',this.provinceName);
+          // console.log(this.provinceName);
+          this.$emit('search-province',this.provinceName);
         // }
         
       // }else{
