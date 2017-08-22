@@ -2,7 +2,7 @@
 	<div id="picture-dialog" :style="bg" @click="link"> 
 		<div v-if="type==5" class="middleTitle">{{title}}</div>
         <div class="text_bg" :style="text_bg" v-if="type==0?false:true" >
-            <div v-if="type!=5" :style="fontAdjustBig" class="title">{{title.split('-')[0]}}</div>
+            <div v-if="type!=5" :style="fontAdjustBig" class="title">{{getTitle()}}</div>
             <transition name="fade" mode="out-in">
 	            <span v-if="type==1||type==2||type==3?false:true" :style="fontAdjust" class="info_box">
 					<!-- <span :style="fontAdjust">{{date}} &nbsp&nbsp</span><span :style="fontAdjust">@{{author}}</span> -->
@@ -15,7 +15,6 @@
 	            	<span :style="fontAdjustMiddle" class="like"><img :src="pic_like"/>{{like}}</span>
 	            </span>
             </transition>
-            {{Adjust}}
         </div>
     </div>
 </template>
@@ -80,30 +79,6 @@
 				let font_s = x * 0.022;
 				let font_m = x * 0.029;
 				let font_b = x * 0.07;
-
-				// if(font_s > 15){
-				// 	font_s = 15;
-				// }
-
-				// if(font_m > 20){
-				// 	font_m = 20;
-				// }
-
-				// if(font_b > 48){
-				// 	font_b = 48;
-				// }
-
-				// if(font_s < 11){
-				// 	font_s = 11;
-				// }
-
-				// if(font_m < 15){
-				// 	font_m = 15;
-				// }
-
-				// if(font_b < 30){
-				// 	font_b = 30;
-				// }
 
 				this.fontAdjust = {
 					fontSize:font_s +"px"
@@ -194,14 +169,23 @@
 				}
 			},
 			setBg:function(){
-				var urls = this.pic_url.split('/');
-				if(urls.length>1 && urls[1]=="upload"){
+				if(this.pic_url == undefined){
 					this.bg = {
-						backgroundImage:"url(http://39.108.149.106"+this.pic_url+")",
+						backgroundImage:"",
+					}
+				}else{
+					var urls = this.pic_url.split('/');
+					if(urls.length>1 && urls[1]=="upload"){
+						this.bg = {
+							backgroundImage:"url(http://39.108.149.106"+this.pic_url+")",
+						}
 					}
 				}
 			},
 			getDate:function(){
+				if(this.date == undefined){
+					return "";
+				}
 				let newDate = new Date(parseInt(this.date));
                 let year = newDate.getFullYear();
                 let month = newDate.getMonth();
@@ -218,6 +202,13 @@
                 
                 return year+'/'+month+'/'+day;
 			},
+			getTitle:function(){
+				if(this.title == undefined){
+					return "";
+				}else{
+					return this.title.split('-')[0];
+				}
+			}
 		},
 		mounted:function(){
 			this.setBg();
@@ -229,6 +220,8 @@
 			let el = this.$el; 
 			this.height = el.offsetHeight;
 			this.width = el.offsetWidth;
+
+			this.Adjust;
 		}
 
 	}
