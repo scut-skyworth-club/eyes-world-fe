@@ -39,10 +39,13 @@
         alert('test')
       },
       nextProvince () {
+        console.log(this.adcode)
+
         let selectedElementOffsetTop = document.querySelector('.selected').offsetTop
         let containerHeight = document.querySelector('#area-tree').clientHeight
-        let areaHeight = $('h2.lv_province').outerHeight() + 13
-        if (selectedElementOffsetTop < containerHeight - areaHeight + 3) {
+        let areaHeight = $('h2.lv_province').outerHeight() * 1.25
+//        console.log(13 / areaHeight)
+        if (selectedElementOffsetTop < containerHeight - areaHeight * 1.5) {
           this.panelScrollTop += areaHeight
         } else {
           this.panelScrollTop = 0
@@ -84,12 +87,16 @@
       previousProvince () {
         let selectedElementOffsetTop = document.querySelector('.selected').offsetTop
         let containerHeight = document.querySelector('#area-tree').clientHeight
-        let areaHeight = $('h2.lv_province').outerHeight() + 13
-        if (selectedElementOffsetTop > 34) {
+        let areaHeight = $('h2.lv_province').outerHeight() * 1.25
+        if (selectedElementOffsetTop > areaHeight) {
           this.panelScrollTop -= areaHeight
         } else {
           this.panelScrollTop = containerHeight
         }
+        console.log(`selectedElementOffsetTop:${selectedElementOffsetTop}`)
+//        console.log(`containerHeight:${containerHeight}`)
+//        console.log(`areaHeight:${areaHeight}`)
+
         document.querySelector('#panel').scrollTop = this.panelScrollTop
 
         this.adcode = Math.floor(this.adcode / 10000) * 10000
@@ -141,13 +148,12 @@
         }
         //点击某个市的时候
         let result = this.adcode % 10000
-        console.log(`result:${result}`)
         if (result > 0) {
           this.province = this.province.slice(0, -1)
           this.city = this.city.slice(0, -1)
           router.push(`/provinces/cities/${this.province}/${this.city}/spots`)
         }
-
+        console.log(this.adcode)
         this.switch2AreaNode(this.adcode)
       },
       back () {
@@ -165,7 +171,7 @@
 
         let selectedElementOffsetTop = document.querySelector('.selected').offsetTop
         let containerHeight = document.querySelector('#area-tree').clientHeight
-        let areaHeight = $('h2.lv_province').outerHeight() + 3
+        let areaHeight = $('h2.lv_province').outerHeight() * 1.25
         if (selectedElementOffsetTop < containerHeight - 30) {
           this.panelScrollTop += areaHeight
         } else {
@@ -289,67 +295,77 @@
             fillOpacity: 0.35, //填充透明度
           }
         })
+      },
+      init () {
+        // 初始化
+        this.adcode = 100000
+        this.province = ''
+        this.city = ''
+        this.currentAreaNode = null
+        this.panelScrollTop = 0
+        this.citySelected = false
+        //全国
+        this.switch2AreaNode(100000)
       }
     },
+    created () {
+      console.log('created')
+    },
     updated () {
-      // 初始化
-      this.adcode = 100000
-      this.province = ''
-      this.city = ''
-      this.currentAreaNode = null
-      this.panelScrollTop = 0
-      this.citySelected = false
-      //全国
-      this.switch2AreaNode(100000)
+      console.log('updated')
+      this.init()
+
     },
     mounted () {
+      console.log('mounted')
       //创建地图
       this.map = new AMap.Map('container', {
         zoom: 4,
         mapStyle: 'amap://styles/darkblue'//样式URL
       })
       AMapUI.load(['ui/geo/DistrictExplorer', 'lib/$'], (DistrictExplorer, $) => {
-        //创建一个实例
-        let districtExplorer = window.districtExplorer = new DistrictExplorer({
-          eventSupport: true, //打开事件支持
-          map: this.map,
-          keyboardEnable: false,
-          dragEnable: false,
-          scrollWheel: false
-        })
-        //全国
-        this.switch2AreaNode(100000)
-        $('body').keyup((event) => {
-          if (window.location.hash.includes('#/provinces/cities')) {
-            console.log(event.keyCode)
-            switch (event.keyCode) {
-              case 38://上
-                if (this.citySelected) {
-                  this.previousCity()
-                } else {
-                  this.previousProvince()
-                }
-                break
-              case 40://下
-                if (this.citySelected) {
-                  this.nextCity()
-                } else {
-                  this.nextProvince()
-                }
-                break
-              case 13:
-                if (window.location.hash.includes('#/provinces/cities')) {
-                  this.select()
-                  this.citySelected = !this.citySelected
-                }
-                break
-              case 4:
-                this.back()
-                break
+          //创建一个实例
+          let districtExplorer = window.districtExplorer = new DistrictExplorer({
+            eventSupport: true, //打开事件支持
+            map: this.map,
+            keyboardEnable: false,
+            dragEnable: false,
+            scrollWheel: false
+          })
+          this.init()
+          let self = this
+          document.onkeydown = function (event) {
+            if (window.location.hash.includes('#/provinces/cities')) {
+              console.log(event.keyCode)
+              switch (event.keyCode) {
+                case 38://上
+                  if (self.citySelected) {
+                    self.previousCity()
+                  } else {
+                    self.previousProvince()
+                  }
+                  break
+                case 40://下
+                  if (self.citySelected) {
+                    self.nextCity()
+                  } else {
+                    self.nextProvince()
+                  }
+                  break
+                case 13:
+                  if (window.location.hash.includes('#/provinces/cities')) {
+                    self.select()
+                    self.citySelected = !this.citySelected
+                  }
+                  break
+                case 4:
+                  self.back()
+                  break
+              }
             }
           }
-        })
-      })
+        }
+      )
     }
   }
 </script>
