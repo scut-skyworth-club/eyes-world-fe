@@ -1,7 +1,7 @@
 <template>
   <div id="panorama">
       <transition name="show-photo">
-	<Sphere v-show="showPhoto" :url="currentPic"></Sphere>
+	      <Sphere v-show="showPhoto" :url="currentPic"></Sphere>
       </transition>
       <div class="pic-info">
         <div>
@@ -307,7 +307,7 @@
         components: {
             Comment,
             Detail,
-	    Sphere
+	        Sphere
         }
     }
 </script>
