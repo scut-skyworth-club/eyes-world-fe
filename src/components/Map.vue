@@ -43,8 +43,7 @@
 
         let selectedElementOffsetTop = document.querySelector('.selected').offsetTop
         let containerHeight = document.querySelector('#area-tree').clientHeight
-        let areaHeight = $('h2.lv_province').outerHeight() * 1.25
-//        console.log(13 / areaHeight)
+        let areaHeight = $('h2.lv_province').outerHeight() * 1.12
         if (selectedElementOffsetTop < containerHeight - areaHeight * 1.5) {
           this.panelScrollTop += areaHeight
         } else {
@@ -87,15 +86,12 @@
       previousProvince () {
         let selectedElementOffsetTop = document.querySelector('.selected').offsetTop
         let containerHeight = document.querySelector('#area-tree').clientHeight
-        let areaHeight = $('h2.lv_province').outerHeight() * 1.25
+        let areaHeight = $('h2.lv_province').outerHeight() * 1.15
         if (selectedElementOffsetTop > areaHeight) {
           this.panelScrollTop -= areaHeight
         } else {
           this.panelScrollTop = containerHeight
         }
-        console.log(`selectedElementOffsetTop:${selectedElementOffsetTop}`)
-//        console.log(`containerHeight:${containerHeight}`)
-//        console.log(`areaHeight:${areaHeight}`)
 
         document.querySelector('#panel').scrollTop = this.panelScrollTop
 
@@ -171,7 +167,7 @@
 
         let selectedElementOffsetTop = document.querySelector('.selected').offsetTop
         let containerHeight = document.querySelector('#area-tree').clientHeight
-        let areaHeight = $('h2.lv_province').outerHeight() * 1.25
+        let areaHeight = $('h2.lv_province').outerHeight() * 0.8
         if (selectedElementOffsetTop < containerHeight - 30) {
           this.panelScrollTop += areaHeight
         } else {
