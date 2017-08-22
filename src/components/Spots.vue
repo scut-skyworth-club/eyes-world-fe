@@ -35,7 +35,7 @@
             key="second"
              > 
           </picture-dialog>
-        </transition>
+         </transition> 
       </li>
     </ul>
  
@@ -48,7 +48,7 @@
       </li>
     </ul> 
 
-    <div id="button_re" @click="select_re"></div>
+     <div id="button_re" @click="select_re"></div> 
     <div id="button_ad" @click="select_ad"></div>  
   </div>
 </template>
@@ -71,9 +71,8 @@
       },
       select_ad:function(){
         if(this.canSlide){
-          (this.getSpots[this.select]).type = 2;
           this.select++;
-          if(this.select>3||this.offset*4+this.select>this.spots.length){
+          if(this.select>3||this.offset*4+this.select>=this.spots.length){
             if(this.offset+1>=this.getPageIndex.length){
               this.select--;
             }else{
@@ -84,12 +83,10 @@
           }
           this.toggleSlide();
           setTimeout(this.toggleSlide,600);
-          (this.getSpots[this.select]).type = 3;
         }
       },
       select_re:function(){
         if(this.canSlide){
-          (this.getSpots[this.select]).type = 2;
           this.select--;
           if(this.select<0){
             if(this.offset-1<0){
@@ -102,7 +99,6 @@
           }
           this.toggleSlide();
           setTimeout(this.toggleSlide,600);
-          (this.getSpots[this.select]).type = 3;
         }
       },
     },
@@ -177,92 +173,7 @@
         bg:{
           backgroundImage:"url("+bg+")",
         },
-        spots:[
-          // {
-          //   albumId:0,
-          //   albumName:"广州塔0",
-          //   visitAmount:200,
-          //   likeAmount:200,
-          //   url:bg1,
-          // },
-          // {
-          //   albumId:1,
-          //   albumName:"海心沙0",
-          //   visitAmount:200,
-          //   likeAmount:200,
-          //   url:bg2,
-          // },
-          // {
-          //   albumId:2,
-          //   albumName:"烈士陵园0",
-          //   visitAmount:200,
-          //   likeAmount:200,
-          //   url:bg3,
-          // },
-          // {
-          //   albumId:3,
-          //   albumName:"华南理工大学0",
-          //   visitAmount:200,
-          //   likeAmount:200,
-          //   url:bg4,
-          // },
-          // {
-          //   albumId:0,
-          //   albumName:"广州塔1",
-          //   visitAmount:200,
-          //   likeAmount:200,
-          //   url:bg4,
-          // },
-          // {
-          //   albumId:1,
-          //   albumName:"海心沙1",
-          //   visitAmount:200,
-          //   likeAmount:200,
-          //   url:bg3,
-          // },
-          // {
-          //   albumId:2,
-          //   albumName:"烈士陵园1",
-          //   visitAmount:200,
-          //   likeAmount:200,
-          //   url:bg2,
-          // },
-          // {
-          //   albumId:3,
-          //   albumName:"华南理工大学1",
-          //   visitAmount:200,
-          //   likeAmount:200,
-          //   url:bg1,
-          // },
-          // {
-          //   albumId:0,
-          //   albumName:"广州塔2",
-          //   visitAmount:200,
-          //   likeAmount:200,
-          //   url:bg1,
-          // },
-          // {
-          //   albumId:1,
-          //   albumName:"海心沙2",
-          //   visitAmount:200,
-          //   likeAmount:200,
-          //   url:bg2,
-          // },
-          // {
-          //   albumId:2,
-          //   albumName:"烈士陵园2",
-          //   visitAmount:200,
-          //   likeAmount:200,
-          //   url:bg3,
-          // },
-          // {
-          //   albumId:3,
-          //   albumName:"华南理工大学2",
-          //   visitAmount:200,
-          //   likeAmount:200,
-          //   url:bg4,
-          // },
-        ],
+        spots:[],
       }
     },
     mounted:function(){
@@ -377,7 +288,7 @@
   height:100vh;
   width:5vw;
   left:0;
-  /*background:red;*/
+  /* background:red; */
 }
 
 #button_ad{
@@ -391,14 +302,14 @@
 #spotsList{
   position: absolute;
   top:18.33vh;
-  left:5.2vw;
+  left:5.2vw; 
   width: 100vw;
   height: 59.9vh;
 }
 
 #spotsList li{
-  display: inline-block;
-  position: relative;
+  display: inline-block; 
+   position: relative; 
 }
 
 #spotsList > .noSelect{
@@ -406,7 +317,7 @@
   width:18.75vw;
   height: 53.89vh;
   margin-right:4vw;
-  vertical-align: top;
+  vertical-align: top; 
   top:3vh;
   transition: all 0.4s
 }
@@ -422,7 +333,7 @@
   height: 59.9vh;
   margin-right: 3.125vw;
   top:0;
-  vertical-align: top;
+  vertical-align: top; 
   transition: all 0.4s
 }
 
@@ -441,23 +352,29 @@
 #pageIndex > li{
   display: inline-block;
   vertical-align: middle;
+  height:100%;
   margin-left:1.3vw;
   margin-right: 1.3vw;
+}
+
+#pageIndex > li >img{
+  display: inline-block;
+  height:3vh;
 }
 
 .indexFade-enter-active, .indexFade-leave-active {
   transition: all 0.2s
 }
-.indexFade-enter, .indexFade-leave-to /* .fade-leave-active in below version 2.1.8 */ {
+.indexFade-enter, .indexFade-leave-to  {
   opacity: 0.5
-}
+}  
 
 .fade-enter-active, .fade-leave-active {
   transition: all 0.4s
 }
 .fade-enter, .fade-leave-to {
   opacity: 0
-}
+}     
 
 /*#pageIndex > li > img{
   position: relative;
