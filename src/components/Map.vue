@@ -30,7 +30,8 @@
           '#273455', '#273455', '#273455', '#273455'
         ],
         map: '',
-        panelScrollTop: 0
+        panelScrollTop: 0,
+        citySelected: false
       }
     },
     methods: {
@@ -142,13 +143,15 @@
         let result = this.adcode % 10000
         console.log(`result:${result}`)
         if (result > 0) {
+          this.province = this.province.slice(0, -1)
+          this.city = this.city.slice(0, -1)
           router.push(`/provinces/cities/${this.province}/${this.city}/spots`)
         }
 
         this.switch2AreaNode(this.adcode)
       },
       back () {
-        console.log('返回')
+        window.history.back()
       },
       nextCity () {
         let result = this.adcode % 10000
@@ -288,6 +291,17 @@
         })
       }
     },
+    updated () {
+      // 初始化
+      this.adcode = 100000
+      this.province = ''
+      this.city = ''
+      this.currentAreaNode = null
+      this.panelScrollTop = 0
+      this.citySelected = false
+      //全国
+      this.switch2AreaNode(100000)
+    },
     mounted () {
       //创建地图
       this.map = new AMap.Map('container', {
@@ -305,32 +319,35 @@
         })
         //全国
         this.switch2AreaNode(100000)
-
-        $('html').keyup((event) => {
-          console.log(event.keyCode)
-          switch (event.keyCode) {
-            case 37:
-              this.previousCity()
-              break
-            case 38:
-              this.previousProvince()
-              break
-            case 39:
-              this.nextCity()
-              break
-            case 40:
-              this.nextProvince()
-              break
-            case 13:
-              this.select()
-              break
-            case 4:
-//              this.back()
-              this.nextProvince()
-              this.previousProvince()
-              break
+        $('body').keyup((event) => {
+          if (window.location.hash.includes('#/provinces/cities')) {
+            console.log(event.keyCode)
+            switch (event.keyCode) {
+              case 38://上
+                if (this.citySelected) {
+                  this.previousCity()
+                } else {
+                  this.previousProvince()
+                }
+                break
+              case 40://下
+                if (this.citySelected) {
+                  this.nextCity()
+                } else {
+                  this.nextProvince()
+                }
+                break
+              case 13:
+                if (window.location.hash.includes('#/provinces/cities')) {
+                  this.select()
+                  this.citySelected = !this.citySelected
+                }
+                break
+              case 4:
+                this.back()
+                break
+            }
           }
-          console.log(event.keyCode)
         })
       })
     }
@@ -356,7 +373,6 @@
 
       }
       #panel {
-        border: 1px solid red;
         background-color: #3F4458;
         position: absolute;
         top: 0;
