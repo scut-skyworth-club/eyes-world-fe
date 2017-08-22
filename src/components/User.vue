@@ -104,7 +104,7 @@
         aboutReturn: false, //aboutReturn控制关于我们的返回按钮聚焦
       }
     },
-    created: function (){
+    mounted: function (){
         var self = this;
         fetch('http://39.108.149.106/api/user', {
             method: 'GET',
@@ -115,12 +115,14 @@
             },
             credentials: "include"
         }).then(function(response) {
-            return response.json();
-        }).then(function(getData) {
-            if (!getData.state) {
+            if(response.headers.get('Content-Type')==='text/html'){
+                console.log('登录失败');
                 router.replace({name:'TVLogin'});
             }else {
-                self.userName = getData.username;
+                response.json().then(function(data){
+                    self.userName = data.username;
+                });
+                console.log('登录成功');
             }
         });
     },
@@ -227,7 +229,24 @@
                 }
             }else if (this.focus===2) { //在logoutConfirm上时，enter键对logout的控制
                 if (this.isSure) {
-                    location.replace('/login');
+                    // var self = this;
+                    // fetch('http://39.108.149.106/p_logout', {
+                    //     method: 'GET',
+                    //     mode: 'cors',
+                    //     headers: {
+                    //     'Access-Control-Allow-Credentials': true,
+                    //     'Content-Type':'application/x-www-form-urlencoded; charset=UTF-8',
+                    //     },
+                    //     credentials: "include"
+                    // }).then(function(response) {
+                    //     if(response.headers.get('Content-Type')==='text/html'){
+                    //         console.log('退出登录失败');
+                    //     }else {
+                    //         console.log('退出登录成功');
+                    //         router.replace({name:'TVLogin'});
+                    //     }
+                    // });
+                    router.replace({name:'Index'});
                 }else{
                     this.sure = false;
                     this.focus = 1;
