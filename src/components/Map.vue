@@ -25,9 +25,9 @@
         //当前聚焦的区域
         currentAreaNode: null,
         colors: [
-          '#3366cc', '#dc3912', '#ff9900', '#109618', '#990099', '#0099c6', '#dd4477', '#66aa00',
-          '#b82e2e', '#316395', '#994499', '#22aa99', '#aaaa11', '#6633cc', '#e67300', '#8b0707',
-          '#651067', '#329262', '#5574a6', '#3b3eac'
+          '#273455', '#273455', '#273455', '#273455', '#273455', '#273455', '#273455', '#273455',
+          '#273455', '#273455', '#273455', '#273455', '#273455', '#273455', '#273455', '#273455',
+          '#273455', '#273455', '#273455', '#273455'
         ],
         map: '',
         panelScrollTop: 0
@@ -40,8 +40,9 @@
       nextProvince () {
         let selectedElementOffsetTop = document.querySelector('.selected').offsetTop
         let containerHeight = document.querySelector('#area-tree').clientHeight
-        if (selectedElementOffsetTop < containerHeight - 30) {
-          this.panelScrollTop += 34
+        let areaHeight = $('h2.lv_province').outerHeight() + 13
+        if (selectedElementOffsetTop < containerHeight - areaHeight + 3) {
+          this.panelScrollTop += areaHeight
         } else {
           this.panelScrollTop = 0
         }
@@ -82,10 +83,11 @@
       previousProvince () {
         let selectedElementOffsetTop = document.querySelector('.selected').offsetTop
         let containerHeight = document.querySelector('#area-tree').clientHeight
+        let areaHeight = $('h2.lv_province').outerHeight() + 13
         if (selectedElementOffsetTop > 34) {
-          this.panelScrollTop -= 34
+          this.panelScrollTop -= areaHeight
         } else {
-          this.panelScrollTop = 1110
+          this.panelScrollTop = containerHeight
         }
         document.querySelector('#panel').scrollTop = this.panelScrollTop
 
@@ -160,8 +162,9 @@
 
         let selectedElementOffsetTop = document.querySelector('.selected').offsetTop
         let containerHeight = document.querySelector('#area-tree').clientHeight
+        let areaHeight = $('h2.lv_province').outerHeight() + 3
         if (selectedElementOffsetTop < containerHeight - 30) {
-          this.panelScrollTop += 29
+          this.panelScrollTop += areaHeight
         } else {
           this.panelScrollTop = 0
         }
@@ -169,10 +172,12 @@
       },
       previousCity () {
         let selectedElementOffsetTop = document.querySelector('.selected').offsetTop
+        let containerHeight = document.querySelector('#area-tree').clientHeight
+        let areaHeight = $('h2.lv_province').outerHeight() + 3
         if (selectedElementOffsetTop > 34) {
-          this.panelScrollTop -= 29
+          this.panelScrollTop -= areaHeight
         } else {
-          this.panelScrollTop = 1110
+          this.panelScrollTop = containerHeight
         }
         document.querySelector('#panel').scrollTop = this.panelScrollTop
 
@@ -270,13 +275,13 @@
         //绘制子区域
         districtExplorer.renderSubFeatures(areaNode, (feature, i) => {
           let fillColor = this.colors[i % this.colors.length]
-          let strokeColor = this.colors[this.colors.length - 1 - i % this.colors.length]
+          let strokeColor = '#62beff'
           return {
             cursor: 'default',
             bubble: true,
             strokeColor: strokeColor, //线颜色
             strokeOpacity: 1, //线透明度
-            strokeWeight: 1, //线宽
+            strokeWeight: 2, //线宽
             fillColor: fillColor, //填充色
             fillOpacity: 0.35, //填充透明度
           }
@@ -304,7 +309,6 @@
         $('html').keyup((event) => {
           console.log(event.keyCode)
           switch (event.keyCode) {
-//              v-on:keyup.enter="select"   v-on:keyup.4="back"
             case 37:
               this.previousCity()
               break
@@ -319,6 +323,11 @@
               break
             case 13:
               this.select()
+              break
+            case 4:
+//              this.back()
+              this.nextProvince()
+              this.previousProvince()
               break
           }
           console.log(event.keyCode)
@@ -335,15 +344,20 @@
     height: 100vh;
     overflow: hidden;
     #outer-box {
-      height: 100%;
-      padding-right: 300px;
+      /*padding-right: 300px;*/
+      overflow: hidden;
+      width: 100vw;
+      height: 100vh;
       #container {
-        position: absolute;
+        /*position: absolute;*/
         z-index: 0;
-        width: 100vw;
-        height: 100vh;
+        width: 120vw;
+        height: 120vh;
+
       }
       #panel {
+        border: 1px solid red;
+        background-color: #3F4458;
         position: absolute;
         top: 0;
         bottom: 0;
@@ -351,15 +365,17 @@
         overflow: hidden;
         z-index: 999;
         color: #ddd;
+        /*width: 10vw;*/
         #panel::-webkit-scrollbar {
           display: none;
         }
         #area-tree {
+          border: 1px solid black;
           h2 {
             display: inline-block;
-            font-weight: 500;
-            font-size: 16px;
-            padding: 3px 5px;
+            /*font-weight: 500;*/
+            font-size: 1.5vw;
+            padding: 0.3vw 0.55vw;
             margin: 0;
             &.selected {
               background: #ddd;
@@ -367,14 +383,14 @@
             }
           }
           ul {
-            margin-left: 23px;
+            margin-left: 2vw;
             clear: both;
           }
           li {
-            margin: 5px 5px 0 0;
-            font-size: 12px;
+            margin: 0.5vw 0 0 0;
+            font-size: 1.2vw;
             &.lv_province {
-              margin: 5px 5px 5px 0;
+              margin: 0.5vw 0.5vw 0.5vw 0;
             }
           }
           ul.sublist.lv_country {
