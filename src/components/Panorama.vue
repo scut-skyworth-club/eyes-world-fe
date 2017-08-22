@@ -288,13 +288,14 @@
                             break;
                             case 40:
                             //down
-                            self.barReturn();   //这里先用down键替代返回键
+            
                             break;
                             case 13:
                             //center
                             self.enterItem();
                             break;
                             case 82:
+                            self.barReturn();   //菜单键显示菜单
                             break;
                             case 4:
                             break;

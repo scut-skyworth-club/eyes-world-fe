@@ -69,6 +69,11 @@ export default new Router({
             component: Collage
         },
         {
+            path: '/provinces/college/:provinceName/:college/spots',
+            name: 'Collage',
+            component: Spots
+        },
+        {
             path: '/provinces/college/:provinceName/:albumId/:photoId',
             name: 'Album',
             component: Album
