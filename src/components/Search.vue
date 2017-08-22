@@ -79,7 +79,7 @@ export default {
 
   methods:{
     change:function(){
-      console.log("123");
+      //console.log("123");
       var searchText = $.trim($("#searchText").val().toString()); //去掉两头的空格      
       if (searchText == this.searchContent) {
            return false;
@@ -155,15 +155,7 @@ export default {
     nextPage:function (event) {
       // var name = event.currentTarget.innerText;
       // var id = event.currentTarget.id;
-      // if(event.keyCode == 13){
-      //   if(this.currentLine != -1){
-          // console.log(this.provinceName);
-          this.$emit('search-province',this.provinceName);
-        // }
-        
-      // }else{
-      //   return;
-      // }
+      this.$emit('search-province',this.provinceName);
     
     },
 
@@ -220,37 +212,58 @@ export default {
         if((self.toggleNum != 0)&&(self.toggleNum%2 != 0)){
           self.fadeInOut(0.02);
           self.toggleNum = 0;
+          setTimeout(function(){
+            document.getElementById("searchText").style.display = "none";
+          },1000);
         }
         clearInterval(self.timer2);//清除定时器
         self.timerFlag = true;
       }
       if(self.flag < self.tempFlag){
+        if(self.currentLine == -1){
+          document.getElementById("searchText").disabled = true;
+        }
         self.select(1);
       }else if(self.flag > self.tempFlag){
         self.select(0);
+        if(self.currentLine == -1){
+          document.getElementById("searchText").disabled = false;
+          document.getElementById("searchText").focus();//输入框获取焦点
+        }
       }
       self.tempFlag = self.flag;
+      return false;
     },
     inOrOut:function(){
       let self = this;
       //当选中某个省份时不能在输入框和图标之间切换
       if((self.toggleSearch != self.tempNum)&&(self.currentLine != -1)){
-        document.getElementById("searchText").blur();
         self.nextPage();
-        document.getElementById("searchText").focus();
         self.tempNum = self.toggleSearch;
         return;
       }
       if((self.toggleSearch != self.tempNum)&&(self.currentLine == -1)){
         if(self.canChange){
-          self.fadeInOut(0.02);
-          document.getElementById("searchText").focus();//输入框获取焦点
+          self.toggleNum++;
+          if(self.toggleNum%2 != 0){
+            document.getElementById("searchText").style.display = "block";
+            document.getElementById("searchText").disabled = false;
+            self.fadeInOut(0.02);
+            document.getElementById("searchText").focus();//输入框获取焦点
+          }else{
+            document.getElementById("searchText").disabled = true;
+            self.fadeInOut(0.02);
+            setTimeout(function(){
+              document.getElementById("searchText").style.display = "none";
+            },1000);
+          }
+          
         }
         self.toggleChange();
         setTimeout(self.toggleChange,1000);
         //self.change();
-        self.toggleNum++;
         self.tempNum = self.toggleSearch;
+        return false;
       }
     },
   },
@@ -301,6 +314,7 @@ export default {
     height: 8.4vh;
     top:0.2vh;
     opacity: 0; 
+    display: none;
   }
 
   /* #search{
@@ -316,7 +330,6 @@ export default {
     font-size: 1.56vw; 
     text-align: left;
     cursor: pointer;
-    
   }
   #contentList li{
      position: relative;

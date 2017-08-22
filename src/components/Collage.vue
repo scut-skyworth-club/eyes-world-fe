@@ -51,6 +51,7 @@
 </template>
 
 <script>
+  import router from '../router/index'
   import bg from '../assets/spot_bg.png'
   import ico_index from '../assets/spot_index.png'
   import ico_index_foucs from '../assets/spot_index_foucs.png'
@@ -107,9 +108,9 @@
       listenToSearch:function(getdate){
         let self = this;
         self.colleges = [];//清空原来的colleges数组
-        var provinceName = getdate;
-        console.log(provinceName);
-        var url = "http://39.108.149.106/api/provinces/college/"+provinceName;
+        self.provinceName = getdate;
+        console.log(self.provinceName);
+        var url = "http://39.108.149.106/api/provinces/college/"+self.provinceName;
         fetch(url, {
             mode: 'cors',
             method: 'GET',
@@ -167,6 +168,7 @@
     data() {
       return {
         flag:0,
+        provinceName:"广东",
         searchSelect:false,
         toggleSearch:0,//用于淡入淡出
         toggleFlag:false,//用于判断二次淡入淡出
@@ -306,6 +308,7 @@
           // self.$refs.Search.select(1);
           if(self.searchSelect){
             self.flag --;
+            console.log("123456");
           }
             break;
           case 13:
@@ -317,7 +320,8 @@
               self.toggleSearch = 0;
             self.toggleFlag = !self.toggleFlag;
           }else{
-            
+            var collegeName = self.colleges[self.offset+self.select].albumName;
+            router.push('/provinces/college/'+self.provinceName+'/'+collegeName+'/Spots');
           }
             break;
           case 82:
@@ -343,7 +347,7 @@
         response.json().then(function(json){
           
           self.colleges = json;
-          console.log(json);
+          //console.log(json);
           
         },function(err){
           console.log("json解析失败\n"+err);
