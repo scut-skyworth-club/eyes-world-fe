@@ -77,6 +77,7 @@
   //     createTime: "2017-08-03 09:08:02",
   //     photoName: "宋茜"
   //   },
+  // window.eventBus = new Vue();
 
   export default {
     name: 'Works',
@@ -142,6 +143,13 @@
       MyConfirm,
     },
     methods: {
+      moreDetails: function (){
+        let photos = JSON.stringify(this.works);
+        localStorage.setItem('photos',photos);
+        let currentId = JSON.stringify(this.counter-1);
+        localStorage.setItem('currentId',currentId);
+        router.push({name:'Panorama'});
+      },
       uploadPhoto: function () {
         // alert("上传图片");
         // console.log(this.$el);
@@ -153,7 +161,7 @@
           this.focus = 1;
         }
         else if (this.focus===1) { //进入图片详情页
-          router.push({name:'Panorama'});
+          this.moreDetails();
         }else {
           if (this.isSure) {
             this.deletePhoto();   //确定删除调用删除函数
@@ -220,7 +228,7 @@
         }).then(function(response) {
             return response.json();
         }).then(function(data){
-          if(data.delete===null){
+          if(data.delete===true){
             fetch('http://39.108.149.106/api/user/works', {
               method: 'GET',
               mode: 'cors',
