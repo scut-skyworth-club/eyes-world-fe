@@ -191,7 +191,7 @@
           //down
             break;
           case 13:
-            router.push("./"+self.spots[self.offset*4+self.select].albumId+"/0");
+            router.push("/provinces/cities/"+self.$route.params.provinceName+"/"+self.$route.params.cityName+"/"+"spots/"+(self.offset*4+self.select)+"/0");
           //center
             break;
           case 82:

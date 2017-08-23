@@ -69,7 +69,7 @@ export default new Router({
             component: Collage
         },
         {
-            path: '/provinces/college/:provinceName/:college/spots',
+            path: '/provinces/college/:provinceName/:cityName/spots',
             name: 'Collage',
             component: Spots
         },
@@ -99,7 +99,7 @@ export default new Router({
             component: Favorite
         },
         {
-            path: '/user/panorama',
+            path: '/provinces/cities/广东/广州/spots/:albumId/:photoId',
             name: 'Panorama',
             component: Panorama
         },

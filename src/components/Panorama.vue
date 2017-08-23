@@ -1,8 +1,10 @@
 <template>
-  <div id="panorama">
+  <div id="panorama" :style="{background:'url('+bg+') no-repeat center center'}">
       <transition name="show-photo">
 
-	<Sphere v-show="showPhoto" :url="currentPic"></Sphere>
+
+	<Sphere v-if="showPhoto" :url="currentPic"></Sphere>
+
 
       </transition>
       <div class="pic-info">
@@ -53,6 +55,7 @@
   </div>
 </template>
 <script>
+    import bg from '../assets/user/bg.png'
     import icon from '../assets/panorama/profile_icon.png'
     import visited from '../assets/panorama/visited_icon.png'
     import liked from '../assets/panorama/liked.png'
@@ -75,6 +78,7 @@
                 author: 'Mike',
                 date: '2017/4/21',
                 spot: '广州塔',
+                bg: bg,
                 showBar: true,
                 like: true,
                 showComments: false,
@@ -322,7 +326,6 @@
         position: absolute;
         top: 0;
         left: 0;
-        background: green;
         overflow: hidden;
     }
     #panorama>.pic-info {

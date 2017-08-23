@@ -14,6 +14,7 @@ export default {
   data: function () {
     return {
       id: 'Sphere',
+      // url:'https://pannellum.org/images/alma.jpg',
     }
   },
   methods: {
