@@ -17,8 +17,9 @@ import Panorama from '@/components/Panorama'
 import TVLogin from '@/components/TVLogin'
 import Upload from '@/components/Upload'
 import Login from '@/components/login'
+import Sphere from '@/components/Sphere'
 
-Vue.use(Router)
+Vue.use(Router);
 
 export default new Router({
     routes: [{
@@ -29,7 +30,7 @@ export default new Router({
         {
             path: '/provinces/cities',
             name: 'Tourism',
-            component: Tourism,
+            component: Tourism
 
         },
         {
@@ -68,6 +69,11 @@ export default new Router({
             component: Collage
         },
         {
+            path: '/provinces/college/:provinceName/:college/spots',
+            name: 'Collage',
+            component: Spots
+        },
+        {
             path: '/provinces/college/:provinceName/:albumId/:photoId',
             name: 'Album',
             component: Album
@@ -93,7 +99,7 @@ export default new Router({
             component: Favorite
         },
         {
-            path: '/user/panorama',
+            path: '/provinces/cities/广东/广州/spots/:albumId/:photoId',
             name: 'Panorama',
             component: Panorama
         },
@@ -112,5 +118,10 @@ export default new Router({
             name: 'login',
             component: Login
         },
+        {
+            path: '/sphere',
+            name: 'Sphere',
+            component: Sphere
+        }
     ]
-})
+});

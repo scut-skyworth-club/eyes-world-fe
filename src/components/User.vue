@@ -4,8 +4,8 @@
     <p class="title">用户管理</p>
     <date class="time"></date>
     <div id="user-logout">
-        <img :src="profilePhoto">
-        <div>
+        <div :style="{background:'url('+profilePhoto+') no-repeat center center'}" class="profile-photo"></div>
+        <div class="container">
             <img :src="bgs[1]">
             <div id="username-container">
                 <p>{{userName}}</p>
@@ -229,24 +229,29 @@
                 }
             }else if (this.focus===2) { //在logoutConfirm上时，enter键对logout的控制
                 if (this.isSure) {
-                    // var self = this;
-                    // fetch('http://39.108.149.106/p_logout', {
-                    //     method: 'GET',
-                    //     mode: 'cors',
-                    //     headers: {
-                    //     'Access-Control-Allow-Credentials': true,
-                    //     'Content-Type':'application/x-www-form-urlencoded; charset=UTF-8',
-                    //     },
-                    //     credentials: "include"
-                    // }).then(function(response) {
-                    //     if(response.headers.get('Content-Type')==='text/html'){
-                    //         console.log('退出登录失败');
-                    //     }else {
-                    //         console.log('退出登录成功');
-                    //         router.replace({name:'TVLogin'});
-                    //     }
-                    // });
-                    router.replace({name:'Index'});
+                    var self = this;
+                    fetch('http://39.108.149.106/login/tv/logout', {
+                        method: 'GET',
+                        mode: 'cors',
+                        headers: {
+                        'Access-Control-Allow-Credentials': true,
+                        'Content-Type':'application/x-www-form-urlencoded; charset=UTF-8',
+                        },
+                        credentials: "include"
+
+                    }).then(function(response) {
+                        console.log(response);
+                        // if(response.headers.get('Content-Type')==='text/html'){
+                        //     console.log('登录失败');
+                        //     router.replace({name:'TVLogin'});
+                        // }else {
+                        //     response.json().then(function(data){
+                        //         self.userName = data.username;
+                        //     });
+                        //     console.log('登录成功');
+                        // }
+                    });
+                    router.push({name:'TVLogin'});
                 }else{
                     this.sure = false;
                     this.focus = 1;
@@ -286,6 +291,8 @@
         position: absolute;
         top: 0;
         left: 0;
+        margin: 0;
+        padding: 0;
         /* background: green; */
     }
     #User>img {
@@ -312,15 +319,16 @@
         top: 22.222vh;
         left: 6.25vw;
     }
-    #user-logout>img {
+    #user-logout>.profile-photo {
         margin: 0;
+        padding: 0;
         width: 12.5vw;
         height: 55.556vh;
         position: absolute;
         top: 0;
         left: 0;
     }
-    #user-logout>div {
+    #user-logout>.container {
         width: 18.75vw;
         height: 55.556vh;
         position: absolute;

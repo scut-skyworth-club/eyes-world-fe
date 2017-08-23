@@ -11,7 +11,7 @@
           index_4:(index-offset==4)
           }"
         >
-      <img :src="label.bg" />
+      <img :src="label.bg" :style="imgAdjust(index)"/>
       <div class="shadow">
       </div>
       <div class="text_bg"></div>
@@ -29,7 +29,7 @@
           index_4:(-index-offset-1==4)
           }"
         >
-      <img :src="label.bg" />
+      <img :src="label.bg" :style="imgAdjust_op(index)"/>
       <div class="shadow">
       </div>
       <div class="text_bg"></div>
@@ -39,10 +39,10 @@
 </template>
 
 <script>
-  import bg1 from '../assets/bg1.jpg'
-  import bg2 from '../assets/bg2.jpg'
-  import bg3 from '../assets/bg3.jpg'
-  import bg4 from '../assets/bg4.jpg'
+  import bg1 from '../assets/bg_tourism.png'
+  import bg2 from '../assets/bg_collage.png'
+  import bg3 from '../assets/bg_lastest.png'
+  import bg4 from '../assets/bg_user.jpg'
   import router from '../router/index'
 
   import Tourism from './Tourism'
@@ -146,18 +146,6 @@
     computed: {
     },
     methods: {
-      getLabels:function(){
-        this.labelList = new Array(6);
-        for(let i=0;i<6;i++){
-          this.labelList[i] = this.labels[(this.offset+i)%this.labels.length];
-        }
-      },
-      getLabels_op:function(){
-        this.labelList_op = new Array(4);
-        for(let i=0;i<4;i++){
-          this.labelList_op[i] = this.labels[this.labels.length-1-(this.offset+i)%this.labels.length];
-        }
-      },
       getLeft:function(index){
         let left;
         if(index-this.offset == 0){
@@ -168,6 +156,54 @@
         return {
           left:left+"vw"
         }
+      },
+      imgAdjust:function(index){
+	    switch(index%4){
+	    	case 0:
+	    		return{
+	    			left:"-5vw"
+	    		}
+	    		break;
+	    	case 1:
+	    		return{
+	    			left:"-17vw"
+	    		}
+	    		break;
+	    	case 2:
+	    		return{
+	    			left:"-15vw"
+	    		}
+	    		break;
+	    	case 3:
+	    		return{
+	    			left:"-22vw"
+	    		}
+	    		break;
+	    }
+      },
+      imgAdjust_op:function(index){
+	    switch(index%4){
+	    	case 0:
+	    		return{
+	    			left:"-22vw"
+	    		}
+	    		break;
+	    	case 1:
+	    		return{
+	    			left:"-15vw"
+	    		}
+	    		break;
+	    	case 2:
+	    		return{
+	    			left:"-17vw"
+	    		}
+	    		break;
+	    	case 3:
+	    		return{
+	    			left:"-5vw"
+	    		}
+	    		break;
+	    }
       },
       select_ad:function(){
         if(this.canSlide){
@@ -258,10 +294,11 @@
   }
 
   body {
-    width: 200vw;
+    width: 100vw;
     height: 100vh;
     overflow: hidden;
   }
+
   #index{
     display: flex;
     overflow: hidden;
@@ -282,7 +319,6 @@
 
   .item_carousel img{
     position: relative;
-    left: -20vw;
     top: 0px;
     transform: skew(7.5deg);
     height: 100vh; 
