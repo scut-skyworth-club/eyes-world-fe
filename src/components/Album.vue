@@ -3,7 +3,7 @@
   
   <div id="panorama">
       <transition name="show-photo">
-        <img v-show="showPhoto" :src="currentPic" alt="1" class="panorama-pic">
+        <Sphere v-if="showPhoto" :url="currentPic"></Sphere>
       </transition>
       <div class="pic-info">
         <div>
@@ -71,13 +71,15 @@
 
   import comment from './Comment'
   import detail from './Detail'
+  import Sphere from './Sphere'
   import router from '../router/index'
 
   export default {
     name: 'album',
     components:{
       comment,
-      detail
+      detail,
+      Sphere
     },
     data () {
       return {
@@ -88,11 +90,11 @@
         author: 'Mike',
                 date: '2017/4/21',
                 spot: '广州塔',
-                showBar: true,
+                showBar: false,
                 like: true,
                 showComments: false,
                 showDetails: false,
-                showPhoto: true,
+                showPhoto: false,
                 index: 0, //图片序号，初始为0
                 focus: 1, //focus=1,2,3,  1：主页面；2：评论页；3：详情页
                 profile: icon,
@@ -169,6 +171,7 @@
                 this.visitedAmount = visited!=null?visited:0;
                 this.author = this.photo.username;
                 this.description = this.photo.photoDescription;
+                this.showPhoto = true;
                 console.log(this.description);
             },
             askForPrevPic: function () {
@@ -294,26 +297,26 @@
                         switch(event.which){
                             case 37:
                             //left
-                            self.leftMove();
+                              self.leftMove();
                             
                             break;
                             case 38:
                             //up
-                        
                             break;
                             case 39:
                             //right
-                            self.rightMove();
+                              self.rightMove();
                             break;
                             case 40:
                             //down
-                            self.barReturn();   //这里先用down键替代返回键
+                            
                             break;
                             case 13:
                             //center
-                            self.enterItem();
+                              self.enterItem();
                             break;
                             case 82:
+                              self.barReturn();   //这里先用down键替代返回键
                             break;
                             case 4:
                             break;
@@ -333,7 +336,7 @@
         position: absolute;
         top: 0;
         left: 0;
-        background: green;
+        background: white;
         overflow: hidden;
     }
     #panorama .panorama-pic {
