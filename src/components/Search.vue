@@ -224,6 +224,10 @@ export default {
           document.getElementById("searchText").disabled = true;
         }
         self.select(1);
+        // if(self.currentLine>=10){
+        //   // var t = $(window).scrollTop();
+        //   $("#contentList").scrollTop(100);
+        // }
       }else if(self.flag > self.tempFlag){
         self.select(0);
         if(self.currentLine == -1){
