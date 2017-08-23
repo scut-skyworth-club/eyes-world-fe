@@ -17,8 +17,9 @@ import Panorama from '@/components/Panorama'
 import TVLogin from '@/components/TVLogin'
 import Upload from '@/components/Upload'
 import Login from '@/components/login'
+import Sphere from '@/components/Sphere'
 
-Vue.use(Router)
+Vue.use(Router);
 
 export default new Router({
     routes: [{
@@ -29,7 +30,7 @@ export default new Router({
         {
             path: '/provinces/cities',
             name: 'Tourism',
-            component: Tourism,
+            component: Tourism
 
         },
         {
@@ -117,5 +118,10 @@ export default new Router({
             name: 'login',
             component: Login
         },
+        {
+            path: '/sphere',
+            name: 'Sphere',
+            component: Sphere
+        }
     ]
-})
+});

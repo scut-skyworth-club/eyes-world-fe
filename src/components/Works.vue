@@ -4,12 +4,12 @@
     <p class="title">我的作品</p>
     <p class="photo-amount">{{amount}} Photos</p>
     <div id="upload" v-if="focus" 
-    :style="{background:'url('+bgs[2]+') no-repeat center center'}">
+    :style="{background:'url('+bgs[2]+')'}">
     <img :src="bgs[1]" alt="1"><span>上传</span></div>
-    <div id="upload" v-else :style="{background:'url('+bgs[3]+') no-repeat center center'}"><img :src="bgs[1]" alt="1"><span>上传</span></div>
+    <div id="upload" v-else :style="{background:'url('+bgs[3]+')'}"><img :src="bgs[1]" alt="1"><span>上传</span></div>
     <date class="time"></date>
 
-     <div id="works-container" :style="{left:left+'vw', width:oWidth+'vw'}">
+     <div id="works-container" :style="{left:left+'vw', width:oWidth+'vw'}" v-if="isComplete">
       <ul>
         <li v-for="(item,index) in works" :key="item.id">
           <sub-work class="my-works" :index="index" :url="item.url" :date="item.createTime" 
@@ -44,40 +44,39 @@
   import MyConfirm from './MyConfirm'
   import router from '../router/index'
   
-  // var afterData2 = [{
-  //     id: 1,
-  //     url: bg1,
-  //     createTime: "2015-03-30 13:24:01",
-  //     photoName: "允儿"
-  //   },
+  var afterData2 = [{
+      id: 1,
+      url: bg1,
+      createTime: "2015-03-30 13:24:01",
+      photoName: "允儿"
+    },
 
-  //   {
-  //     id: 2,
-  //     url: bg2,
-  //     createTime: "2016-08-30 10:10:01",
-  //     photoName: "迪丽热巴"
-  //   },
-  //   {
-  //     id: 3,
-  //     url: bg4,
-  //     createTime: "2016-10-09 20:24:23",
-  //     photoName: "杨幂"
-  //   },
-  //   {
+    {
+      id: 2,
+      url: bg2,
+      createTime: "2016-08-30 10:10:01",
+      photoName: "迪丽热巴"
+    },
+    {
+      id: 3,
+      url: bg4,
+      createTime: "2016-10-09 20:24:23",
+      photoName: "杨幂"
+    },
+    {
 
-  //     id: 4,
-  //     url: bg3,
-  //     createTime: "2017-07-28 09:08:02",
-  //     photoName: "宋茜"
-  //   },
+      id: 4,
+      url: bg3,
+      createTime: "2017-07-28 09:08:02",
+      photoName: "宋茜"
+    },
 
-  //   {
-  //     id: 5,
-  //     url: bg5,
-  //     createTime: "2017-08-03 09:08:02",
-  //     photoName: "宋茜"
-  //   },
-  // window.eventBus = new Vue();
+    {
+      id: 5,
+      url: bg5,
+      createTime: "2017-08-03 09:08:02",
+      photoName: "宋茜"
+    }]
 
   export default {
     name: 'Works',
@@ -86,7 +85,7 @@
         left: 0,
         oWidth: 100,
         works: [],
-        amount: 0,//afterData2.length,
+        amount: 0,
         bgs:[
           bg,
           uploadIcon,
@@ -95,7 +94,7 @@
         ],
         focus: 1,  //focus=0聚焦到上传按钮上，focus=1聚焦到图片上，focus=2聚焦到删除弹窗上，默认起始聚焦在图片上
         counter: 0,
-
+        isComplete: false,
         sure: false,    //sure=true就弹出删除弹窗，sure=false弹窗消失
         isSure: true,   //isSure控制是否真的删除
         confirmText: '确定要删除吗？', //删除弹窗信息
@@ -120,6 +119,7 @@
           response.json().then(function(data){
             self.works = data;
             self.amount = data.length;
+            self.isComplete = true;
           });
         }
         // return response.json();

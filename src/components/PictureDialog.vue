@@ -177,7 +177,7 @@
 					var urls = this.pic_url.split('/');
 					if(urls.length>1 && urls[1]=="upload"){
 						this.bg = {
-							backgroundImage:"url(http://39.108.149.106"+this.pic_url+")",
+							backgroundImage:"url(http://39.108.149.106"+this.pic_url+"thumbnail)",
 						}
 					}
 				}
