@@ -69,7 +69,7 @@ export default new Router({
             component: Collage
         },
         {
-            path: '/provinces/college/:provinceName/:college/spots',
+            path: '/provinces/college/:provinceName/:cityName/spots',
             name: 'Collage',
             component: Spots
         },
