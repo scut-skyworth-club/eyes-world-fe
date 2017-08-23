@@ -1,7 +1,11 @@
 <template>
   <div id="panorama" :style="{background:'url('+bg+') no-repeat center center'}">
       <transition name="show-photo">
-        <img v-show="showPhoto" :src="currentPic" alt="1" class="panorama-pic">
+
+
+	<Sphere v-if="showPhoto" :url="currentPic"></Sphere>
+
+
       </transition>
       <div class="pic-info">
         <div>
@@ -65,6 +69,8 @@
 
     import Comment from './Comment'
     import Detail from './Detail'
+    import Sphere from './Sphere'
+
     export default {
 
         data (){
@@ -307,19 +313,14 @@
         components: {
             Comment,
             Detail,
+
+	    Sphere
+
         }
     }
 </script>
 <style>
     #panorama {
-        width: 100vw;
-        height: 100vh;
-        position: absolute;
-        top: 0;
-        left: 0;
-        overflow: hidden;
-    }
-    #panorama .panorama-pic {
         width: 100vw;
         height: 100vh;
         position: absolute;

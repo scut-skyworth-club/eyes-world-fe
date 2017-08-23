@@ -1,5 +1,5 @@
 <template> 
-	<div id="picture-dialog" :style="bg" @click="link"> 
+	<div id="picture-dialog" :style="bg"> 
 		<div v-if="type==5" class="middleTitle">{{title}}</div>
         <div class="text_bg" :style="text_bg" v-if="type==0?false:true" >
             <div v-if="type!=5" :style="fontAdjustBig" class="title">{{getTitle()}}</div>
@@ -162,11 +162,11 @@
 		},
 		methods:{
 			link:function(){
-				if(this.url == undefined||this.url == ""){
-					console.log("url为空！");
-				}else{
-					router.push(url);
-				}
+				// if(this.url == undefined||this.url == ""){
+				// 	console.log("url为空！");
+				// }else{
+				// 	router.push(url);
+				// }
 			},
 			setBg:function(){
 				if(this.pic_url == undefined){
@@ -177,7 +177,7 @@
 					var urls = this.pic_url.split('/');
 					if(urls.length>1 && urls[1]=="upload"){
 						this.bg = {
-							backgroundImage:"url(http://39.108.149.106"+this.pic_url+")",
+							backgroundImage:"url(http://39.108.149.106"+this.pic_url+"thumbnail)",
 						}
 					}
 				}
