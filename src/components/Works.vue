@@ -144,11 +144,11 @@
     },
     methods: {
       moreDetails: function (){
-        let photos = JSON.stringify(this.works);
-        localStorage.setItem('photos',photos);
-        let currentId = JSON.stringify(this.counter-1);
-        localStorage.setItem('currentId',currentId);
-        router.push({name:'Panorama'});
+        // let photos = JSON.stringify(this.works);
+        // localStorage.setItem('photos',photos);
+        // let currentId = JSON.stringify(this.counter-1);
+        // localStorage.setItem('currentId',currentId);
+        router.push({name:'Album',params:{provinceName:'广东',cityName:'广州',albumId:0,photoId:0}});
       },
       uploadPhoto: function () {
         // alert("上传图片");
