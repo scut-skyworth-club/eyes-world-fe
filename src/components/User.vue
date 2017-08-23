@@ -291,6 +291,8 @@
         position: absolute;
         top: 0;
         left: 0;
+        margin: 0;
+        padding: 0;
         /* background: green; */
     }
     #User>img {
@@ -319,6 +321,7 @@
     }
     #user-logout>.profile-photo {
         margin: 0;
+        padding: 0;
         width: 12.5vw;
         height: 55.556vh;
         position: absolute;
