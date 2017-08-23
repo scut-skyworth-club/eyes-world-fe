@@ -52,14 +52,9 @@
 
 <script>
   import router from '../router/index'
-  import bg from '../assets/spot_bg.png'
+  // import bg from '../assets/spot_bg.png'
   import ico_index from '../assets/spot_index.png'
   import ico_index_foucs from '../assets/spot_index_foucs.png'
-
-  import bg1 from '../assets/bg1.jpg'
-  import bg2 from '../assets/bg2.jpg'
-  import bg3 from '../assets/bg3.jpg'
-  import bg4 from '../assets/bg4.jpg'
 
   export default {
     name: 'College',
@@ -329,7 +324,6 @@
           case 4:
             break;
         }
-
         return false;
       }
 
@@ -349,7 +343,7 @@
         response.json().then(function(json){
           
           self.colleges = json;
-          //console.log(json);
+          console.log(json);
           
         },function(err){
           console.log("json解析失败\n"+err);
