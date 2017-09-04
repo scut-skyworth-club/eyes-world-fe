@@ -148,7 +148,7 @@
         // localStorage.setItem('photos',photos);
         // let currentId = JSON.stringify(this.counter-1);
         // localStorage.setItem('currentId',currentId);
-        router.push({name:'Album',params:{provinceName:'广东',cityName:'广州',albumId:0,photoId:0}});
+        router.push({name:'Album',params:{provinceName:'广东',cityName:'广州',albumId:'00',photoId:0}});
       },
       uploadPhoto: function () {
         // alert("上传图片");
