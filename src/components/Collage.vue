@@ -329,6 +329,8 @@
           case 4:
             break;
         }
+
+        return false;
       }
 
     //   var provinceName = encodeURIComponent(this.$route.params.provinceName);
