@@ -100,7 +100,7 @@
         // localStorage.setItem('photos',photos);
         // let currentId = JSON.stringify(this.counter-1);
         // localStorage.setItem('currentId',currentId);
-        router.push({name:'Album',params:{provinceName:'广东',cityName:'广州',albumId:0,photoId:this.counter-1}});
+        router.push({name:'Album',params:{provinceName:'广东',cityName:'广州',albumId:0,photoId:0}});
       },
       uploadPhoto: function () {
         // alert("上传图片");
@@ -167,8 +167,8 @@
       deletePhoto: function (){
         //删除功能
         var deletePhotoName = this.works[this.counter-1].photoName;
-        // console.log(deletePhotoName);
         var self = this;
+        // console.log('http://39.108.149.106/api/user/works/'+deletePhotoName+'/delete');
         fetch('http://39.108.149.106/api/user/works/'+deletePhotoName+'/delete', {
           method: 'GET',
           mode: 'cors',
@@ -180,8 +180,9 @@
         }).then(function(response) {
             return response.json();
         }).then(function(data){
-          if(data.delete===true){
-            fetch('http://39.108.149.106/api/user/works', {
+          console.log(data.delete);
+          if(data.delete){
+            fetch('http://39.108.149.106/api/user/works/', {
               method: 'GET',
               mode: 'cors',
               headers: {
@@ -195,6 +196,9 @@
               self.works = data;
               self.amount = data.length;
             })
+            console.log('删除成功');
+          }else {
+            console.log('删除失败');
           }
         });
       }

@@ -257,7 +257,7 @@
                             //     console.log('登录成功');
                             // }
                         });
-                        router.push({name:'TVLogin'});
+                        router.replace({name:'TVLogin'});
                     }else{
                         this.sure = false;
                         this.focus = 1;
