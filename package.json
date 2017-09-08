@@ -13,6 +13,7 @@
     "normalize.css": "^7.0.0",
     "pannellum": "^2.3.2",
     "panolens.js": "^1.0.1-beta",
+    "panorama": "^0.5.2",
     "photo-sphere-viewer": "^3.2.3",
     "sass": "^1.0.0-beta.2",
     "three": "^0.87.1",
