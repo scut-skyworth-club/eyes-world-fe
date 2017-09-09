@@ -99,7 +99,7 @@ export default new Router({
             component: Favorite
         },
         {
-            path: '/provinces/cities/广东/广州/spots/:albumId/:photoId',
+            path: '/user/panorama',
             name: 'Panorama',
             component: Panorama
         },

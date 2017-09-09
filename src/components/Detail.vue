@@ -1,5 +1,5 @@
 <template>
-  <div id="detail">
+  <div id="details">
     {{description}}
   </div>
 </template>
@@ -19,7 +19,7 @@ export default {
 </script>
 
 <style>
-    #Details {
+    #details {
         width: 40vw;
         height: 30vh;
         position: absolute;

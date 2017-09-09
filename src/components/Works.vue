@@ -96,11 +96,11 @@
     },
     methods: {
       moreDetails: function (){
-        // let photos = JSON.stringify(this.works);
-        // localStorage.setItem('photos',photos);
-        // let currentId = JSON.stringify(this.counter-1);
-        // localStorage.setItem('currentId',currentId);
-        router.push({name:'Album',params:{provinceName:'广东',cityName:'广州',albumId:0,photoId:0}});
+        let photos = JSON.stringify(this.works);
+        localStorage.setItem('photos',photos);
+        let currentId = JSON.stringify(this.counter-1);
+        localStorage.setItem('currentId',currentId);
+        router.push({name:'Panorama'});
       },
       uploadPhoto: function () {
         // alert("上传图片");
@@ -168,7 +168,6 @@
         //删除功能
         var deletePhotoName = this.works[this.counter-1].photoName;
         var self = this;
-        // console.log('http://39.108.149.106/api/user/works/'+deletePhotoName+'/delete');
         fetch('http://39.108.149.106/api/user/works/'+deletePhotoName+'/delete', {
           method: 'GET',
           mode: 'cors',
@@ -180,22 +179,21 @@
         }).then(function(response) {
             return response.json();
         }).then(function(data){
-          console.log(data.delete);
           if(data.delete){
-            fetch('http://39.108.149.106/api/user/works/', {
-              method: 'GET',
-              mode: 'cors',
-              headers: {
-                'Access-Control-Allow-Credentials': true,
-                'Content-Type':'application/x-www-form-urlencoded; charset=UTF-8',
-              },
-              credentials: "include"
-            }).then(function(response) {
-              return response.json();
-            }).then(function(data){
-              self.works = data;
-              self.amount = data.length;
-            })
+            // fetch('http://39.108.149.106/api/user/works/', {
+            //   method: 'GET',
+            //   mode: 'cors',
+            //   headers: {
+            //     'Access-Control-Allow-Credentials': true,
+            //     'Content-Type':'application/x-www-form-urlencoded; charset=UTF-8',
+            //   },
+            //   credentials: "include"
+            // }).then(function(response) {
+            //   return response.json();
+            // }).then(function(data){
+            //   self.works = data;
+            //   self.amount = data.length;
+            // })
             console.log('删除成功');
           }else {
             console.log('删除失败');
