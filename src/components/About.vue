@@ -1,29 +1,22 @@
 <template>
   <div id="About">
-    <img :src="bgs[0]">
+    <img :src="bg">
     <div class="info"><p>我们是SkyWorth团队</p></div>
     <div class="return-bt">
-        <button v-if="aboutReturn" :style="{background:'url('+bgs[1]+') no-repeat center center',border:'1px solid #f1f1f1'}">返回</button>
-        <button>返回</button>
+        <button v-if="aboutReturn" class="click">返回</button>
+        <button v-else class="no-click">返回</button>
     </div> 
   </div>
 </template>
 <script>
 import bg from '../assets/user/bt_bg3.png'
-import bt_bg from '../assets/user/bt_bg2.png'
 export default {
     data () {
         return{
-            bgs:[
-                bg,
-                bt_bg,
-            ]
+            bg: bg,
         }
     },
-  props:['aboutReturn'],
-  methods: {
-      
-  }
+    props:['aboutReturn'],
 }
 </script>
 <style>
@@ -65,8 +58,6 @@ export default {
         left: 0;
     }
     #About>.return-bt>button {
-        border: none;
-        background: none;
         color: #f1f1f1;
         font-family: '小米兰亭';
         font-size: 30px;
@@ -74,5 +65,13 @@ export default {
         height: 4vh;
         position: absolute;
         left: 24vw;
+    }
+    #About .click {
+        background: url("../assets/user/bt_bg2.png") no-repeat center center;
+        border: 1px solid #f1f1f1;
+    }
+    #About .no-click {
+        border: none;
+        background: none;
     }
 </style>
