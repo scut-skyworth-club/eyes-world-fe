@@ -52,7 +52,6 @@
 
 <script>
   import router from '../router/index'
-  // import bg from '../assets/spot_bg.png'
   import ico_index from '../assets/spot_index.png'
   import ico_index_foucs from '../assets/spot_index_foucs.png'
 
@@ -284,7 +283,6 @@
           if(self.searchSelect){
             self.flag++;
           }
-          
             break;
           case 39:
           //right
@@ -303,7 +301,17 @@
           // self.$refs.Search.select(1);
           if(self.searchSelect){
             self.flag --;
-            console.log("123456");
+          }
+          if(self.flag == -12){
+              // $("div").scrollTop(200);
+              // var t = $("div").scrolTop();
+              $("div").animate({'scrollTop':800},200);
+              // console.log("进来了");
+              // document.getElementById("searchBox").scrollTop = 200;
+          }else if(self.flag == -23){
+              $("div").animate({'scrollTop':2000},200);
+          }else if(self.flag < -34){
+
           }
             break;
           case 13:
@@ -324,13 +332,11 @@
           case 4:
             break;
         }
-        return false;
+        // return false;
       }
 
-    //   var provinceName = encodeURIComponent(this.$route.params.provinceName);
-    //   var cityName = encodeURIComponent(this.$route.params.cityName);
-
-      var url = "http://39.108.149.106/api/provinces/college/广东";
+      // var gd = encodeURIComponent("广东");
+      var url = "http://39.108.149.106/api/provinces/college/山东";
       fetch(url, {
           mode: 'cors',
           method: 'GET',
@@ -388,16 +394,14 @@
     background: url('../assets/collage/bg0.png');
     color: #f1f1f1;
     background-size: cover;
-    
 } 
-
 
 #searchBox{
     position: absolute;
-    width: 10.42vw;
-    height: 100vh;
-    overflow: hidden;
-    overflow-y: scroll;  
+    width: 10.42%;
+    height: 100%;
+    overflow: hidden; 
+    overflow-y: scroll;
     left: 0; 
 }
  #searchBox::-webkit-scrollbar {
@@ -408,7 +412,7 @@
 }
 #searchBox::-ms-scrollbar{
     display: none;
-}  
+}    
 
 #collegeDiv{
     position: relative;

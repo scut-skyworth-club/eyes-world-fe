@@ -18,6 +18,7 @@ import TVLogin from '@/components/TVLogin'
 import Upload from '@/components/Upload'
 import Login from '@/components/login'
 import Sphere from '@/components/Sphere'
+import Search from '@/components/Search'
 
 Vue.use(Router);
 
@@ -122,6 +123,11 @@ export default new Router({
             path: '/sphere',
             name: 'Sphere',
             component: Sphere
+        },
+        {
+            path: '/search',
+            name: 'Search',
+            component: Search
         }
     ]
 });

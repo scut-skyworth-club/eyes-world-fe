@@ -123,6 +123,7 @@
                     self.userName = data.username;
                 });
                 console.log('登录成功');
+                console.log(document.cookie);
             }
         });
     },
