@@ -1,11 +1,7 @@
 <template>
   <div id="panorama" :style="{background:'url('+bg+') no-repeat center center'}">
       <transition name="show-photo">
-
-
-	<Sphere v-if="showPhoto" :url="currentPic"></Sphere>
-
-
+	    <Sphere v-if="showPhoto" :url="currentPic"></Sphere>
       </transition>
       <div class="pic-info">
         <div>
@@ -72,7 +68,7 @@
     import Sphere from './Sphere'
 
     export default {
-
+        name: 'Panorama',
         data (){
             return {
                 author: 'Mike',
@@ -83,7 +79,7 @@
                 like: true,
                 showComments: false,
                 showDetails: false,
-                showPhoto: true,
+                showPhoto: false,
                 index: 0, //图片序号，初始为0
                 focus: 1, //focus=1,2,3,  1：主页面；2：评论页；3：详情页
                 profile: icon,
@@ -107,14 +103,7 @@
             }
         },
         mounted: function (){
-           let photos = localStorage.getItem('photos');
-           let currentId = localStorage.getItem('currentId');
-           photos = JSON.parse(photos);
-           currentId = JSON.parse(currentId);
-           this.photos = photos;
-           this.index = currentId;
-           this.showPicture(this.index);
-           console.log(photos);
+            this.getPhoto();
         },
         methods: {
             likeOrCancel: function () { //点赞或者取消，需要完善的是把点赞数统计加入进来
@@ -123,6 +112,15 @@
             },
             hideNavBar: function () { //隐藏操作栏
                 this.showBar = false;
+            },
+            getPhoto: function() {
+                let photos = localStorage.getItem('photos');
+                let currentId = localStorage.getItem('currentId');
+                photos = JSON.parse(photos);
+                currentId = JSON.parse(currentId);
+                this.photos = photos;
+                this.index = currentId;
+                this.showPicture(this.index);
             },
             showPicture: function(index) {
                 this.currentPic = this.parseUrl(this.photos[index].url);
@@ -133,7 +131,9 @@
                 this.visitedAmount = visited!=null?visited:0;
                 this.author = this.photos[index].username;
                 this.description = this.photos[index].photoDescription;
-                console.log(this.description);
+                this.showPhoto = true;
+                // console.log(this.description);
+                // console.log(this.currentPic);
             },
             askForPrevPic: function () {
                 // alert("请求上一张图片");
@@ -146,12 +146,12 @@
                         this.showPhoto=false;
                         var self = this;
                         window.setTimeout(function() { //设置图片切换时延迟，以产生原图片退出和新图片进入时动画
-                            self.showPicture(--self.index);
-                            self.showPhoto=true;
-                        },700);
+                            self.index = self.index-1;
+                            self.showPicture(self.index);
+                        },800);
                         window.setTimeout(function(){   //等待新图片进入后点击左右键才有效
                             self.animated = false;
-                        },1400);
+                        },2000);
                     }
                 }
             },
@@ -165,15 +165,13 @@
                         this.showPhoto=false;
                         var self = this;
                         window.setTimeout(function() { //设置图片切换时延迟，以产生原图片退出和新图片进入时动画
-                            // self.index++;
-                            self.showPicture(++self.index);
-                            self.showPhoto=true;
-                        },700);
+                            self.index = self.index+1;
+                            self.showPicture(self.index);
+                        },800);
                         window.setTimeout(function(){   //等待新图片进入后点击左右键才有效
                             self.animated = false;
-                        },1400);
+                        },2000);
                     }
-                    // console.log(this.parseUrl(this.photos[this.index].url));
                 }
             },
             parseUrl: function(url) {
@@ -313,9 +311,7 @@
         components: {
             Comment,
             Detail,
-
-	    Sphere
-
+            Sphere
         }
     }
 </script>

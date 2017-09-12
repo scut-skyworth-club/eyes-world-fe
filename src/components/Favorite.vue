@@ -221,15 +221,15 @@
                 this.moreDetails();
             },
             moreDetails: function (){
-                // let photos = [];
-                // photos.push(this.firstPic);
-                // photos = [...photos,...(this.images)];
-                // photos = JSON.stringify(photos);
-                // localStorage.setItem('photos',photos);
-                // let currentId = JSON.stringify(this.counter-1);
-                // localStorage.setItem('currentId',currentId);
-                // router.push({name:'Panorama'});
-                router.push({name:'Album',params:{provinceName:'广东',cityName:'广州',albumId:0,photoId:0}});
+                let photos = [];
+                photos.push(this.firstPic);
+                photos = [...photos,...(this.images)];
+                photos = JSON.stringify(photos);
+                localStorage.setItem('photos',photos);
+                let currentId = JSON.stringify(this.counter-1);
+                localStorage.setItem('currentId',currentId);
+                router.push({name:'Panorama'});
+                // router.push({name:'Album',params:{provinceName:'广东',cityName:'广州',albumId:0,photoId:0}});
             },
         },
         components: {
