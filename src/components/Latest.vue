@@ -1,19 +1,19 @@
 <template>
   <div id="latest-new">
-    <img :src="bgs[0]" id="latest-new-bg">
+     <img :src="bgs[0]" id="latest-new-bg"> 
     <p class="title">最新推荐</p>
     <date class="time"></date>
     <div class="roll-pics-container">
         <div :style="{left:oLeft+'vw',transition:setTransition}">
           <ul>
-            <li v-for="(item,index) in images" :key="item.id">
+            <li v-for="(item,index) in getRollPics" :key="item.id">
               <picture-dialog
-                :date="item.date" 
-                :author="item.author" 
-                :pic_url="item.tu" 
-                :like="item.like" 
-                :title="item.title" 
-                :visited="item.visited" 
+                :pic_url="item.url" 
+                :like="item.likeAmount" 
+                :title="item.photoName" 
+                :date="item.createTime"
+                :author="item.username"
+                :visited=100
                 :type="(counter===index||(counter===1&&index===9)||(counter===10&&index===2))&&focus===0?4:0"
                 :style="{left:index*75+'vw',
                 transform:'scale(1,'+((counter===index||(counter===1&&index===9)||(counter===10&&index===2))?1:0.958)+')',
@@ -34,24 +34,23 @@
             backgroundColor:(counter===inx+2)||(counter===1&&inx===7)||(counter===10&&inx===0)&&focus===0?'#4e72cc':'#999999'}"></span>
         </li>
     </ul>
-    <p class="spots-title">景点TOP20&nbsp{{itemCounter}}/20</p>
+    <p class="spots-title">景点TOP10&nbsp{{itemCounter}}/10</p>
     <div class="small-pics-container" :style="{left:mLeft+'vw'}">
         <ul>
-        <li v-for="(item,index) in smallImages" :key="item.id">
+         <li v-for="(item,index) in getSmallPics" :key="item.id">
             <picture-dialog
-            :date="item.date" 
-            :author="item.author" 
-            :pic_url="item.tu" 
-            :like="item.like" 
-            :title="item.title" 
-            :visited="item.visited" 
+            :pic_url="item.url" 
+            :like="item.likeAmount" 
+            :title="item.photoName"
+            :author="item.username"
+            :visited=100
             :type="(itemCounter-1===index&&focus===1)?4:0"
             :style="{left:index*17.969+'vw',
             transform:'scale('+((itemCounter-1===index&&focus===1)?1.133:1)+')',
             boxShadow:(itemCounter-1===index&&focus===1)?'0 0 20px #222222':'none'}"
             class="small-pics">
             </picture-dialog>
-        </li>
+        </li> 
         </ul>
     </div>
     {{setKey}}
@@ -70,188 +69,8 @@
     import Date from './Date'
     import PictureDialog from './PictureDialog'
     import router from '../router/index'
-
-    let totalPhotos = [ {
-       id: 1,
-       date: "2017/09/09",
-       author: "XXX",
-       title: "遥",
-       like: "200",
-       visited: "100",
-       tu: bg2,
-    }, {
-       id: 2,
-       date: "2016/02/01",
-       author: "XXX",
-       title: "远",
-       like: "200",
-       visited: "100",
-       tu: bg1,
-    }, {
-       id: 3,
-       date: "2017/08/01",
-       author: "XXX",
-       title: "海心沙",
-       like: "200",
-       visited: "100",
-       tu: bg2,
-    }, {
-       id: 4,
-       date: "2017/08/01",
-       author: "XXX",
-       title: "海心沙",
-       like: "200",
-       visited: "100",
-       tu: bg2,
-    }, {
-       id: 5,
-       date: "2017/08/01",
-       author: "XXX",
-       title: "海心沙",
-       like: "200",
-       visited: "100",
-       tu: bg1,
-    }, {
-       id: 6,
-       date: "2017/08/01",
-       author: "XXX",
-       title: "海心沙",
-       like: "200",
-       visited: "100",
-       tu: bg2,
-    }, 
-    {
-       id: 7,
-       date: "2017/08/01",
-       author: "XXX",
-       title: "海心沙",
-       like: "200",
-       visited: "100",
-       tu: bg1,
-    }, {
-       id: 8,
-       date: "2017/09/09",
-       author: "XXX",
-       title: "遥",
-       like: "200",
-       visited: "100",
-       tu: bg2,
-    }, {
-       id: 9,
-       date: "2016/02/01",
-       author: "XXX",
-       title: "远",
-       like: "200",
-       visited: "100",
-       tu: bg1,
-    }, {
-       id: 10,
-       date: "2017/08/01",
-       author: "XXX",
-       title: "海心沙",
-       like: "200",
-       visited: "100",
-       tu: bg2,
-    }, {
-       id: 11,
-       date: "2017/08/01",
-       author: "XXX",
-       title: "海心沙",
-       like: "200",
-       visited: "100",
-       tu: bg2,
-    }, {
-       id: 12,
-       date: "2017/08/01",
-       author: "XXX",
-       title: "海心沙",
-       like: "200",
-       visited: "100",
-       tu: bg1,
-    }, {
-       id: 13,
-       date: "2017/08/01",
-       author: "XXX",
-       title: "海心沙",
-       like: "200",
-       visited: "100",
-       tu: bg2,
-    }, 
-    {
-       id: 14,
-       date: "2017/09/09",
-       author: "XXX",
-       title: "遥",
-       like: "200",
-       visited: "100",
-       tu: bg2,
-    }, {
-       id: 15,
-       date: "2016/02/01",
-       author: "XXX",
-       title: "远",
-       like: "200",
-       visited: "100",
-       tu: bg1,
-    }, {
-       id: 16,
-       date: "2017/08/01",
-       author: "XXX",
-       title: "海心沙",
-       like: "200",
-       visited: "100",
-       tu: bg2,
-    }, {
-       id: 17,
-       date: "2017/08/01",
-       author: "XXX",
-       title: "海心沙",
-       like: "200",
-       visited: "100",
-       tu: bg2,
-    }, {
-       id: 18,
-       date: "2017/08/01",
-       author: "XXX",
-       title: "海心沙",
-       like: "200",
-       visited: "100",
-       tu: bg1,
-    }, {
-       id: 19,
-       date: "2017/08/01",
-       author: "XXX",
-       title: "海心沙",
-       like: "200",
-       visited: "100",
-       tu: bg2,
-    }, 
-    {
-       id: 20,
-       date: "2017/08/01",
-       author: "XXX",
-       title: "海心沙",
-       like: "200",
-       visited: "100",
-       tu: bg1,
-    },
-    {id:0,date:"2017/08/01",author:"XXX",title:"1",like:"100",visited:"100",tu:tu5},
-    {id:1,date:"2017/09/09",author:"XXX",title:"2",like:"100",visited:"100",tu:tu1,},
-    {id:2,date:"2016/02/01",author:"XXX",title:"3",like:"100",visited:"100",tu:tu2,},
-    {id:3,date:"2017/08/01",author:"XXX",title:"4",like:"100",visited:"100",tu:tu3,},
-    {id:4,date:"2017/08/01",author:"XXX",title:"5",like:"100",visited:"100",tu:tu4,},
-    {id:5,date:"2017/08/01",author:"XXX",title:"6",like:"100",visited:"100",tu:tu5,},
-    {id:6,date:"2017/08/01",author:"XXX",title:"7",like:"100",visited:"100",tu:tu1,},
-    {id:7,date:"2017/08/01",author:"XXX",title:"8",like:"100",visited:"100",tu:tu4,}];
-
-    totalPhotos = totalPhotos.reverse();
-
-    let smallPics = totalPhotos.slice(8);
-    let rollPics = totalPhotos.slice(0,8);
-    let subLastPics = totalPhotos.slice(6,8);   //尾元素副本
-    let subFirstPics = totalPhotos.slice(0,2);     //首元素副本
-    rollPics = [...subLastPics,...rollPics,...subFirstPics];
-
+    
+    var totalPhotos=new Array();
     export default {
         data (){
             return {
@@ -261,13 +80,15 @@
                 itemCounter: 1,
                 oLeft: -143.75,
                 mLeft: 6.25,
-                images: rollPics,
-                amount: rollPics.length,
-                smallImages: smallPics,
+                rollPics:this.rollPics,
+                smallPics:this.smallPics,
+                // totalPhotos:this.totalPhotos,
+                // amount: this.rollPics.length,
                 animated: false,
                 bgs:[
                     bg,
                 ],
+                totalPhotos:[],
                 setTransition: 'all 1s ease',
                 spans: [
                     {id: 1},
@@ -278,11 +99,11 @@
                     {id: 6},
                     {id: 7},
                     {id: 8},
-                ],
+                ],  
             }
         },
         mounted: function (){
-            //这里获取后台数据
+            this.income();
         },
         computed: {
             setKey:function(){
@@ -322,8 +143,46 @@
                     }
                 }
             },
+             getSmallPics:function(){
+                 let totalPics=new Array();
+                 totalPics=this.totalPhotos;
+                let smallPics = totalPics.slice(8);
+                return smallPics;
+            },
+            getRollPics:function(){
+                let rollPics = this.totalPhotos.slice(0,8);
+                let subLastPics = this.totalPhotos.slice(6,8);   //尾元素副本
+                let subFirstPics = this.totalPhotos.slice(0,2);     //首元素副本
+                rollPics = [...subLastPics,...rollPics,...subFirstPics];
+                return rollPics;
+            } 
         },
         methods: {
+            income:function(){
+                let self=this;
+                 self.totalPhotos=[];
+                var url="http://39.108.149.106/api/lastest";
+                fetch(url,{
+                    mode:'cors',
+                    method:'GET',
+                    headers:{
+                        'Access-Control-Allow-Credentials':true,
+                        'Content-Type':'application/x-www-form-urlencoded; charset=UTF-8',
+                    },
+                    credentials:"include",
+                }).then((response)=>{
+                    response.json().then((json)=>{
+                        for(let item of json){
+                            console.log(item)
+                            self.totalPhotos.push(item) 
+                        }
+                    },function(err){
+                        console.log("json解析失败\n"+err);
+                    });
+                },function (err) {
+                    console.log("网络请求失败\n"+err);
+                })
+            },
             leftMove: function (){
                 if (this.focus===0) {
                     if (!this.animated) {   
@@ -362,7 +221,7 @@
                 if (this.focus===0) {
                     if (!this.animated) {
                         this.animated = true;
-                        if (this.counter!==this.amount-3) {
+                        if (this.counter!==9) {
                             this.counter++;
                             this.oLeft = this.oLeft-75;
                             let self = this;
@@ -382,13 +241,13 @@
                         }
                         this.setTransition = 'all 1s ease';
                     }
-                }else {
-                    if(this.itemCounter!==this.smallImages.length){
-                        this.itemCounter++;
-                        if ((this.itemCounter-6)%5===0) {
+                } else {
+                        if(this.itemCounter!==this.getSmallPics.length){    
+                         this.itemCounter++;
+                            if ((this.itemCounter-6)%5===0) {
                             this.mLeft = this.mLeft-89.844
+                            } 
                         }
-                    }
                 }
             },
             enterItem: function (){
