@@ -16,25 +16,26 @@
        :yScale="calculteSize"
        :newUrl="parseUrl"
        :photo-name="parseName">
-           <img :src="newUrl" alt="2"> 
+           <img v-lazy="newUrl"> 
            <div>
              <p :style="{fontSize:size+'vh'}" :size="calculteSize">{{photoName}}</p>
            </div>
       </div>
   </div>
 </template>
+
 <script>
 
 export default {
     data () {
         return {
-           xScale: 1,
-           yScale: 1,
-           shadow: 'none',
-           size: 2.963, 
-           newUrl: "",
-           photoName: "",
-           createTime: 0,
+            xScale: 1,
+            yScale: 1,
+            shadow: 'none',
+            size: 2.963, 
+            newUrl: "",
+            photoName: "",
+            createTime: 0,
         }
     },
     methods:{

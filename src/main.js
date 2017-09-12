@@ -2,6 +2,7 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
 import vueResource from 'vue-resource'
+import VueLazyload from 'vue-lazyload'
 import App from './App'
 Vue.use(vueResource)
 import router from './router/index'
@@ -30,6 +31,8 @@ Vue.config.productionTip = false
 import PictureDialog from './components/PictureDialog'
 import Search from './components/Search'
 import PictureDetail from './components/Picture-detail'
+
+Vue.use(VueLazyload)
 
 Vue.component('search', Search)
 

@@ -254,27 +254,33 @@
                         case 1:
                             this.likeOrCancel();
                             break;
+
                         case 2:
                             this.hideNavBar();
                             break;
+
                         case 3: 
                             this.askForPrevPic();
                             break;
+
                         case 4: 
                             this.askForNextPic();
                             break;
+
                         case 5: 
                             if (!this.showComments) {
                                 this.showComments = true;
                             }
                             this.focus = 2;
                             break;
+
                         case 6: 
                             if (!this.showDetails) {
                                 this.showDetails = true;
                             }
                             this.focus = 3;
                             break;
+                            
                         default:
                             break;
                     }
