@@ -16,25 +16,26 @@
        :yScale="calculteSize"
        :newUrl="parseUrl"
        :photo-name="parseName">
-           <img :src="newUrl" alt="2"> 
+           <img alt="2" v-lazy="newUrl"> 
            <div>
              <p :style="{fontSize:size+'vh'}" :size="calculteSize">{{photoName}}</p>
            </div>
       </div>
   </div>
 </template>
+
 <script>
 
 export default {
     data () {
         return {
-           xScale: 1,
-           yScale: 1,
-           shadow: 'none',
-           size: 2.963, 
-           newUrl: "",
-           photoName: "",
-           createTime: 0,
+            xScale: 1,
+            yScale: 1,
+            shadow: 'none',
+            size: 2.963, 
+            newUrl: "",
+            photoName: "",
+            createTime: 0,
         }
     },
     methods:{
@@ -60,7 +61,7 @@ export default {
             }
         },
         parseUrl: function (){
-            this.newUrl = "http://39.108.149.106"+this.url; //对传过来的url进行解析
+            this.newUrl = "http://39.108.149.106"+this.url+"thumbnail"; //对传过来的url进行解析
         },
         parseName: function (){
             let str = "-";

@@ -5,11 +5,12 @@
         <date class="time"></date>
         <div class="qr-container">
             <p>手机扫描二维码登录</p>
-            <img :src="pic" id="qr">
-            <button @click="loginClick">登&nbsp&nbsp&nbsp&nbsp录</button>
+            <img :src="pic" id="qr"  v-show="isComplete">
+            <button :style="{border:(btClick?'1px solid yellow':'none')}">登&nbsp&nbsp&nbsp&nbsp录</button>
         </div>
         <a class="website" :href="link" target="_blank">PC端登录网址：{{link}}</a>
         <span id="marker"></span>
+        {{setKey}}
     </div>
 </template>
 
@@ -45,11 +46,46 @@ export default {
         server: 'http://39.108.149.106/',
         pic: '',
         marker: '',
-        link: ''
+        link: '',
+        isComplete: false,
+        btClick: false,
     }
   },
   components:{
     Date,
+  },
+  computed: {
+    setKey:function(){
+        let self = this;
+        document.onkeydown = function(event){
+            switch(event.which){
+                case 37:
+                //left
+                
+                break;
+                case 38:
+                //up
+                break;
+                case 39:
+                //right
+                
+                break;
+                case 40:
+                //down
+            
+                break;
+                case 13:
+                //center
+                self.btClick = true;
+                self.loginClick();
+                break;
+                case 82:
+                break;
+                case 4:
+                break;
+            }
+        }
+    },
   },
   methods:{
     //   login:function () {
@@ -79,6 +115,7 @@ export default {
             _this.pic = _this.server + getres.qrPath;
             _this.marker = getres.marker;
             _this.link = _this.server + _this.link + 'login.html?marker=' + _this.marker;
+            _this.isComplete = true;
         });
     },
     loginClick: function (){
@@ -92,12 +129,16 @@ export default {
             credentials: "include",
             body: 'marker=' + this.marker
         }).then(function(response) {
+            router.push({name:'User'});
+        
             // if (response.headers.get('Content-Type')==='text/html') {
-            //     console.log('登录失败');
+            //     // router.replace({name:'User'});
+            //     router.push({name:'User'});
             // }else {
-            //     router.replace({name:'User'});
+            //     alert('登录失败');
+            //     console.log('登录失败');
             // }
-            console.log(response.headers.get('Content-Type'));
+            // console.log(response.headers.get('Content-Type'));
         });
         // .then(function(data){
         //     if (data.state) {
