@@ -161,6 +161,7 @@
     },
     data() {
       return {
+        screenHeight:0,
         flag:0,
         provinceName:"广东",
         searchSelect:false,
@@ -270,6 +271,7 @@
         switch(event.which){
           case 37:
           //left
+            // console.log(self.screenHeight); 
             if(self.select != -1)//左移至搜索框之后不可再左移
               self.select_re();
             if(self.changeFlag && (self.offset + self.select == 0)){
@@ -289,7 +291,7 @@
           if(self.flag == -11){
             $("div").animate({'scrollTop':0},200);
           }else if(self.flag == -22){
-            $("div").animate({'scrollTop':800},200);
+            $("div").animate({'scrollTop':self.screenHeight},200);
           }
             break;
           case 39:
@@ -313,11 +315,11 @@
           if(self.flag == -12){
             // $("div").scrollTop(200);
             // var t = $("div").scrolTop();
-            $("div").animate({'scrollTop':800},200);
+            $("div").animate({'scrollTop':self.screenHeight},200);
             // console.log("进来了");
             // document.getElementById("searchBox").scrollTop = 200;
           }else if(self.flag == -23){
-            $("div").animate({'scrollTop':2000},200);
+            $("div").animate({'scrollTop':2*self.screenHeight},200);
           }else if(self.flag < -34){           //遍历完一遍所有省份，重新来过
             $("div").animate({'scrollTop':0},200);
             self.flag = -1;
@@ -344,6 +346,8 @@
         // return false;
       }
 
+      self.screenHeight = window.screen.height;//获取设备高度
+      // console.log(self.screenHeight);
       // var gd = encodeURIComponent("广东");
       var url = "http://39.108.149.106/api/provinces/college/山东";
       fetch(url, {
