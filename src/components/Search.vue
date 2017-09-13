@@ -237,6 +237,9 @@ export default {
         }
       }
       self.tempFlag = self.flag;
+      if(self.tempFlag <= -34){
+          self.tempFlag = 0;
+      }
       // return false;
     },
     inOrOut:function(){

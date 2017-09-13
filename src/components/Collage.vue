@@ -282,6 +282,14 @@
           //up
           if(self.searchSelect){
             self.flag++;
+            if(self.flag >= 0){
+              self.flag = 0;
+            }
+          }
+          if(self.flag == -11){
+            $("div").animate({'scrollTop':0},200);
+          }else if(self.flag == -22){
+            $("div").animate({'scrollTop':800},200);
           }
             break;
           case 39:
@@ -303,15 +311,16 @@
             self.flag --;
           }
           if(self.flag == -12){
-              // $("div").scrollTop(200);
-              // var t = $("div").scrolTop();
-              $("div").animate({'scrollTop':800},200);
-              // console.log("进来了");
-              // document.getElementById("searchBox").scrollTop = 200;
+            // $("div").scrollTop(200);
+            // var t = $("div").scrolTop();
+            $("div").animate({'scrollTop':800},200);
+            // console.log("进来了");
+            // document.getElementById("searchBox").scrollTop = 200;
           }else if(self.flag == -23){
-              $("div").animate({'scrollTop':2000},200);
-          }else if(self.flag < -34){
-
+            $("div").animate({'scrollTop':2000},200);
+          }else if(self.flag < -34){           //遍历完一遍所有省份，重新来过
+            $("div").animate({'scrollTop':0},200);
+            self.flag = -1;
           }
             break;
           case 13:
@@ -323,8 +332,8 @@
               self.toggleSearch = 0;
             self.toggleFlag = !self.toggleFlag;
           }else{
-            var collegeName = self.colleges[self.offset+self.select].albumName;
-            router.push('/provinces/college/'+self.provinceName+'/'+collegeName+'/Spots');
+            var collegeIndex = self.offset+self.select;
+            router.push('/provinces/college/'+self.provinceName+'/'+collegeIndex+'/0');
           }
             break;
           case 82:
