@@ -16,7 +16,7 @@
        :yScale="calculteSize"
        :newUrl="parseUrl"
        :photo-name="parseName">
-           <img alt="2" v-lazy="newUrl"> 
+           <img v-lazy="newUrl"> 
            <div>
              <p :style="{fontSize:size+'vh'}" :size="calculteSize">{{photoName}}</p>
            </div>
