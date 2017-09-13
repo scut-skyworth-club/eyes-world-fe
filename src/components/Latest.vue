@@ -162,7 +162,8 @@
                 let self=this;
                  self.totalPhotos=[];
                 var url="http://39.108.149.106/api/lastest";
-                fetch(url,{
+                fetch(url,
+                {
                     mode:'cors',
                     method:'GET',
                     headers:{
@@ -170,7 +171,8 @@
                         'Content-Type':'application/x-www-form-urlencoded; charset=UTF-8',
                     },
                     credentials:"include",
-                }).then((response)=>{
+                }).then(function(response){
+                	console.log("response:\n"+response.length);
                     response.json().then((json)=>{
                         for(let item of json){
                             console.log(item)
