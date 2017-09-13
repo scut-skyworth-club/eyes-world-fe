@@ -170,7 +170,8 @@
                         'Content-Type':'application/x-www-form-urlencoded; charset=UTF-8',
                     },
                     credentials:"include",
-                }).then((response)=>{
+                }).then(function(response){
+                	console.log("response:\n"+response.length);
                     response.json().then((json)=>{
                         for(let item of json){
                             console.log(item)

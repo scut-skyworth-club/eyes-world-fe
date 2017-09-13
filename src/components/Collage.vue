@@ -52,14 +52,8 @@
 
 <script>
   import router from '../router/index'
-  import bg from '../assets/spot_bg.png'
   import ico_index from '../assets/spot_index.png'
   import ico_index_foucs from '../assets/spot_index_foucs.png'
-
-  import bg1 from '../assets/bg1.jpg'
-  import bg2 from '../assets/bg2.jpg'
-  import bg3 from '../assets/bg3.jpg'
-  import bg4 from '../assets/bg4.jpg'
 
   export default {
     name: 'College',
@@ -167,6 +161,7 @@
     },
     data() {
       return {
+        screenHeight:0,
         flag:0,
         provinceName:"广东",
         searchSelect:false,
@@ -276,6 +271,7 @@
         switch(event.which){
           case 37:
           //left
+            // console.log(self.screenHeight); 
             if(self.select != -1)//左移至搜索框之后不可再左移
               self.select_re();
             if(self.changeFlag && (self.offset + self.select == 0)){
@@ -288,8 +284,15 @@
           //up
           if(self.searchSelect){
             self.flag++;
+            if(self.flag >= 0){
+              self.flag = 0;
+            }
           }
-          
+          if(self.flag == -11){
+            $("div").animate({'scrollTop':0},200);
+          }else if(self.flag == -22){
+            $("div").animate({'scrollTop':self.screenHeight},200);
+          }
             break;
           case 39:
           //right
@@ -308,7 +311,18 @@
           // self.$refs.Search.select(1);
           if(self.searchSelect){
             self.flag --;
-            console.log("123456");
+          }
+          if(self.flag == -12){
+            // $("div").scrollTop(200);
+            // var t = $("div").scrolTop();
+            $("div").animate({'scrollTop':self.screenHeight},200);
+            // console.log("进来了");
+            // document.getElementById("searchBox").scrollTop = 200;
+          }else if(self.flag == -23){
+            $("div").animate({'scrollTop':2*self.screenHeight},200);
+          }else if(self.flag < -34){           //遍历完一遍所有省份，重新来过
+            $("div").animate({'scrollTop':0},200);
+            self.flag = -1;
           }
             break;
           case 13:
@@ -320,8 +334,8 @@
               self.toggleSearch = 0;
             self.toggleFlag = !self.toggleFlag;
           }else{
-            var collegeName = self.colleges[self.offset+self.select].albumName;
-            router.push('/provinces/college/'+self.provinceName+'/'+collegeName+'/Spots');
+            var collegeIndex = self.offset+self.select;
+            router.push('/provinces/college/'+self.provinceName+'/'+collegeIndex+'/0');
           }
             break;
           case 82:
@@ -329,14 +343,13 @@
           case 4:
             break;
         }
-
-        return false;
+        // return false;
       }
 
-    //   var provinceName = encodeURIComponent(this.$route.params.provinceName);
-    //   var cityName = encodeURIComponent(this.$route.params.cityName);
-
-      var url = "http://39.108.149.106/api/provinces/college/广东";
+      self.screenHeight = window.screen.height;//获取设备高度
+      // console.log(self.screenHeight);
+      // var gd = encodeURIComponent("广东");
+      var url = "http://39.108.149.106/api/provinces/college/山东";
       fetch(url, {
           mode: 'cors',
           method: 'GET',
@@ -349,7 +362,7 @@
         response.json().then(function(json){
           
           self.colleges = json;
-          //console.log(json);
+          console.log(json);
           
         },function(err){
           console.log("json解析失败\n"+err);
@@ -394,16 +407,14 @@
     background: url('../assets/collage/bg0.png');
     color: #f1f1f1;
     background-size: cover;
-    
 } 
-
 
 #searchBox{
     position: absolute;
-    width: 10.42vw;
-    height: 100vh;
-    overflow: hidden;
-    overflow-y: scroll;  
+    width: 10.42%;
+    height: 100%;
+    overflow: hidden; 
+    overflow-y: scroll;
     left: 0; 
 }
  #searchBox::-webkit-scrollbar {
@@ -414,7 +425,7 @@
 }
 #searchBox::-ms-scrollbar{
     display: none;
-}  
+}    
 
 #collegeDiv{
     position: relative;
