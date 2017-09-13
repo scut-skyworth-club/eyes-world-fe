@@ -224,6 +224,11 @@ export default {
           document.getElementById("searchText").disabled = true;
         }
         self.select(1);
+        // if(self.currentLine>=10){
+        //   // $(window).scrollTop(100);
+        //   // $("#box").scrollTop(100);
+        //   document.getElementById("box").scrollTop = "200px";
+        // }
       }else if(self.flag > self.tempFlag){
         self.select(0);
         if(self.currentLine == -1){
@@ -232,7 +237,10 @@ export default {
         }
       }
       self.tempFlag = self.flag;
-      return false;
+      if(self.tempFlag <= -34){
+          self.tempFlag = 0;
+      }
+      // return false;
     },
     inOrOut:function(){
       let self = this;
@@ -263,7 +271,7 @@ export default {
         setTimeout(self.toggleChange,1000);
         //self.change();
         self.tempNum = self.toggleSearch;
-        return false;
+        // return false;
       }
     },
   },
@@ -281,10 +289,10 @@ export default {
      width: 100vw;
      height: 100vh; 
      overflow: hidden;
-     overflow-y: scroll; 
+     overflow-y: scroll;  
      left: 0;
   } 
-  #box::-webkit-scrollbar {
+    #box::-webkit-scrollbar {
     display: none;
   }
   #searchBox::-moz-scrollbar{
@@ -292,7 +300,7 @@ export default {
   }
   #searchBox::-ms-scrollbar{
     display: none;
-  } 
+  }     
  #searchContent{
    position: relative;
    width: 100%;
@@ -337,7 +345,7 @@ export default {
      line-height: 8.7vh; 
      padding-left: 25%;
      /* padding-top:3.05vh; */
-    /* padding-bottom: 2.96vh;  */
+     /* padding-bottom: 2.96vh;  */
      color: #f1f1f1;
   } 
   .picDivision{
