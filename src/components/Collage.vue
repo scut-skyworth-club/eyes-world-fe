@@ -343,7 +343,7 @@
           case 4:
             break;
         }
-        // return false;
+        return false;
       }
 
       self.screenHeight = window.screen.height;//获取设备高度

@@ -219,7 +219,7 @@ export default {
         clearInterval(self.timer2);//清除定时器
         self.timerFlag = true;
       }
-      if(self.flag < self.tempFlag){
+      if(self.flag < self.tempFlag || (self.flag == -1 && self.tempFlag == -34)){
         if(self.currentLine == -1){
           document.getElementById("searchText").disabled = true;
         }
@@ -237,9 +237,9 @@ export default {
         }
       }
       self.tempFlag = self.flag;
-      if(self.tempFlag <= -34){
-          self.tempFlag = 0;
-      }
+      // if(self.tempFlag <= -34){
+      //     self.tempFlag = 0;
+      // }
       // return false;
     },
     inOrOut:function(){
