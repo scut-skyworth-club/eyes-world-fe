@@ -3,7 +3,7 @@
   
   <div id="panorama">
       <transition name="show-photo">
-        <Sphere v-if="showPhoto" :url="currentPic"></Sphere>
+        <div v-if="showPhoto" id="icypano"></div>
       </transition>
       <div class="pic-info">
         <div>
@@ -71,18 +71,19 @@
 
   import comment from './Comment'
   import detail from './Detail'
-  import Sphere from './Sphere'
   import router from '../router/index'
+  import IcyPano from 'icy-panorama'
 
   export default {
     name: 'album',
     components:{
       comment,
-      detail,
-      Sphere
+      detail
     },
     data () {
       return {
+        panorama: {},
+        panoHandle: {},
         albumId: this.$route.params.albumId,
         photoId: this.$route.params.photoId,
         provinceName: this.$route.params.provinceName,
@@ -118,7 +119,17 @@
       }
     },
     mounted: function (){
-      this.getPhoto();
+        this.getPhoto();
+    },
+    updated: function () {
+        let container = this.$el.children[0].children[0]
+        this.panorama = new IcyPano({
+            container: container,
+            picUrl: this.currentPic                                 
+        });
+
+        this.panorama.start();
+        this.panoHandle = this.panorama.TVOSOperation();
     },
     methods: {
       add: function () {
@@ -161,6 +172,7 @@
             },
             hideNavBar: function () { //隐藏操作栏
                 this.showBar = false;
+                this.panorama.TVOSOperation();
             },
             showPicture: function() {
                 this.currentPic = this.parseUrl(this.photo.url);
@@ -172,7 +184,7 @@
                 this.author = this.photo.username;
                 this.description = this.photo.photoDescription;
                 this.showPhoto = true;
-                console.log(this.description);
+                
             },
             askForPrevPic: function () {
                 // alert("请求上一张图片");
@@ -244,6 +256,7 @@
                 if (this.focus===1) {
                     if (!this.showBar) {
                         this.showBar = true;
+                        this.panorama.suspendTVOSOperation(this.panoHandle);
                         this.counter = 0;
                     }
                 }
@@ -280,7 +293,6 @@
                             }
                             this.focus = 3;
                             break;
-                            
                         default:
                             break;
                     }
@@ -295,36 +307,36 @@
     },
     computed:{
       setKey:function(){
-                let self = this;
-                document.onkeydown = function(event){
-                    if(self.counter===0&&self.focus===1){
-                        self.counter=1;
-                    }else{
-                        switch(event.which){
-                            case 37:
+            let self = this;
+            document.onkeydown = function(event){
+                if(self.counter===0&&self.focus===1){
+                    self.counter=1;
+                }else{
+                    switch(event.which){
+                        case 37:
                             //left
-                              self.leftMove();
-                            
+                            self.leftMove();
                             break;
-                            case 38:
+                        case 38:
                             //up
                             break;
-                            case 39:
+                        case 39:
                             //right
-                              self.rightMove();
+                            self.rightMove();
                             break;
-                            case 40:
+                        case 40:
                             //down
                             
                             break;
-                            case 13:
+                        case 13:
                             //center
-                              self.enterItem();
+                            self.enterItem();
                             break;
-                            case 82:
-                              self.barReturn();   //这里先用down键替代返回键
+                        case 27:;
+                        case 82:
+                            self.barReturn();   //这里先用down键替代返回键
                             break;
-                            case 4:
+                        case 4:
                             break;
                         }
                     }
@@ -528,6 +540,14 @@
         left: 0.3vw;
         font-size: 2.037vh;
         letter-spacing: 0.0556vh;
+    }
+    #icypano {
+        width: 100vw;
+        height: 100vh;
+        position: absolute;
+        top: 0;
+        left: 0;
+        overflow: hidden;
     }
     .show-photo-enter-active,.show-photo-leave-active {
         transition: all 0.7s ease;
